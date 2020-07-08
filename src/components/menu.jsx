@@ -7,25 +7,15 @@ const MenuContainer = styled.div`
     color: #000;
   }
 
-  .ul-start {
-    /* background: green; */
-    li {
-      /* margin-left: -1rem; */
-      /* background: red; */
-    }
-  }
-
   ul {
-    border-left: 1px solid #ddd;
+    /* border-left: 1px solid #ddd; */
+    padding: 0 0 0 2rem;
     margin-left: -1px;
   }
 
-  /* Skip first ul */
+  /* Skip padding first ul */
   > ul {
-    /* border: 0; */
-    > li {
-      font-weight: bold;
-    }
+    padding-left: 0;
   }
 
   li {
@@ -49,35 +39,57 @@ export function Menu(props) {
   return (
     <MenuContainer>
       <div>Documentation</div>
-      <ul className="ul-start">
-        <li class="li-first">
-          <Link href="/">
-            <a>Getting started</a>
-          </Link>
-        </li>
+      <ul>
+        <li className="header">Getting started</li>
         <ul>
-          <li className="li-regular">
-            <Link href="/quick-start/create-an-account">
-              <a>Create an account</a>
+          <li>
+            <Link href="/getting-started">
+              <a>Overview</a>
             </Link>
           </li>
-          <li className="li-regular">
+          <li>
+            <Link href="/getting-started/quick-start">
+              <a>Quick Start</a>
+            </Link>
+          </li>
+          <li>
             <Link href="/quick-start/create-your first-nhost-project">
               <a> Create your first Nhost project</a>
             </Link>
           </li>
-          <li className="li-regular">Log in to the Hasura console</li>
-          <li className="li-regular">Interact with your data</li>
-          <li className="li-regular">Next steps</li>
+          <li>Log in to the Hasura console</li>
+          <li>Interact with your data</li>
+          <li>Next steps</li>
         </ul>
-        <li class="li-first">Hasura</li>
+        <li>
+          <Link href="/">
+            <a>Hasura</a>
+          </Link>
+        </li>
         <ul>
-          <li className="li-regular">Relanational data</li>
+          <li>
+            <Link href="/">
+              <a>Relational data</a>
+            </Link>
+          </li>
           <ul>
-            <li className="li-regular">Add relational data</li>
-            <li className="li-regular">second</li>
+            <li>
+              <Link href="/">
+                <a>Add relational data</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/">
+                <a>Second</a>
+              </Link>
+            </li>
           </ul>
-          <li className="li-regular">second</li>
+          <li>
+            {" "}
+            <Link href="/">
+              <a>Second</a>
+            </Link>
+          </li>
         </ul>
       </ul>
     </MenuContainer>

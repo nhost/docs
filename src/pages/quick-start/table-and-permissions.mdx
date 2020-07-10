@@ -1,0 +1,75 @@
+# Table and permissions
+
+You will now create a table and set permissions for that table.
+
+## Create table
+
+The Hasura console is where you can create new tables.
+
+Click on **Hasura** in the menu and copy the **Admin secret**. Open the **Hasura console URL** and login using the **Admin secret**.
+
+![Nhost Hasura](/images/backend/open-hasura.png)
+
+## Create database
+
+Now it's time to create our `todo` table. Go to the **DATA** tab in the top menu and click **Create table**. This is what your table will look like:
+
+| Name       | Type      |
+| :--------- | :-------- |
+| id         | UUID      |
+| created_at | Timestamp |
+| name       | Text      |
+| completed  | Boolean   |
+
+First create `id` and `created_at` using **Frequently user columns**.
+
+![Frequently used columns in the Hasura console](/images/backend/frequently-used-columns.png)
+
+Then add `name` (Text) and `completed` (Boolean). Make sure you set the default value for `completed` to `false`.
+
+![Create a table in the Hasura console](/images/backend/create-table.png)
+
+Scroll down and click **Add table**.
+
+### Test
+
+Let's test so everything works. Add two todos and go back to the Nhost console and make a GraphQL request to test if you get the todos in the result.
+
+```graphql
+query {
+  todos {
+    id
+    created_at
+    name
+    completed
+  }
+}
+```
+
+![Insert todos](/images/backend/insert-todos.gif)
+
+## Set permissions
+
+Currently the only way to interact with todos is as admin (`x-hasura-admin-secret`). We will now set the permissions so anyone can add and read todos.
+
+On the `todos` table in the permissions tab we'll set the role `public` to be able to insert and select todos.
+
+> The `public` role is for anyone who is not logged in.
+
+### Insert permissions
+
+Allow anyone to insert **without any checks** and to insert **name**. The other columns (id, created_at, completed) will be set using default values.
+
+![Hasura permissions public insert](/images/backend/permissions-public-insert.png)
+
+### Select permissoins
+
+Allow anyone to select **without any checks** and to select all columns.
+
+![Hasura permissions public insert](/images/backend/permissions-public-select.png)
+
+---
+
+Now anyone can insert and read todos. This is maybe not as secure as we'd like but it's a good start. We'll secure our backend later in [Add authentication](/quick-start/add-authentication).
+
+Next we'll create out [frontend](/quick-start/frontend).

@@ -2,13 +2,14 @@ import styled from "styled-components";
 import { Header } from "components/header";
 import { Menu } from "components/menu";
 import "../style.css";
+import "prismjs/themes/prism-okaidia.css";
 
 const AppContainer = styled.div`
   display: grid;
   grid-template-columns:
     [full-start] minmax(6rem, 1fr) [main-start] repeat(
       4,
-      [col-start] minmax(min-content, 30rem) [col-end]
+      [col-start] minmax(min-content, 25rem) [col-end]
     )
     [main-end] minmax(6rem, 1fr) [full-end];
 

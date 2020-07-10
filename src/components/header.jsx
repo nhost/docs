@@ -16,6 +16,9 @@ const HeaderContainer = styled.div`
     align-items: center;
 
     .main-container--left {
+      .logo {
+        height: 60px;
+      }
     }
 
     .main-container--right {
@@ -58,7 +61,7 @@ export function Header(props) {
         <div className="main-container--left">
           <Link href="/">
             <a>
-              <img src="/images/logo.svg" alt="Nhost logo" />
+              <img src="/images/logo.svg" alt="Nhost logo" className="logo" />
             </a>
           </Link>
         </div>

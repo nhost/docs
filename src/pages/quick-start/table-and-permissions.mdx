@@ -2,7 +2,7 @@
 
 You will now create a table and set permissions for that table.
 
-## Create table
+## Hasura console
 
 You will create the new table in the Hasura console.
 
@@ -12,7 +12,7 @@ Click on **Hasura** in the left menu and copy the **Admin secret**. Open the **H
 
 ![Nhost Hasura](/images/backend/open-hasura.png)
 
-## Create database
+## Create table
 
 Now it's time to create our `todo` table. Go to the **DATA** tab in the top menu and click **Create table**. This is what your table will look like:
 
@@ -54,7 +54,7 @@ query {
 
 ## Set permissions
 
-Currently the only way to interact with todos is as admin (`x-hasura-admin-secret`). We will now set the permissions so **anyone** (public) can insert and select todos.
+Currently the only way to interact with todos is as admin (`x-hasura-admin-secret`). We'll now set the permissions so **anyone** (public) can insert and select todos.
 
 On the `todos` table in the permissions tab we'll set the role `public` to be able to insert and select todos.
 

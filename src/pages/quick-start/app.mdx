@@ -2,35 +2,283 @@
 
 ## Create a new React app
 
-To create a new react app run the following command:
+Create a new react app:
 
 ```bash
 npx create-react-app nhost-app
 cd nhost-app
 ```
 
-Then install `nhost-react` so we can connect our React app with our backend. Install `nhost-react` using the following command:
+Then install four packages that you'll use to connect your React App with your Nhost GraphQL API:
 
 ```bash
-npm install nhost-react
+npm install nhost-react @apollo/client graphql graphql-tag
 ```
 
-We can now start our app:
+Start the app:
 
 ```bash
 npm start
 ```
 
-Now your app has started and you can access it at `http://localhost:3000`.
+## Add NhostApolloProvider to index.js
 
-Install `nhost-react`
+`src/index.js`
 
-Add config.js with graphql api endpoint
+```jsx
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { NhostApolloProvider } from "react-nhost";
 
-Add `NhostProvider` (wrapper for ApolloProvider) provider in `index.js`.
+ReactDOM.render(
+  <React.StrictMode>
+    <NhostApolloProvider gql_endpoint="https://hasura-zgp96xwz.nhost.app/v1/graphql">
+      <App />
+    </NhostApolloProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
 
-In App.js:
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
+```
 
-- List todos
-- Create todo
-- delete todo
+## Fetch data using GraphQL in App.js
+
+`src/App.js`
+
+```jsx
+import React from "react";
+import { useQuery } from "@apollo/client";
+import gql from "graphql-tag";
+
+const GET_TODOS = gql`
+  query {
+    todos {
+      id
+      created_at
+      name
+      completed
+    }
+  }
+`;
+
+function App() {
+  const { data, loading } = useQuery(GET_TODOS);
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
+  return (
+    <div>
+      {!data ? (
+        "No todos"
+      ) : (
+        <ul>
+          {data.todos.map((todo) => {
+            return <li key={todo.id}>{todo.name}</li>;
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+That was easy. Your todos are now listed in your app!
+
+## Add todos
+
+We can now list todos, now let's add functionallity to our app so we can add todos.
+
+We'll import `useMutation`, create a new GraphQL mutation and add a form that will add todos.
+
+`src/App.js`
+
+```jsx
+import React, { useState } from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+
+const GET_TODOS = gql`
+  query {
+    todos {
+      id
+      created_at
+      name
+      completed
+    }
+  }
+`;
+
+const INSERT_TODO = gql`
+  mutation($todo: todos_insert_input!) {
+    insert_todos(objects: [$todo]) {
+      affected_rows
+    }
+  }
+`;
+
+function App() {
+  const { data, loading } = useQuery(GET_TODOS);
+  const [insertTodo] = useMutation(INSERT_TODO);
+  const [todoName, setTodoName] = useState("");
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
+  return (
+    <div>
+      <div>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+
+            try {
+              await insertTodo({
+                variables: {
+                  todo: {
+                    name: todoName,
+                  },
+                },
+              });
+            } catch (error) {
+              alert("Error inserting todo");
+              console.log(error);
+            }
+            alert("Todo inseted");
+            setTodoName("");
+          }}
+        >
+          <input
+            type="text"
+            placeholder="todo"
+            value={todoName}
+            onChange={(e) => setTodoName(e.target.value)}
+          />
+          <button>Add todo</button>
+        </form>
+      </div>
+      {!data ? (
+        "no data"
+      ) : (
+        <ul>
+          {data.todos.map((todo) => {
+            return <li key={todo.id}>{todo.name}</li>;
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+You can now add new todos using the new form. That's great! But to see the newly added todos you need to reload the app :(. Let's fix that using subscriptions!
+
+## Get data in realtime using subscriptions
+
+Subscriptions are used to get data in realtime from the database. When the data changes we'll instantly have the new data in our app. It's almost magic!
+
+We'll change `useQuery` to `useSubscription` and we'll replace `query` to `subscription` in `GET_TODOS`.
+
+`src/App.js`
+
+```jsx
+import React, { useState } from "react";
+import { useSubscription, useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+
+const GET_TODOS = gql`
+  subscription {
+    todos {
+      id
+      created_at
+      name
+      completed
+    }
+  }
+`;
+
+const INSERT_TODO = gql`
+  mutation($todo: todos_insert_input!) {
+    insert_todos(objects: [$todo]) {
+      affected_rows
+    }
+  }
+`;
+
+function App() {
+  const { data, loading } = useSubscription(GET_TODOS);
+  const [insertTodo] = useMutation(INSERT_TODO);
+  const [todoName, setTodoName] = useState("");
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
+  return (
+    <div>
+      <div>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+
+            try {
+              await insertTodo({
+                variables: {
+                  todo: {
+                    name: todoName,
+                  },
+                },
+              });
+            } catch (error) {
+              alert("Error inserting todo");
+              console.log(error);
+            }
+            alert("Todo inseted");
+            setTodoName("");
+          }}
+        >
+          <input
+            type="text"
+            placeholder="todo"
+            value={todoName}
+            onChange={(e) => setTodoName(e.target.value)}
+          />
+          <button>Add todo</button>
+        </form>
+      </div>
+      {!data ? (
+        "no data"
+      ) : (
+        <ul>
+          {data.todos.map((todo) => {
+            return <li key={todo.id}>{todo.name}</li>;
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+New todos gets listed when we add new todos. You can even open two tabs and add new todos in one tab and see how all windows displays the latest data.
+
+Your app now have superpowers!
+
+## Next
+
+[Add authentication](/quick-start/add-authentication)

@@ -4,9 +4,11 @@ You will now create a table and set permissions for that table.
 
 ## Create table
 
-The Hasura console is where you can create new tables.
+You will create the new table in the Hasura console.
 
-Click on **Hasura** in the menu and copy the **Admin secret**. Open the **Hasura console URL** and login using the **Admin secret**.
+> Hasura console is where you manage tables and data of your app.
+
+Click on **Hasura** in the left menu and copy the **Admin secret**. Open the **Hasura console URL** and login using the **Admin secret**.
 
 ![Nhost Hasura](/images/backend/open-hasura.png)
 
@@ -33,7 +35,11 @@ Scroll down and click **Add table**.
 
 ### Test
 
-Let's test so everything works. Add two todos and go back to the Nhost console and make a GraphQL request to test if you get the todos in the result.
+Let's test so everything works. First, add two todos.
+
+![Insert todos](/images/backend/insert-todos.gif)
+
+Then go to the Nhost console and make a GraphQL request to see if the GprahQL API returns two todos.
 
 ```graphql
 query {
@@ -46,15 +52,13 @@ query {
 }
 ```
 
-![Insert todos](/images/backend/insert-todos.gif)
-
 ## Set permissions
 
-Currently the only way to interact with todos is as admin (`x-hasura-admin-secret`). We will now set the permissions so anyone can add and read todos.
+Currently the only way to interact with todos is as admin (`x-hasura-admin-secret`). We will now set the permissions so **anyone** (public) can insert and select todos.
 
 On the `todos` table in the permissions tab we'll set the role `public` to be able to insert and select todos.
 
-> The `public` role is for anyone who is not logged in.
+> The `public` role is applied when a user is not logged in.
 
 ### Insert permissions
 
@@ -70,6 +74,8 @@ Allow anyone to select **without any checks** and to select all columns.
 
 ---
 
-Now anyone can insert and read todos. This is maybe not as secure as we'd like but it's a good start. We'll secure our backend later in [Add authentication](/quick-start/add-authentication).
+Now anyone can insert and select todos because the `public` role was used for the permissions. This is not secure, but it's a good start. We'll secure our backend later.
 
-Next we'll create out [frontend](/quick-start/frontend).
+## Next
+
+[App](/quick-start/app)

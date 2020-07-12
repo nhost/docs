@@ -49,6 +49,10 @@ img {
   width: 100%;
 }
 
+pre {
+  max-width: 700px;
+}
+
 code {
   color: #4851ff;
 }

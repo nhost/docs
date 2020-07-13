@@ -11,12 +11,6 @@ const AppContainer = styled.div`
     [main-start] minmax(min-content, 75rem)
     [main-end] minmax(6rem, 1fr) [full-end];
 
-  .full-container {
-    display: grid;
-    grid-column: full;
-    /* grid-template-columns: 30rem 1fr; */
-  }
-
   .menu-container {
     background: #f5f7f9;
     grid-column: 1 / 2;

@@ -16,14 +16,14 @@ Click on **Hasura** in the left menu and copy the **Admin secret**. Open the **H
 
 Now it's time to create our `todo` table. Go to the **DATA** tab in the top menu and click **Create table**. This is what your table will look like:
 
-| Name       | Type      |
-| :--------- | :-------- |
-| id         | UUID      |
-| created_at | Timestamp |
-| name       | Text      |
-| completed  | Boolean   |
+| Name       | Type      | Default value     |
+| :--------- | :-------- | :---------------- |
+| id         | UUID      | gen_random_uuid() |
+| created_at | Timestamp | now()             |
+| name       | Text      |                   |
+| completed  | Boolean   | false             |
 
-First create `id` and `created_at` using **Frequently user columns**.
+First create `id` and `created_at` using **Frequently user columns**. This will make sure that the `id` and `created_at` columns are automatically generated.
 
 ![Frequently used columns in the Hasura console](/images/backend/frequently-used-columns.png)
 
@@ -39,7 +39,7 @@ Let's test so everything works. First, add two todos.
 
 ![Insert todos](/images/backend/insert-todos.gif)
 
-Then go to the Nhost console and make a GraphQL request to see if the GprahQL API returns two todos.
+Then go to the Nhost console and to go **GraphQL API** and make a GraphQL request to see if your GraphQL API returns two todos.
 
 ```graphql
 query {
@@ -56,7 +56,7 @@ query {
 
 Currently the only way to interact with todos is as admin (`x-hasura-admin-secret`). We'll now set the permissions so **anyone** (public) can insert and select todos.
 
-On the `todos` table in the permissions tab we'll set the role `public` to be able to insert and select todos.
+Go to your `todos` table and click on the **Permissions** tab. Here you'll use the role `public` to set permissions for **insert** and **select**.
 
 > The `public` role is applied when a user is not logged in.
 
@@ -74,7 +74,7 @@ Allow anyone to select **without any checks** and to select all columns.
 
 ---
 
-Now anyone can insert and select todos because the `public` role was used for the permissions. This is not secure, but it's a good start. We'll secure our backend later.
+Now anyone can insert and select todos. This is not secure, but it's a good start. We'll secure our backend later when we add authentication.
 
 ## Next
 

@@ -1,6 +1,8 @@
 # App
 
-## Create a new React app
+Our backend is ready, let's build the frontend app!
+
+## React app
 
 Create a new react app:
 
@@ -9,7 +11,7 @@ npx create-react-app nhost-app
 cd nhost-app
 ```
 
-Then install four packages that you'll use to connect your React App with your Nhost GraphQL API:
+Install these packages to connect your React App with your Nhost GraphQL API:
 
 ```bash
 npm install nhost-react @apollo/client graphql graphql-tag
@@ -23,6 +25,8 @@ npm start
 
 ## Add NhostApolloProvider to index.js
 
+Replace `https://hasura-xxx.nhost.app/v1/graphql` with your project's GraphQL API URL. You can find your GraphQL API endpoint in the Dashboard in the Nhost console.
+
 `src/index.js`
 
 ```jsx
@@ -35,7 +39,7 @@ import { NhostApolloProvider } from "react-nhost";
 
 ReactDOM.render(
   <React.StrictMode>
-    <NhostApolloProvider gql_endpoint="https://hasura-zgp96xwz.nhost.app/v1/graphql">
+    <NhostApolloProvider gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql">
       <App />
     </NhostApolloProvider>
   </React.StrictMode>,
@@ -184,11 +188,11 @@ function App() {
 export default App;
 ```
 
-You can now add new todos using the new form. That's great! But to see the newly added todos you need to reload the app :(. Let's fix that using subscriptions!
+You can now add new todos using the new form. That's great! But to see the newly added todos you need to reload the app. That's not great. Let's fix that using subscriptions!
 
 ## Get data in realtime using subscriptions
 
-Subscriptions are used to get data in realtime from the database. When the data changes we'll instantly have the new data in our app. It's almost magic!
+Subscriptions are used to get data in realtime from the database. When the data changes in the database we'll instantly have the new data in our app. It's almost like magic!
 
 We'll change `useQuery` to `useSubscription` and we'll replace `query` to `subscription` in `GET_TODOS`.
 
@@ -196,9 +200,11 @@ We'll change `useQuery` to `useSubscription` and we'll replace `query` to `subsc
 
 ```jsx
 import React, { useState } from "react";
+// replace `useQuery` with `useSubscription`
 import { useSubscription, useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
+// replace `query` with `subscription`
 const GET_TODOS = gql`
   subscription {
     todos {
@@ -219,6 +225,7 @@ const INSERT_TODO = gql`
 `;
 
 function App() {
+  // replace `useQuery` with `useSubscription`
   const { data, loading } = useSubscription(GET_TODOS);
   const [insertTodo] = useMutation(INSERT_TODO);
   const [todoName, setTodoName] = useState("");
@@ -275,7 +282,7 @@ function App() {
 export default App;
 ```
 
-New todos gets listed when we add new todos. You can even open two tabs and add new todos in one tab and see how all windows displays the latest data.
+Perfect! New todos gets listed when we add new todos. You can even open two tabs and add new todos in one tab and see how all windows displays the latest data.
 
 Your app now have superpowers!
 

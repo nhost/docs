@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const MenuContainer = styled.div`
   a {
@@ -40,6 +41,9 @@ const MenuContainer = styled.div`
       background: #ddd;
     }
     &.active {
+      background: #fff;
+      border-top: 1px solid #f0f1f2;
+      border-bottom: 1px solid #f0f1f2;
       font-weight: bold;
       color: var(--primary-color);
       a {
@@ -93,15 +97,20 @@ const menu = [
 ];
 
 export function Menu(props) {
+  const router = useRouter();
   function renderMenu(menu) {
     if (!menu) return null;
     return (
       <ul>
         {menu.map((item) => {
+          const cssClass = item.link === router.pathname ? "active" : "";
+
           return (
             <React.Fragment key={item.Link}>
-              <li>
-                <a href={item.link}>{item.name}</a>
+              <li className={cssClass}>
+                <Link href={item.link}>
+                  <a>{item.name}</a>
+                </Link>
               </li>
               {renderMenu(item.menu)}
             </React.Fragment>

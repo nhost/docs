@@ -7,16 +7,28 @@ import "prismjs/themes/prism-okaidia.css";
 const AppContainer = styled.div`
   display: grid;
   grid-template-columns:
-    [full-start] minmax(6rem, 1fr) [main-start] repeat(
-      4,
-      [col-start] minmax(min-content, 25rem) [col-end]
-    )
+    [full-start] minmax(6rem, 1fr)
+    [main-start] minmax(min-content, 75rem)
     [main-end] minmax(6rem, 1fr) [full-end];
 
-  .main-container {
+  .full-container {
     display: grid;
+    grid-column: full;
+    /* grid-template-columns: 30rem 1fr; */
+  }
+
+  .menu-container {
+    background: #f5f7f9;
+    grid-column: 1 / 2;
+
+    .menu-content {
+      width: 25rem;
+      float: right;
+    }
+  }
+  .main-container {
     grid-column: main;
-    grid-template-columns: 30rem 1fr;
+    padding: 0 3rem;
   }
 `;
 
@@ -24,13 +36,13 @@ export default function App({ Component, pageProps }) {
   return (
     <AppContainer>
       <Header />
-      <div className="main-container">
-        <div>
+      <div className="menu-container">
+        <div className="menu-content">
           <Menu />
         </div>
-        <div>
-          <Component {...pageProps} />
-        </div>
+      </div>
+      <div className="main-container">
+        <Component {...pageProps} />
       </div>
     </AppContainer>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -31,6 +31,16 @@ const MenuContainer = styled.div`
       padding: 0.7rem 2.4rem 0.7rem 1.6rem;
     }
 
+    .li-header {
+      display: block;
+      padding: 0.7rem 2.4rem 0.7rem 1.6rem;
+      margin: 0;
+
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
     &.header {
       padding: 0.7rem 2.4rem 0.7rem 1.6rem;
       font-weight: bold;
@@ -53,7 +63,7 @@ const MenuContainer = styled.div`
   }
 `;
 
-const menu = [
+const menu_quick_start = [
   {
     link: "/quick-start",
     name: "Quick Start",
@@ -84,13 +94,33 @@ const menu = [
       },
     ],
   },
+];
+
+const menu_hasura = [
   {
-    link: "/hasura",
+    // link: "/hasura",
     name: "Hasura",
     menu: [
       {
-        link: "/hasura/testar",
-        name: "Testar Hasura",
+        link: "/hasura/overview",
+        name: "Overview",
+      },
+      {
+        link: "/hasura/tables",
+        name: "Tables",
+      },
+    ],
+  },
+];
+
+const menu_postgresql = [
+  {
+    link: "/postgresql",
+    name: "PostgreSQL",
+    menu: [
+      {
+        link: "/postgresql",
+        name: "Overview",
       },
     ],
   },
@@ -98,32 +128,57 @@ const menu = [
 
 export function Menu(props) {
   const router = useRouter();
-  function renderMenu(menu) {
-    if (!menu) return null;
-    return (
-      <ul>
-        {menu.map((item) => {
-          const cssClass = item.link === router.pathname ? "active" : "";
-
-          return (
-            <React.Fragment key={item.Link}>
-              <li className={cssClass}>
-                <Link href={item.link}>
-                  <a>{item.name}</a>
-                </Link>
-              </li>
-              {renderMenu(item.menu)}
-            </React.Fragment>
-          );
-        })}
-      </ul>
-    );
-  }
 
   return (
     <MenuContainer>
       <div>Documentation</div>
-      {renderMenu(menu)}
+      <MenuUL menu={menu_quick_start} router={router} />
+      <div>Nhost</div>
+      <MenuUL menu={menu_hasura} router={router} />
+      <MenuUL menu={menu_postgresql} router={router} />
+      <div>Libraries</div>
     </MenuContainer>
+  );
+}
+
+function MenuUL({ menu, router }) {
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
+
+  if (!menu) return null;
+
+  return (
+    <ul>
+      {menu.map((item) => {
+        const cssClass = item.link === router.pathname ? "active" : "";
+
+        function showSubMenu() {
+          return subMenuOpen || router.pathname.startsWith(item.link);
+        }
+
+        return (
+          <React.Fragment key={item.link}>
+            <li className={cssClass}>
+              {item.link ? (
+                <Link href={item.link}>
+                  <a>{item.name}</a>
+                </Link>
+              ) : (
+                <div
+                  className="li-header"
+                  onClick={() => setSubMenuOpen(!subMenuOpen)}
+                >
+                  {item.name} <div>{subMenuOpen ? "close" : "open"}</div>
+                </div>
+              )}
+            </li>
+            {showSubMenu() && (
+              <div>
+                <MenuUL menu={item.menu} router={router} />
+              </div>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </ul>
   );
 }

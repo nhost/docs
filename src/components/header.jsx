@@ -39,7 +39,6 @@ const HeaderContainer = styled.div`
           font-weight: 500;
           font-size: 16px;
           line-height: 22px;
-
           color: #757575;
         }
       }

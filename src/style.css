@@ -122,3 +122,12 @@ h2 {
   padding: 2rem;
   border: 1px solid #ddd;
 }
+
+.next-page-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.next-page-container a {
+  cursor: pointer;
+}

@@ -1,13 +1,181 @@
 # Add authentication
 
+Right now our app's todos are open to anyone. Let's make our app more secure by adding authentication.
+
+Authentication is built in to Nhost so it's easy to get started with.
+
 ## Create user in Nhost console
 
-## Install `nhost-js-sdk`
+Let's first create our user in the Nhost console under **Auth**.
 
-`npm install nhost-js-sdk`
+![Add user](/images/add-authentication/add-user.gif)
 
-- Add backend endpoint in `config.js`
-- Add nhost.js to initialize auth
+## Install and initialize `nhost-js-sdk`
+
+Install `nhost-js-sdk`
+
+```bash
+npm install nhost-js-sdk
+```
+
+> `nhost-js-sdk` is used to interact with auth (ex login and register) and storage (upload, download).
+
+Create a new folder `src/utils` and create a file `src/utils/nhost.js`. Here we'll initialize our connection to Nhost.
+
+`src/utils/nhost.js`
+
+```js
+import nhost from "nhost-js-sdk";
+
+const config = {
+  base_url: "https://backend-xxxx.nhost.app",
+};
+
+nhost.initializeApp(config);
+
+const auth = nhost.auth();
+const storage = nhost.storage();
+
+export { auth, storage };
+```
+
+Remember to replace https://backend-xxx.nhost.app with your own backend Nhost domain. Note that the URL should start with https://**backend**-[...].
+
+## Introduce NhostAuthprovider
+
+Now we'll wrapp our app with the `NhostAuthProvider`. With this provider we'll know if a user is logged in or not.
+
+We'll also send our `auth` object to both our `NhostAuthProvider` and `NhostApolloProvider` so the whole app can share the same auth state.
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "components/App";
+// importing new `auth` class
+import { auth } from "utils/nhost";
+// Importing new `NhostAuthProvider`
+import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
+
+// Wrapp `NhostAuthprovider` around our whole app. Make sure to
+// add `auth={auth}` for both Nhost providers.
+ReactDOM.render(
+  <React.StrictMode>
+    <NhostAuthProvider auth={auth}>
+      <NhostApolloProvider
+        auth={auth}
+        gql_endpoint="https://hasura-zgp96xwz.nhost.app/v1/graphql"
+      >
+        <App />
+      </NhostApolloProvider>
+    </NhostAuthProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+
+## Login component
+
+Create a simple Login component so users can login.
+
+`src/components/login.js`
+
+```jsx
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { auth } from "utils/nhost";
+
+export default function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    // login
+    try {
+      await auth.login(email, password);
+    } catch (error) {
+      alert("error logging in");
+      console.error(error);
+      return;
+    }
+
+    // redirect back to `/`
+    history.push("/");
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button>Login</button>
+      </form>
+    </div>
+  );
+}
+```
+
+## Adding routes for `/` and `/login`
+
+Install [React Router](https://reactrouter.com/web/guides/quick-start):
+
+```bash
+npm install react-router-dom
+```
+
+Now let's create two routes. One for `/` where we'll have our todos listed. And one for `/login` where users can login.
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "components/App";
+// Import Login component
+import Login from "components/Login";
+// import `react-router-dom`
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { auth } from "./utils/nhost";
+import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
+
+// Create two routes for `/` and `/login`
+ReactDOM.render(
+  <React.StrictMode>
+    <NhostAuthProvider auth={auth}>
+      <NhostApolloProvider
+        auth={auth}
+        gql_endpoint="https://hasura-zgp96xwz.nhost.app/v1/graphql"
+      >
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <App />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+          </Switch>
+        </Router>
+      </NhostApolloProvider>
+    </NhostAuthProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+
+``
+
 - Add `NhostAuthProvider` in `index.js`.
 - Add Routes for `/login` and `/` (my todos) (protected)
 - Add functionality for Login

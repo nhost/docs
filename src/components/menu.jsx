@@ -65,7 +65,7 @@ const MenuContainer = styled.div`
 
 const menu_quick_start = [
   {
-    link: "/quick-start",
+    // link: "/quick-start",
     name: "Quick Start",
     menu: [
       {
@@ -85,7 +85,7 @@ const menu_quick_start = [
         name: "Add authentication",
       },
       {
-        link: "/quick-start/deploy",
+        link: "/quick-start/deploy-app",
         name: "Deploy app",
       },
       {
@@ -115,12 +115,54 @@ const menu_hasura = [
 
 const menu_postgresql = [
   {
-    link: "/postgresql",
+    // link: "/postgresql",
     name: "PostgreSQL",
     menu: [
       {
         link: "/postgresql",
         name: "Overview",
+      },
+    ],
+  },
+];
+
+const menu_auth = [
+  {
+    name: "Auth",
+    menu: [
+      {
+        link: "/auth",
+        name: "Overview",
+      },
+      {
+        link: "/auth/local-users",
+        name: "Local users",
+      },
+      {
+        // link: "/auth/local-users",
+        name: "OAuth providers",
+        menu: [
+          {
+            link: "/auth/oauth-providers/overview",
+            name: "Overview",
+          },
+          {
+            link: "/auth/oauth-providers/github",
+            name: "Github",
+          },
+        ],
+      },
+      {
+        link: "/auth/email-templates",
+        name: "Email templates",
+      },
+      {
+        link: "/auth/roles",
+        name: "Roles",
+      },
+      {
+        link: "/auth/custom-user-columns",
+        name: "Custom user columns",
       },
     ],
   },
@@ -134,8 +176,9 @@ export function Menu(props) {
       <div>Documentation</div>
       <MenuUL menu={menu_quick_start} router={router} />
       <div>Nhost</div>
-      <MenuUL menu={menu_hasura} router={router} />
       <MenuUL menu={menu_postgresql} router={router} />
+      <MenuUL menu={menu_hasura} router={router} />
+      <MenuUL menu={menu_auth} router={router} />
       <div>Libraries</div>
     </MenuContainer>
   );

@@ -199,9 +199,9 @@ Phew, that's a lot of code. Let's stop here and just see what we got.
 
 Both routes (`/` and `/login`) are still unprotected, we'll fix that in soon. When we are at `/` we can still see all todos, that's fine for now since we allow the `public` role to **select** todos.
 
-When we login all todos are gone and we can only see **No data**. If we **logout** our todos are back. What's going on?
+When we login all todos are gone and we can only see **No data**. If we **logout** our todos are back. Strange? What's going on?
 
-It's not strange at all. When we are **logged out** we automatically use the `public` role. The `public` role has permission to **select** todos. When we are **logged in** we don't use the `public` role. Instead we use the `user` role. The `user` role does not have permission to **select** todos, yet.
+It's not strange at all. When we are **logged out** we automatically use the `public` role. The `public` role has permission to **select** todos. When we are **logged in** we **don't** use the `public` role. Instead we use the `user` role. The `user` role don't have permission to **select** todos, yet!
 
 Let's finish secure our app by doing the following:
 
@@ -223,6 +223,10 @@ import { useAuth } from "react-nhost";
 
 export default function PrivateRoute({ children, ...rest }) {
   const { signedIn } = useAuth();
+
+  if (signedIn === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Route
@@ -288,15 +292,15 @@ You'll now notice that you can only access `/` if you are logged in. If you are 
 
 ## Permission updates
 
-Since we are building a secure app we won't use the `public` role. Let's remove all permissions for the `public` role in the Hasura console. Remove both **insert** and **select** permission.
+We won't use the `public` role anymore. Let's remove all permissions for the `public` role in the Hasura console.
 
 ![Remove public permissions from Hasura](/images/add-authentication/remove-public-permissions.png)
 
 ## Connect all todos with a user
 
-First, make sure all old todos are **removed**.
+Now we'll add a new column to our `todos` table. **But first we must delete all todos**. You can delete all todos in the **Browse data** tab and click the trash can icon for each todo.
 
-Then go to the **Modify** tab for todos to add a new column. The new column's name is `user_id` (UUID type). Also make sure to **not** click in **nullable**. Then add the column.
+After all todos are deleted, go to the **Modify** tab for todos to add a new column. The new column's name is `user_id` (UUID type). Also make sure to **not** click in **nullable**. Then add the column.
 
 > `user_id` will refer to the user's id that each todo belongs to.
 
@@ -312,6 +316,24 @@ You create the foreign key in the same **Modify** tab.
 
 ![Foreign key](/images/add-authentication/create-foreign-key.png)
 
-Last thing we need to do to fully make the connection is for Hasura to track the **foregin key** in the **GraphQL API**. Go to the **DATA** tab and click **Track all**.
+For Hasura to use the foreign key relation in the GraphQL API we need to track the foreign key relationship. Go to the **DATA** tab and click **Track all**.
 
 ![Track all relationships](/images/add-authentication/track-all-relationships.png)
+
+## Permissions for users
+
+### Insert
+
+We'll now allow a user to insert a todo. The user can only insert `name`. All other columns will be set automatically. `user_id` will be set automatically to the id of the user making the request.
+
+![User insert permission](/images/add-authentication/user-insert-permission.png)
+
+### Select
+
+Here we'll set a custom check that users are only allowed to select todos where `user_id` is the same as their own user id.
+
+![User select permission](/images/add-authentication/user-select-permission.png)
+
+# We are done!
+
+You have probably already tested your app during this guide, but now we are finished and you can no use your app!

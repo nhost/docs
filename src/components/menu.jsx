@@ -96,6 +96,19 @@ const menu_quick_start = [
   },
 ];
 
+const menu_postgresql = [
+  {
+    // link: "/postgresql",
+    name: "PostgreSQL",
+    menu: [
+      {
+        link: "/postgresql",
+        name: "Overview",
+      },
+    ],
+  },
+];
+
 const menu_hasura = [
   {
     // link: "/hasura",
@@ -113,14 +126,34 @@ const menu_hasura = [
   },
 ];
 
-const menu_postgresql = [
+const menu_graphql = [
   {
-    // link: "/postgresql",
-    name: "PostgreSQL",
+    // link: "/hasura",
+    name: "GraphQL",
     menu: [
       {
-        link: "/postgresql",
+        link: "/graphql/overview",
         name: "Overview",
+      },
+      {
+        link: "/graphql/query",
+        name: "Query",
+      },
+      {
+        link: "/graphql/mutation",
+        name: "Mutation",
+      },
+      {
+        link: "/graphql/subscription",
+        name: "Subscription",
+      },
+      {
+        link: "/graphql/variables",
+        name: "Variables",
+      },
+      {
+        link: "/graphql/headers",
+        name: "HTTP Headers",
       },
     ],
   },
@@ -164,6 +197,30 @@ const menu_auth = [
         link: "/auth/custom-user-columns",
         name: "Custom user columns",
       },
+      {
+        link: "/auth/api-reference",
+        name: "API Reference",
+      },
+    ],
+  },
+];
+
+const menu_storage = [
+  {
+    name: "Storage",
+    menu: [
+      {
+        link: "/storage",
+        name: "Overview",
+      },
+      {
+        link: "/storage/security-rules",
+        name: "Security Rules",
+      },
+      {
+        link: "/storage/api-reference",
+        name: "API Reference",
+      },
     ],
   },
 ];
@@ -179,6 +236,7 @@ export function Menu(props) {
       <MenuUL menu={menu_postgresql} router={router} />
       <MenuUL menu={menu_hasura} router={router} />
       <MenuUL menu={menu_auth} router={router} />
+      <MenuUL menu={menu_storage} router={router} />
       <div>Libraries</div>
     </MenuContainer>
   );

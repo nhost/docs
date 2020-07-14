@@ -3,8 +3,6 @@ import { Header } from "components/header";
 import { Menu } from "components/menu";
 import "../style.css";
 import "prismjs/themes/prism-okaidia.css";
-import { discordbutton } from "components/discordbutton"
-//import {openchatimg} from "../../public/images/openChat.png"
 
 const AppContainer = styled.div`
   display: grid;
@@ -40,12 +38,12 @@ export default function App({ Component, pageProps }) {
       <div className="main-container">
         <Component {...pageProps} />
       </div>
-      <div className="App">
-        <discordbutton 
-        onClick={() => window.open("https://nhost.io/discord", "_blank")}
-        type="button"
-        img src={"../../public/images/openChat.png"}
-        ></discordbutton>
+      <div className="discort-button-style">
+        <img
+          src={"images/openchat.png"}
+          alt=""
+          onClick={() => window.open("https://nhost.io/discord", "_blank")}
+        />
       </div>
     </AppContainer>
   );

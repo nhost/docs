@@ -257,7 +257,7 @@ function MenuUL({ menu, router }) {
         }
 
         return (
-          <React.Fragment key={item.link}>
+          <React.Fragment key={item.name}>
             <li className={cssClass}>
               {item.link ? (
                 <Link href={item.link}>
@@ -272,11 +272,7 @@ function MenuUL({ menu, router }) {
                 </div>
               )}
             </li>
-            {showSubMenu() && (
-              <div>
-                <MenuUL menu={item.menu} router={router} />
-              </div>
-            )}
+            {showSubMenu() && <MenuUL menu={item.menu} router={router} />}
           </React.Fragment>
         );
       })}

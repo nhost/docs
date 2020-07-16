@@ -1,0 +1,143 @@
+# Nhost JS SDK
+
+Nhost JS SDK to handle **Auth** and **Storage**. When you login using `auth.login()` Nhost JS SDK will automatically handle refresh tokens.
+
+## Installation
+
+`npm install --save nhost-js-sdk`
+
+## Setup
+
+In ex `utils/nhost/index.js';
+
+```js
+import nhost from "nhost-js-sdk";
+
+const config = {
+  base_url: "https://backend-xxxx.nhost.app",
+};
+
+nhost.initializeApp(config);
+
+const auth = nhost.auth();
+const storage = nhost.storage();
+
+export { auth, storag };
+```
+
+## Usage auth and storage across in your app
+
+```js
+import { auth, storage } from "utils/nhost";
+```
+
+## Auth
+
+### Register
+
+```js
+auth.register(email, password);
+```
+
+### Login
+
+```js
+auth.login(email, password);
+```
+
+### Logout
+
+```js
+auth.logout();
+```
+
+### onAuthStateChanged
+
+```js
+auth.onAuthStateChanged((logged_in) => {
+  console.log("auth state changed!");
+  console.log({ logged_in });
+});
+```
+
+### Check if user is authenticated
+
+```js
+auth.isAuthenticated();
+```
+
+### Get JWT token
+
+```js
+auth.getJWTToken();
+```
+
+### Get JWT claim
+
+```js
+auth.getClaim("x-hasura-user-id");
+```
+
+### Activate account
+
+```js
+auth.activate(<ticket>);
+```
+
+### Change email address
+
+Note: The user must be logged in.
+
+```js
+auth.changeEmail(new_email);
+```
+
+### Request new email change
+
+```js
+auth.changeEmailRequest(new_email);
+```
+
+### Change to requested email
+
+```js
+auth.changeEmailChange(ticket);
+```
+
+### Change password
+
+```js
+auth.changePassword(old_password, new_password);
+```
+
+### Request new password
+
+```js
+auth.changePasswordRequest(email);
+```
+
+### Change password using `ticket`
+
+```js
+auth.changePasswordChange(new_password, ticket);
+```
+
+## Storage
+
+### Upload
+
+```js
+storage.put(path, file, metadata?, onUploadProgress?);
+```
+
+### Delete
+
+```js
+storage.delete(path);
+```
+
+### Get metadata
+
+```js
+auth.getMetadata(path);
+```

@@ -295,6 +295,7 @@ export function Menu(props) {
       <div>Nhost</div>
       <MenuUL menu={menu_postgresql} router={router} />
       <MenuUL menu={menu_hasura} router={router} />
+      <MenuUL menu={menu_graphql} router={router} />
       <MenuUL menu={menu_auth} router={router} />
       <MenuUL menu={menu_storage} router={router} />
       <MenuUL menu={menu_libraries} router={router} />

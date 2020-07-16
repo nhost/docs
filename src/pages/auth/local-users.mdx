@@ -1,0 +1,21 @@
+# Local users
+
+The easiest way for users to signup is using email/password. All user data will be saved in the database. New users will be added the the `users` table and relevant account information will be saved in the tables under the `auth` schema.
+
+Passwords are hashed using [bcrypt](https://www.npmjs.com/package/bcrypt) with multiple salt rounds.
+
+## API
+
+The easiest way to register and login users is using our [nhost-js-sdk](/libraries/nhost-js-sdk).
+
+Check out our [Auth API Reference](/auth/api-reference) to directly interact with the API.
+
+## Manage users
+
+All users are listed and can be managed in the Nhost console in the **Auth** tab.
+
+![Users overview in Nhost](/images/auth/users-overview.png)
+
+Click on the edit icon to manage individual users.
+
+![Manage user in Nhost](/images/auth/manage-user.png)

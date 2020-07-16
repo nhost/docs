@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Header } from "components/header";
 import { Menu } from "components/menu";
+import { MDXProvider } from "@mdx-js/react";
 import "../style.css";
 import "prismjs/themes/prism-okaidia.css";
 
@@ -26,18 +27,31 @@ const AppContainer = styled.div`
   }
 `;
 
+const mdComponents = {
+  h1: (props) => {
+    const link_id = props.children.toLowerCase();
+    return (
+      <a href={`#${link_id}`}>
+        <h1 id={link_id} {...props} />
+      </a>
+    );
+  },
+};
+
 export default function App({ Component, pageProps }) {
   return (
-    <AppContainer>
-      <Header />
-      <div className="menu-container">
-        <div className="menu-content">
-          <Menu />
+    <MDXProvider components={mdComponents}>
+      <AppContainer>
+        <Header />
+        <div className="menu-container">
+          <div className="menu-content">
+            <Menu />
+          </div>
         </div>
-      </div>
-      <div className="main-container">
-        <Component {...pageProps} />
-      </div>
-    </AppContainer>
+        <div className="main-container">
+          <Component {...pageProps} />
+        </div>
+      </AppContainer>
+    </MDXProvider>
   );
 }

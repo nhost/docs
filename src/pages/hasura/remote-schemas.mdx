@@ -1,0 +1,29 @@
+# Remote schemas
+
+With Hasura remote schemas you can add any external GraphQL API to your GraphQL API.
+
+You can test this by adding this [Pokémon](https://xkcd.com/178/) GraphQL API: `https://graphql-pokemon.now.sh`.
+
+Now you can query Pokémons in your API:
+
+```graphql
+query {
+  pokemons(first: 3) {
+    id
+    name
+    image
+    attacks {
+      fast {
+        damage
+        name
+        type
+      }
+      special {
+        damage
+        name
+        type
+      }
+    }
+  }
+}
+```

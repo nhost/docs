@@ -1,0 +1,47 @@
+# Permissions
+
+The GraphQL API is protected by a permission system. The permission system is based on [JWT tokens](https://jwt.io/introduction/). The user gets a JWT token upon login. This JWT token is being sent as a header with all GraphQL API requests to authenticate the user so correct permissions can be applied.
+
+There are specific user information in the JWT token such as user id. In the permission system in Hasura you can specify what a user is allowed based on ex the user id in the JWT token and the data.
+
+**A basic use-case** is to allow a user read _something_ if `user_id` in the database is equal to the user id (`x-hasura-user-id`) in the JWT token.
+
+By default, every user has the following session variables that can be used when creating permission rules:
+
+```bash
+x-hasura-user-id
+x-hasura-allowed-roles
+x-hasura-default-role
+```
+
+> The default role for a user is `user`.
+
+You can add more session variables (like `users.company_id`) manually with [custom user columns](/auth/custom-user-columns).
+
+You handle permissions for a table in the **Permissions tab**.
+
+### Insert permission
+
+Here is a popular approach for insert permission for logged in users. We'll break it down below the image.
+
+![Permission Insert](/images/hasura/permission-insert.png)
+
+1. Use the role **user** and click on the **Insert** column.
+2. Select **Without any checks**.
+3. Select the columns you want the user to insert. Here we'll only select `name` since the other columns will be filled in with default values and we don't want users to override them.
+4. For column presets we select `user_id` to be the value of `x-hasura-user-id` (the user's id). This way, we make sure that the `user_id` is securely set to the id of the user making the request.
+
+### Select permission
+
+Below follows a popular approach for select permission for logged in users. We'll break it down below the image.
+
+![Permission Select](/images/hasura/permission-select.png)
+
+1. Use the role **user** and click on the **Select** column.
+2. Select **With custom check** and create the rule that users can only read rows where `user_id = x-hasura-user-id`. In other words, users can only read their own data.
+3. Limit number of rows to 100 (or some other relevant number).
+4. Select the columns you want the user to be able to read. In our case we'll allow the user to read all columns.
+
+### Update and Delete permission
+
+Update and Delete permissions usually follows the same rules as Select permissions.

@@ -203,6 +203,14 @@ const menu_auth = [
             link: "/auth/oauth-providers/github",
             name: "Github",
           },
+          {
+            link: "/auth/oauth-providers/google",
+            name: "Google",
+          },
+          {
+            link: "/auth/oauth-providers/facebook",
+            name: "Facebook",
+          },
         ],
       },
       {

@@ -196,7 +196,7 @@ const menu_auth = [
         name: "OAuth providers",
         menu: [
           {
-            link: "/auth/oauth-providers/overview",
+            link: "/auth/oauth-providers",
             name: "Overview",
           },
           {

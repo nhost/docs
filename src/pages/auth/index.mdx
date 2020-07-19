@@ -7,3 +7,25 @@ Nhost Authentication integrates tightly with other services in your Nhost projec
 You can login users with email/password or third party services such as Github, Google, Facebook and more.
 
 For easy integration with auth (and storage) in your app, test our [nhost-js-sdk](/libraries/nhost-js-sdk).
+
+## Tokens
+
+Nhost Authentication uses JWT-tokens and refresh-tokens. JWT tokens are used in GraphQL API request to authenticate the user and to resolve [Hasura permissions](/hasura/permissions). The refresh token is used to request a new JWT token before the JWT token expires.
+
+The JWT-tokens can not be revoked, they can only expires. Because of that, they are short-lived (15 min). Before a JWT-token expires the client should request a new JWT-token using the refresh-token. The refresh-token can be revoked is long-lived (1 year). To revoke a refresh-token, simply remove it from the database in the `auth.refresh_tokens` table.
+
+By default each a JWT-token includes the user's id and role as _claims_. Here's an example:
+
+```json
+{
+  "https://hasura.io/jwt/claims": {
+    "x-hasura-allowed-roles": ["user"],
+    "x-hasura-default-role": "user",
+    "x-hasura-user-id": "c8ee8353-b886-4530-9089-631ea7fd4c8a"
+  },
+  "iat": 1595146465,
+  "exp": 1595147365
+}
+```
+
+You can add more claims using [custom user columns](/auth/custom-user-columns).

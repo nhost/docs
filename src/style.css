@@ -54,7 +54,10 @@ pre {
 }
 
 code {
-  color: #4851ff;
+  font-size: 1.8rem;
+  color: #476582;
+  background: rgba(27, 31, 35, 0.05);
+  padding: 4px 6px;
 }
 
 blockquote {
@@ -70,25 +73,34 @@ table {
   padding: 0;
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #ddd;
+  border: 1px solid #dfe2e5;
   margin-left: 50%;
   transform: translateX(-50%);
 }
 
-thead {
-  background: #ddd;
-}
-
-tr {
+table tr {
+  transition: background 0.2s ease-in;
+  border-top: 1px solid #dfe2e5;
   margin: 0;
 }
 
+table tr:nth-child(odd) {
+  background: #f5f8fa;
+}
+
+thead tr {
+  background: #fff;
+}
+
 th {
-  padding: 1rem 0.8rem;
+  padding: 0.6rem 2rem;
+  border: 1px solid #dfe2e5;
+  background: #fff;
 }
 
 td {
-  padding: 1rem 0.8rem;
+  padding: 0.6rem 2rem;
+  border: 1px solid #dfe2e5;
   margin: 0;
 }
 
@@ -118,7 +130,7 @@ h3 {
   font-size: 15px;
   line-height: 30px;
   color: #000;
-  margin: 2.5rem 0;
+  margin: 2.5rem 0 1rem;
 }
 
 .center {

@@ -29,10 +29,18 @@ const AppContainer = styled.div`
 
 const mdComponents = {
   h1: (props) => {
-    const link_id = props.children.toLowerCase();
+    const link_id = props.children.replace(" ", "-").toLowerCase();
     return (
       <a href={`#${link_id}`}>
         <h1 id={link_id} {...props} />
+      </a>
+    );
+  },
+  h2: (props) => {
+    const link_id = props.children.replace(" ", "-").toLowerCase();
+    return (
+      <a href={`#${link_id}`}>
+        <h2 id={link_id} {...props} />
       </a>
     );
   },

@@ -1,0 +1,60 @@
+# API Reference for Authentication
+
+| Endpoint                         | Method | Description   |
+| -------------------------------- | ------ | ------------- |
+| [/auth/register](#register-user) | POST   | Register user |
+| [/auth/login](#login-user)       | POST   | Login user    |
+| /auth/login                      | POST   | Login user    |
+
+## Register user
+
+Register a new user.
+
+### Request
+
+`POST /auth/register`
+
+```json
+{
+  "email": "hello@example.com",
+  "password": "between MIN_PASSWORD_LENGTH-128 characters"
+}
+```
+
+### Response
+
+```
+204 No Content
+```
+
+---
+
+## Login user
+
+Login user
+
+### Request
+
+`POST /auth/register`
+
+```json
+{
+  "email": "hello@example.com",
+  "password": "between MIN_PASSWORD_LENGTH-128 characters"
+}
+```
+
+### Response
+
+```
+Set-Cookie: refresh_token=...
+Set-Cookie: permission_variables=...
+```
+
+```
+{
+  "mfa": <boolean>,
+  "jwt_token": <jwt-token>,
+  "jwt_expires_in": 900000
+}
+```

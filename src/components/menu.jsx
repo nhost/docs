@@ -226,6 +226,10 @@ const menu_auth = [
         name: "Custom user columns",
       },
       {
+        link: "/auth/two-factor-authentication",
+        name: "Two-factor authentication",
+      },
+      {
         link: "/auth/api-reference",
         name: "API Reference",
       },

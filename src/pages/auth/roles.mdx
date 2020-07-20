@@ -1,0 +1,50 @@
+# Nhost Authentication Roles
+
+Each user can have one or more role. By default, each user has the role `user`.
+
+A role is used to set [Hasura Permissions](/hasura/permissions) and [Storage Security Rules](/storage/security-rules).
+
+A user's roles are defined in the JWT-token.
+
+```json
+{
+  "https://hasura.io/jwt/claims": {
+    "x-hasura-allowed-roles": ["user"],
+    "x-hasura-default-role": "user",
+    "x-hasura-user-id": "c8ee8353-b886-4530-9089-631ea7fd4c8a"
+  },
+  "iat": 1595146465,
+  "exp": 1595147365
+}
+```
+
+## Default role
+
+The `x-hasura-default-role` is the role being used with a GraphQL request by default. Usually that's the `user` role.
+
+## Allowed roles
+
+A user can have multiple allowed roles. Allowed roles are roles that the user can use to make a GraphQL request. A GraphQL request can only use **one** role per request.
+
+## Change role in a GraphQL request
+
+A user can override the default role to a new role in a GraphQL API request by setting the `x-hasura-role` header. The new role **must** be in the `x-hasura-allowed-roles` array.
+
+As an example, let's say you have:
+
+```
+x-hasura-default-role: user
+x-hasura-roles: ['user', 'editor']
+```
+
+Then you can make a request as an editor like this:
+
+```jsx
+const { loading, error, data } = useQuery(MY_QUERY, {
+  context: {
+    headers: {
+      "x-hasura-role": "editor",
+    },
+  },
+});
+```

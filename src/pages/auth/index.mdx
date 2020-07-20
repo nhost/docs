@@ -10,11 +10,13 @@ For easy integration with auth (and storage) in your app, test our [nhost-js-sdk
 
 ## Tokens
 
-Nhost Authentication uses JWT-tokens and refresh-tokens. JWT tokens are used in GraphQL API request to authenticate the user and to resolve [Hasura permissions](/hasura/permissions). The refresh token is used to request a new JWT token before the JWT token expires.
+Nhost Authentication uses **JWT-tokens and refresh-tokens**. **A JWT token** is used in GraphQL API request to authenticate the user making the request and to resolve [Hasura permissions](/hasura/permissions). **A refresh tokens** is used to request new JWT-token, before the current JWT-token expires.
 
-The JWT-tokens can not be revoked, they can only expires. Because of that, they are short-lived (15 min). Before a JWT-token expires the client should request a new JWT-token using the refresh-token. The refresh-token can be revoked is long-lived (1 year). To revoke a refresh-token, simply remove it from the database in the `auth.refresh_tokens` table.
+**A JWT-token can not be revoked**, it can only expires. Because of that, they are short-lived (15 min). Before a JWT-token expires the client should request a new JWT-token using the refresh-token. **A refresh-token can be revoked** and is long-lived (1 year). To revoke a refresh-token, simply remove it from the database in the `auth.refresh_tokens` table.
 
-By default each a JWT-token includes the user's id and role as _claims_. Here's an example:
+You can configure the expiration time for both JWT-tokens and refresh-tokens in the Nhost console.
+
+By default each a JWT-token includes the user's **id** and **role** as _claims_. Here's an example:
 
 ```json
 {

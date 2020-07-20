@@ -111,6 +111,16 @@ h2 {
   margin: 2.5rem 0;
 }
 
+h3 {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 30px;
+  color: #000;
+  margin: 2.5rem 0;
+}
+
 .center {
   text-align: center;
 }

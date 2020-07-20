@@ -1,3 +1,16 @@
+# Live
+
+See [docs-git-master.nhost.vercel.app](https://docs-git-master.nhost.vercel.app) for the latest docs build.
+
+# Road Map First Draft
+
+- [x] Quick Start
+- [x] PostgreSQL
+- [x] Hasura
+- [ ] GraphQL
+- [ ] Auth
+- [ ] Storage
+
 # Getting Started
 
 ## Install dependencies

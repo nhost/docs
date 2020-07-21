@@ -29,7 +29,13 @@ const AppContainer = styled.div`
 
 const mdComponents = {
   h1: (props) => {
-    const link_id = props.children.replace(/ /g, "-").toLowerCase();
+    let link_id = "";
+    try {
+      link_id = props.children.replace(/ /g, "-").toLowerCase();
+    } catch (error) {
+      console.log("unable to to use .replace");
+      console.log(props.children);
+    }
     return (
       <a href={`#${link_id}`}>
         <h1 id={link_id} {...props} />
@@ -37,7 +43,13 @@ const mdComponents = {
     );
   },
   h2: (props) => {
-    const link_id = props.children.replace(/ /g, "-").toLowerCase();
+    let link_id = "";
+    try {
+      link_id = props.children.replace(/ /g, "-").toLowerCase();
+    } catch (error) {
+      console.log("unable to to use .replace");
+      console.log(props.children);
+    }
     return (
       <a href={`#${link_id}`}>
         <h2 id={link_id} {...props} />

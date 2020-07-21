@@ -29,7 +29,7 @@ const AppContainer = styled.div`
 
 const mdComponents = {
   h1: (props) => {
-    const link_id = props.children.replace(" ", "-").toLowerCase();
+    const link_id = props.children.replace(/ /g, "-").toLowerCase();
     return (
       <a href={`#${link_id}`}>
         <h1 id={link_id} {...props} />
@@ -37,7 +37,8 @@ const mdComponents = {
     );
   },
   h2: (props) => {
-    const link_id = props.children.replace(" ", "-").toLowerCase();
+    console.log({ props });
+    const link_id = props.children.replace(/ /g, "-").toLowerCase();
     return (
       <a href={`#${link_id}`}>
         <h2 id={link_id} {...props} />

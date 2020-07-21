@@ -22,11 +22,11 @@
 
 ## Password
 
-| Endpoint                                                | Method | Description               |
-| ------------------------------------------------------- | ------ | ------------------------- |
-| [/auth/change-email/](#change-email-as-logged-in)       | POST   | Change email as logged in |
-| [/auth/change-email/request](#request-to-change-email)  | POST   | Request to change email   |
-| [/auth/change-email/request](#change-email-with-ticket) | POST   | Change email with ticket  |
+| Endpoint                                               | Method | Description               |
+| ------------------------------------------------------ | ------ | ------------------------- |
+| [/auth/change-email/](#change-email-as-logged-in)      | POST   | Change email as logged in |
+| [/auth/change-email/request](#request-to-change-email) | POST   | Request to change email   |
+| [/auth/change-email/change](#change-email-with-ticket) | POST   | Change email with ticket  |
 
 ## Two-factor authentication
 
@@ -101,6 +101,17 @@ Set-Cookie: permission_variables=...
   "jwt_expires_in": 900000
 }
 ```
+
+If Multi Factor Authentication (MFA) is enabled for the account the following response body is returned:
+
+```json
+{
+  "mfa": true,
+  "ticket": "..."
+}
+```
+
+For login with MFA, proceed authentication by requesting the [TOTP /auth/mfa/totp](#totp-login) endpoint.
 
 ---
 
@@ -327,6 +338,104 @@ auth.changePasswordChange(new_password: string, ticket: string);
 
 ```bash
 204 No Content
+```
+
+---
+
+## Enable Two-Factor Authentication
+
+Enable Two-Factor Authentication for a user
+
+### nhost-js-sdk
+
+_Not implemented yet_
+
+### Request
+
+`POST /auth/mfa/enable`
+
+```json
+{
+  "code": "123456"
+}
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+---
+
+## Disable Two-Factor Authentication
+
+Disable Two-Factor Authentication for a user
+
+### nhost-js-sdk
+
+_Not implemented yet_
+
+### Request
+
+`POST /auth/mfa/disable`
+
+```json
+{
+  "code": "code from mfa client"
+}
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+---
+
+## Generate MFA QR code
+
+Generate MFA QR code
+
+### nhost-js-sdk
+
+_Not implemented yet_
+
+### Request
+
+`POST /auth/mfa/generate`
+
+### Response
+
+```json
+{
+  "image_url": "<base64 data image of the qe code>",
+  "otp_secret": "<otp secret>"
+}
+```
+
+---
+
+## TOTP login
+
+Time-based One-time Password. Use the `ticket` from [Login](#login-user) reseponse body, if the account has activated MFA.
+
+### nhost-js-sdk
+
+_Not implemented yet_
+
+### Request
+
+`POST /auth/mfa/generate`
+
+### Response
+
+```json
+{
+  "image_url": "<base64 data image of the qe code>",
+  "otp_secret": "<otp secret>"
+}
 ```
 
 ---

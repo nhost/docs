@@ -34,16 +34,12 @@ By default all emails are sent with Nhost's SMTP settings from nhost.app using [
 
 ## More settings
 
-### Allow user self delete
-
-Allow users to delete their own account. [`/auth/delete](https://nhost.github.io/hasura-backend-plus/api.html#delete-account).
-
-#### Verify emails
+### Verify emails
 
 Send emails to verify (activate) a new account and verify a new email a user whish to change to.
 
 If Verify emails is disabled, Nhost won't send an activation email to new users nor send emails when a user whish to change their email. For user activation, you need to handle that your self (if you don't automatically activate new users). For email change, the email will be changed instantly with out verification.
 
-#### HIBP
+### HIBP
 
 Check all passwords on [haveibeenpwned.com](https://haveibeenpwned.com/). Weak and compromised passwords will not be accepted.

@@ -37,7 +37,6 @@ const mdComponents = {
     );
   },
   h2: (props) => {
-    console.log({ props });
     const link_id = props.children.replace(/ /g, "-").toLowerCase();
     return (
       <a href={`#${link_id}`}>

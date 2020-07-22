@@ -28,14 +28,14 @@
 | [/auth/change-email/request](#request-to-change-email) | POST   | Request to change email   |
 | [/auth/change-email/change](#change-email-with-ticket) | POST   | Change email with ticket  |
 
-## Two-factor authentication
+## MFA (Multi-Factor Authentication)
 
-| Endpoint                                                          | Method | Description                               |
-| ----------------------------------------------------------------- | ------ | ----------------------------------------- |
-| [/auth/mfa/enable](#enable-two-factor-authentication)             | POST   | Enable two-factor authentication          |
-| [/auth/mfa/disable](#disable-two-factor-authentication)           | POST   | Disable two-factor authentication         |
-| [/auth/mfa/generate](#generate-two-factor-authentication-qe-code) | POST   | Generate two-factor autenticatoin QR code |
-| [/auth/mfa/totp](#totp-login)                                     | POST   | TOTP login                                |
+| Endpoint                                    | Method | Description                               |
+| ------------------------------------------- | ------ | ----------------------------------------- |
+| [/auth/mfa/generate](#generate-mfa-qr-code) | POST   | Generate two-factor autenticatoin QR code |
+| [/auth/mfa/enable](#enable-mfa)             | POST   | Enable MFA                                |
+| [/auth/mfa/disable](#disable-mfa)           | POST   | Disable MFA                               |
+| [/auth/mfa/totp](#totp-login)               | POST   | TOTP login                                |
 
 ## Register user
 
@@ -340,15 +340,42 @@ auth.changePasswordChange(new_password: string, ticket: string);
 204 No Content
 ```
 
----
+## Generate MFA QR-code
 
-## Enable Two-Factor Authentication
-
-Enable Two-Factor Authentication for a user
+Generate MFA (Multi-Factor Authentication) QR-code. The user must be logged in to generate this QR-code. The user should scan the QR-code with their password manager. The password manager will return a `code` (one-time password) that will be used to [enable](#enable-mfa) and [disable](#disable-mfa) MFA for the user and login the user using [TOTP login](#totp-login).
 
 ### nhost-js-sdk
 
-_Not implemented yet_
+```ts
+auth.MFAGenerate(code: string, ticket: string);
+```
+
+### Request
+
+`POST /auth/mfa/generate`
+
+### Response
+
+```json
+{
+  "image_url": "<base64 data image of the qe code>",
+  "otp_secret": "<otp secret>"
+}
+```
+
+---
+
+---
+
+## Enable MFA
+
+Enable MFA (Multi-Factor Authentication). Use the `code` (one-time password) in the user's password manager
+
+### nhost-js-sdk
+
+```ts
+auth.MFAEnable(code: string);
+```
 
 ### Request
 
@@ -368,9 +395,9 @@ _Not implemented yet_
 
 ---
 
-## Disable Two-Factor Authentication
+## Disable MFA
 
-Disable Two-Factor Authentication for a user
+Disable MFA (Multi-Factor Authentication). Use the `code` (one-time password) in the user's password manager
 
 ### nhost-js-sdk
 
@@ -394,36 +421,15 @@ _Not implemented yet_
 
 ---
 
-## Generate MFA QR code
-
-Generate MFA QR code
-
-### nhost-js-sdk
-
-_Not implemented yet_
-
-### Request
-
-`POST /auth/mfa/generate`
-
-### Response
-
-```json
-{
-  "image_url": "<base64 data image of the qe code>",
-  "otp_secret": "<otp secret>"
-}
-```
-
----
-
 ## TOTP login
 
-Time-based One-time Password. Use the `ticket` from [Login](#login-user) reseponse body, if the account has activated MFA.
+**T**ime-based **O**ne-**T**ime **P**assword login. Use the `ticket` from [Login](#login-user) reseponse body and the `code` from the user's password manager.
 
 ### nhost-js-sdk
 
-_Not implemented yet_
+```ts
+auth.MFATotp(code: string, ticket: string);
+```
 
 ### Request
 

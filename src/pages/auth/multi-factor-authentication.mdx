@@ -1,0 +1,37 @@
+# Multi-Factor Authentication (MFA)
+
+Multi-Factor Authentication (MFA), also called Two-Factor Authentication (2FA) improves login security for users.
+
+Nhost uses [Time-based One-time Password algorithm](https://en.wikipedia.org/wiki/Time-based_One-time_Password_algorithm) (TOTP) for MFA.
+
+If MFA is enabled, a user must both use email/password and a **T**ime-based **O**ne-**T**ime **P**assword (TOPT) to be able to login.
+
+By default, users has MFA disabled.
+
+## How to enable for a user:
+
+- [Generate MFA QR code](/auth/api-reference#generate-mfa-qr-code)
+- Scan MFA QR code with password manager
+- Get a `code` (one-time password) from password manager
+- Use `code` to [enable MFA](/auth/api-reference#enable-mfa).
+
+## How to disable MFA for a user
+
+- Get a `code` (one-time password) from password manager
+- Use `code` to [disable MFA](/auth/api-reference#disable-mfa).
+
+## How to login when MFA is enabled
+
+- Login using email and password
+- Save `ticket` response from the login
+- Copy `code` one-time password from password manager
+- Send `ticket` and `code` to [TOTP login](/auth/api-reference#totp-login)
+- User is logged in.
+
+---
+
+## MFA clients
+
+If you have a password manager there is usally built in support for MFA.
+
+You can also use a stand-alone MFA client such as [Google Authenticator](https://support.google.com/accounts/answer/1066447).

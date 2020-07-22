@@ -1,1 +1,104 @@
-# Hasura tables
+# Tables
+
+You can manage your PostgreSQL database tables directly in the Hasura console.
+
+## Create table
+
+Creating a table in the Hausra Console (recommended) does two things:
+
+1. Creates the table in PostgreSQL.
+2. Hasura tracks the table and automatically generates a GraphQL API.
+
+> You can also [create tables directly in PostgreSQL](/postgresql/create-tables-in-postgresql).
+
+### How to create a table
+
+1. In the **Hasura Console**. Click on the **Add table** in the left menu.
+2. Choose a **Table name**.
+3. Add your **Columns**.
+4. Add a **Primary Key**. Usually this is your `id` column.
+5. (Optional) Add Foreign Keys if any.
+6. (Optional) Add Unique Keys.
+7. (Optional) Add a comment.
+8. Click **Add table**.
+
+### Frequently used columns
+
+Frequently used columns are a quick way to add frequently used columns.
+
+![Frequently used columns in the Hasura console](/images/hasura/frequently-used-columns.png)
+
+#### id (integer)
+
+Creates a column called `id` with an `Integer` type. The column automatically increments for every row.
+
+Example values: `1,2,3`.
+
+**Why use Integers?**
+
+Integers can be sorted based on when the row was created. They are also easier to remember and debug.
+
+---
+
+#### id (bigint)
+
+Same as id (integer) but can hold larger values.
+
+---
+
+#### id (UUID)
+
+Creates a column called `id` with an `UUID` type. The column automatically generates a new UUID for every row.
+
+Example value: `cc3d4bc2-39a8-4efc-9ef0-c71b899d113a`
+
+**Why use UUID?**
+
+UUIDs does not leak information about the number of rows in your database. Using a UUID also means that one ID is unique across all databases in the world.
+
+---
+
+##### created_at
+
+Automatically sets the row to the date of creation. **The value will stay the same if a row is updated**. The date is a timestamp with timezone data.
+
+Example value: `2019-09-23T15:07:09.548632+00:00`
+
+---
+
+##### updated_at
+
+Automatically sets the row to the date of creation. **This will update to the current date every time a row is updated**. The date is a timestamp with timezone data.
+
+Example value: `2019-09-23T15:07:09.548632+00:00`
+
+---
+
+## Modify table
+
+1. Click on the **table** you want to edit in the left menu.
+2. Click on **Modify**.
+3. Modify the table column.
+
+## Delete table
+
+1. Click on the **table** you want to delete in the left menu.
+2. Click on **Modify**.
+3. Scroll to the bottom and click on **Delete table**.
+4. Type the **name of the table** you want to delete and **click OK** to confirm deletion.
+
+> The table you want to delete might have existingl relationships tracked by Hasura. When you try to delete such a table you will be asked to extra confirmation to delete those relationships too.
+
+## Track tables
+
+If you create tables directly into PostgreSQL (not via the Hasura console) you must track those tables in the Hasura console. When you track a table the GraphQL API gets updated automatically to include the fields.
+
+1. Click on **Data** in the top menu.
+2. A list of untracked tables is presented.
+3. Click **Track All** (recommended) or click **Track** for each table you want to track.
+
+## Track foreign-key relations
+
+1. Click on **Data** in the top menu.
+2. A list of untracked foreign-key relations is presented.
+3. Click **Track All** (recommended) or click **Track** for each relationship you want to track.

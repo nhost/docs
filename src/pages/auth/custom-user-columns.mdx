@@ -1,0 +1,34 @@
+# Custom user columns
+
+You can add any custom columns to the `users` table.
+
+> Don't remove any predefined user columns.
+
+## JWT claims
+
+All custom columns on the `users` table can be added to the JWT-token as claims. These claims can then be used to set [Hasura permissions](/hasura/permissions).
+
+As an example, let's say you have a `company` table and a `company_id` column to the `users` table. With that, you can now add `company_id` as a `x-hasura-company-id` key to your JWT claims.
+
+![Add custom claim to your JWT-token for Hasura](/images/auth/custom-user-claim.png)
+
+The new JWT-token will contain the `company_id` as `x-hasura-company-id`.
+
+```json
+{
+  "https://hasura.io/jwt/claims": {
+    "x-hasura-user-id": "f1126a1e-49e8-47b9-b9cc-e6dd5d568c7e",
+    "x-hasura-allowed-roles": ["user"],
+    "x-hasura-default-role": "user",
+    "x-hasura-company-id": "b3b70430-49db-4c06-b365-efb498e59913"
+  },
+  "iat": 1595247544,
+  "exp": 1595247844
+}
+```
+
+`x-hasura-company-id` can now be used as permission variable for Hasura permissions.
+
+In the example below a user is allowed to select information about their own company (id = `x-hasura-company-id`).
+
+![](/images/auth/permission-using-custom-claim.png)

@@ -1,0 +1,19 @@
+# Github OAuth
+
+To enable Github as a Auth provider you must first create an OAuth App in [Github](http://github.com/). Got Settings -> OAuth apps to create a new OAtuh app.
+
+![Create Github OAuth App](/images/auth/github-1.png)
+
+Give the application a name, ex auth test. Set a homepage URL. The homepage URL must match the URL from where the callback is initiated from. So if you develop on your local computer you might want to set the Homepage URL to `http://localhost:3000`. Next set the AUthorization callback URL. This URL is preconfigured for you in your Nhost project. Just copy the callback URL from your Nhost console (see the last image on this page) and insert it here.
+
+![Create Github OAuth App](/images/auth/github-2.png)
+
+The app is now created in Github. It's time to copy the Client ID and Client Secret back to your Nhost project.
+
+![Create Github OAuth App](/images/auth/github-3.png)
+
+![Create Github OAuth App](/images/auth/github-4.png)
+
+Your app is now configured with Github and users can now register and sign in with Github.
+
+To register users, simply direct them to `https://backend-xxx.nhost.app/auth/providers/github`.

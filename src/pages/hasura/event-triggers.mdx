@@ -1,0 +1,38 @@
+# Event triggers
+
+Hasura can trigger webhooks on events (insert, update, delete) happening in the database.
+
+> The event in the database **does not have to** come via the GraphQL API.
+
+As an example, let's imagine you are building a e-commerce system and you want to send an email when for every new order. To acheive that, create an event trigger on `insert` for the `orders` table. Now for every new order Hasura will send a webhook with the order-information for all new orders.
+
+In the webhook, you get all order information and can send an email to the customer.
+
+## API
+
+You can use any other hosting service to host your API that will receive webhooks from Hasuras event triggers. We recommend [Netlify](http://netlify.com/) or [Vercel](https://vercel.com/) because they are easy to get started with.
+
+## Security
+
+To make sure that the request your API receives comes from your Hasura instance, and not a hacker, you can send a header (`x-secret-header`) with the webhook.
+
+Your Nhost project is prepared with an environment variable you can use for this specific purpose called `SECRET_WEBHOOK_HEADER`. You can find it under **Settings** in the Nhost console.
+
+![Nhost secret header](/images/hasura/nhost-secret-header.png)
+
+Use the `SECRET_WEBHOOK_HEADER` as a header for the webhook event trigger. You can name the header anything, ex `x-secret-header`.
+
+![Hasura secret header](/images/hasura/hasura-secret-header.png)
+
+In your API, when you receive the webhook, you can control that the header (`x-secret-header`) is correct.
+
+```js
+const x_hasura_webhook_secret = "value of `SECRET_WEBHOOK_HEADER`";
+
+if (req.headers["x-secret-header"] !== x_secret_header) {
+  // If `x-secret-header` is incorrect, stop execution.
+  return send(res, 401, "incorrect secret");
+
+  // continue with your webhook
+}
+```

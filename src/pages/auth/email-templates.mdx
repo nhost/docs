@@ -1,0 +1,45 @@
+# Email templates
+
+## Activate account
+
+Email for new users to activate their account.
+
+This email is sent if the setting **Auto activate users is off** and **Verify email is On**. Change settings under **Settings -> Auth** in the Nhost console.
+
+### Variables available
+
+- display_name (user's display name)
+- ticket (UUID to be used to activate the account)
+- server (backend server url, usually `https://backend-xxx.nhost.app`)
+
+## Password reset
+
+Email to users requesting to change their password, usually because the user has forgot their current password.
+
+The URL in this email should go to your app with a form to change the user's password. Use the ticket to authenticate the [password change request](https://nhost.github.io/hasura-backend-plus/api.html#change-password-change).
+
+_Example coming soon._
+
+## Change email
+
+Email for users requesting to change their current email. This email is sent to the new email address the user wants to change to, in order to confirm the new email address.
+
+The URL in this email should go to your app. Your app should receive the ticket and [change the email](https://nhost.github.io/hasura-backend-plus/api.html#change-email-change).
+
+_Example coming soon._
+
+## SMTP settings
+
+By default all emails are sent with Nhost's SMTP settings from nhost.app using [Sendgrid](https://sendgrid.com/). You can change the SMTP settings att **Settings -> SMTP** (TODO: UI not implmented, contact us at [Discord](https://nhost.io/discord) and we'll change it manually for you).
+
+## More settings
+
+### Verify emails
+
+Send emails to verify (activate) a new account and verify a new email a user whish to change to.
+
+If Verify emails is disabled, Nhost won't send an activation email to new users nor send emails when a user whish to change their email. For user activation, you need to handle that your self (if you don't automatically activate new users). For email change, the email will be changed instantly with out verification.
+
+### HIBP
+
+Check all passwords on [haveibeenpwned.com](https://haveibeenpwned.com/). Weak and compromised passwords will not be accepted.

@@ -1,0 +1,447 @@
+# API Reference for Authentication
+
+## User
+
+| Endpoint                                    | Method | Description           |
+| ------------------------------------------- | ------ | --------------------- |
+| [/auth/register](#register-user)            | POST   | Register user         |
+| [/auth/login](#login-user)                  | POST   | Login user            |
+| [/auth/logout](#logout-user)                | POST   | Logout user           |
+| [/auth/activate](#activate-user)            | POST   | Activate user         |
+| [/auth/token/refresh](#refresh-token)       | GET    | Get new refresh token |
+| [/auth/token/revoke](#revoke-refresh-token) | POST   | Revoke refresh token  |
+| [/auth/delete](#delete-user)                | POST   | Delete user           |
+
+## Email
+
+| Endpoint                                                     | Method | Description                  |
+| ------------------------------------------------------------ | ------ | ---------------------------- |
+| [/auth/change-password/](#change-password)                   | POST   | Change password as logged in |
+| [/auth/change-password/request](#request-to-change-password) | POST   | Request to change password   |
+| [/auth/change-password/change](#change-password-with-ticket) | POST   | Change password with ticket  |
+
+## Password
+
+| Endpoint                                               | Method | Description               |
+| ------------------------------------------------------ | ------ | ------------------------- |
+| [/auth/change-email/](#change-email-as-logged-in)      | POST   | Change email as logged in |
+| [/auth/change-email/request](#request-to-change-email) | POST   | Request to change email   |
+| [/auth/change-email/change](#change-email-with-ticket) | POST   | Change email with ticket  |
+
+## MFA (Multi-Factor Authentication)
+
+| Endpoint                                    | Method | Description          |
+| ------------------------------------------- | ------ | -------------------- |
+| [/auth/mfa/generate](#generate-mfa-qr-code) | POST   | Generate MFA QR-code |
+| [/auth/mfa/enable](#enable-mfa)             | POST   | Enable MFA           |
+| [/auth/mfa/disable](#disable-mfa)           | POST   | Disable MFA          |
+| [/auth/mfa/totp](#totp-login)               | POST   | TOTP login           |
+
+## Register user
+
+Register a new user.
+
+### nhost-js-sdk
+
+```js
+auth.register(email, password);
+```
+
+### Request
+
+`POST /auth/register`
+
+```json
+{
+  "email": "elon@tesla.com",
+  "password": "password"
+}
+```
+
+### Response
+
+```
+204 No Content
+```
+
+---
+
+## Login user
+
+Login user
+
+### nhost-js-sdk
+
+```js
+auth.login(email, password);
+```
+
+### Request
+
+`POST /auth/login`
+
+```json
+{
+  "email": "marc@facebook.com",
+  "password": "password"
+}
+```
+
+### Response
+
+```bash
+Set-Cookie: refresh_token=...
+Set-Cookie: permission_variables=...
+```
+
+```json
+{
+  "mfa": <boolean>,
+  "jwt_token": "<jwt-token>",
+  "jwt_expires_in": 900000
+}
+```
+
+If Multi Factor Authentication (MFA) is enabled for the account the following response body is returned:
+
+```json
+{
+  "mfa": true,
+  "ticket": "..."
+}
+```
+
+For login with MFA, proceed authentication by requesting the [TOTP /auth/mfa/totp](#totp-login) endpoint.
+
+---
+
+## Logout user
+
+Logout user.
+
+### nhost-js-sdk
+
+```ts
+auth.logout(all: boolean = false);
+```
+
+### Request
+
+`POST /auth/login?all=<boolean = false>`
+
+if `all = true` all of the user's refresh token will be revoked from the database, effectevly logging out the user from all devices. If `all = false` only the current refresh token will be deleted and the user will only logout from the current device. `all` is optional and defaults to `false`.
+
+### Response
+
+```json
+204 No Content
+```
+
+---
+
+## Activate user
+
+Activate user.
+
+This is only needed if users is not automatically activated. If users are not automatically activated Nhost will send an email, containing the activation URL, to the user to activate their account. The [email template for account activate](/auth/email-templates#activate-account) can be edited.
+
+### nhost-js-sdk
+
+```ts
+auth.activate(ticket: string);
+```
+
+### Request
+
+`POST /auth/activate?ticket=<ticket>`
+
+### Response
+
+```json
+204 No Content
+```
+
+---
+
+## Get refresh token
+
+When a user login Nhost will set a refresh-token as a cookie. That refresh-token is used to request a new JWT-token, since JWT-tokens are short lived (15 min). Refresh-tokens are long lived (1 year).
+
+The refresh-token cookie is a `Secure` `HttpOnly` cookie and can not be accessed by the browser because only Nhost should be able to read the cookie.
+
+### nhost-js-sdk
+
+[`nhost-js-sdk`](/libraries/nhost-js-sdk) automatically handle refreshing-tokens for logged in users in the background. No action required.
+
+### Request
+
+`GET /auth/token/refresh`
+
+```bash
+Cookie: refresh_token=<current_refresh_token>
+```
+
+### Response
+
+```bash
+Cookie: refresh_token=<new_refresh_token>
+```
+
+```json
+{
+  "jwt_token": "new jwt-token",
+  "jwt_expires_in": 900000
+}
+```
+
+---
+
+## Revoke refresh-token
+
+Revoke a refresh-token.
+
+### nhost-js-sdk
+
+_not implemented_
+
+### Request
+
+`GET /auth/token/refresh`
+
+```bash
+Cookie: refresh_token=<current_refresh_token>
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+---
+
+## Delete user
+
+Used so user can delete them selfs. This will delete the user in the `users` table which will cascade and delete all associated data for the particular user if `ON DELETE CASCADE` is set for Foreign keys.
+
+This endpoint is only active if you allow users to delete them selfs in **Settings -> Authentication**. (Not implemented yet, default value is **Not active**)
+
+### nhost-js-sdk
+
+_not implemented_
+
+### Request
+
+`POST /auth/delete`
+
+```bash
+Set-Cookie: refresh_token=...
+Set-Cookie: permission_variables=...
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+---
+
+## Change password
+
+For users to change their password when they are logged in and remember their previous password.
+
+### nhost-js-sdk
+
+```ts
+auth.changePassword(old_password: string, new_password: string);
+```
+
+### Request
+
+`POST /auth/change-password`
+
+```bash
+Set-Cookie: refresh_token=...
+Set-Cookie: permission_variables=...
+```
+
+```json
+{
+  "old_password": "<old password>",
+  "new_password": "<new password>"
+}
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+---
+
+## Request to change password
+
+If a user has forget their password they can request to change their password.
+
+An email will be sent out to the user with a `ticket` that should be used to update the user's password. You can change the [password reset email template](/auth/email-templates#password-reset).
+
+### nhost-js-sdk
+
+```ts
+auth.changePasswordRequest(email: string);
+```
+
+### Request
+
+`POST /auth/change-password/request`
+
+```json
+{
+  "email": "<user's email>"
+}
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+> This endpoint will always return HTTP status code 204 in order to not leak information about the database.
+
+---
+
+## Change password with ticket
+
+Change password with ticket from the email.
+
+### nhost-js-sdk
+
+```ts
+auth.changePasswordChange(new_password: string, ticket: string);
+```
+
+### Request
+
+`POST /auth/change-password/change`
+
+```json
+{
+  "new_password": "<new password>",
+  "ticket": "<ticket>"
+}
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+## Generate MFA QR-code
+
+Generate MFA (Multi-Factor Authentication) QR-code. The user must be logged in to generate this QR-code. The user should scan the QR-code with their password manager. The password manager will return a `code` (one-time password) that will be used to [enable](#enable-mfa) and [disable](#disable-mfa) MFA for the user and login the user using [TOTP login](#totp-login).
+
+### nhost-js-sdk
+
+```ts
+auth.MFAGenerate(code: string, ticket: string);
+```
+
+### Request
+
+`POST /auth/mfa/generate`
+
+### Response
+
+```json
+{
+  "image_url": "<base64 data image of the qe code>",
+  "otp_secret": "<otp secret>"
+}
+```
+
+---
+
+---
+
+## Enable MFA
+
+Enable MFA (Multi-Factor Authentication). Use the `code` (one-time password) in the user's password manager
+
+### nhost-js-sdk
+
+```ts
+auth.MFAEnable(code: string);
+```
+
+### Request
+
+`POST /auth/mfa/enable`
+
+```json
+{
+  "code": "123456"
+}
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+---
+
+## Disable MFA
+
+Disable MFA (Multi-Factor Authentication). Use the `code` (one-time password) in the user's password manager
+
+### nhost-js-sdk
+
+_Not implemented yet_
+
+### Request
+
+`POST /auth/mfa/disable`
+
+```json
+{
+  "code": "code from mfa client"
+}
+```
+
+### Response
+
+```bash
+204 No Content
+```
+
+---
+
+## TOTP login
+
+**T**ime-based **O**ne-**T**ime **P**assword login. Use the `ticket` from [Login](#login-user) reseponse body and the `code` from the user's password manager.
+
+### nhost-js-sdk
+
+```ts
+auth.MFATotp(code: string, ticket: string);
+```
+
+### Request
+
+`POST /auth/mfa/generate`
+
+### Response
+
+```json
+{
+  "image_url": "<base64 data image of the qe code>",
+  "otp_secret": "<otp secret>"
+}
+```
+
+---

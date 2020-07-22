@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Header } from "components/header";
 import { Menu } from "components/menu";
+import { MDXProvider } from "@mdx-js/react";
 import "../style.css";
 import "prismjs/themes/prism-okaidia.css";
 
@@ -26,26 +27,59 @@ const AppContainer = styled.div`
   }
 `;
 
+const mdComponents = {
+  h1: (props) => {
+    let link_id = "";
+    try {
+      link_id = props.children.replace(/ /g, "-").toLowerCase();
+    } catch (error) {
+      console.log("unable to to use .replace");
+      console.log(props.children);
+    }
+    return (
+      <a href={`#${link_id}`}>
+        <h1 id={link_id} {...props} />
+      </a>
+    );
+  },
+  h2: (props) => {
+    let link_id = "";
+    try {
+      link_id = props.children.replace(/ /g, "-").toLowerCase();
+    } catch (error) {
+      console.log("unable to to use .replace");
+      console.log(props.children);
+    }
+    return (
+      <a href={`#${link_id}`}>
+        <h2 id={link_id} {...props} />
+      </a>
+    );
+  },
+};
+
 export default function App({ Component, pageProps }) {
   return (
-    <AppContainer>
-      <Header />
-      <div className="menu-container">
-        <div className="menu-content">
-          <Menu />
+    <MDXProvider components={mdComponents}>
+      <AppContainer>
+        <Header />
+        <div className="menu-container">
+          <div className="menu-content">
+            <Menu />
+          </div>
         </div>
-      </div>
-      <div className="main-container">
-        <Component {...pageProps} />
-      </div>
-      <div className="discort-button-style">
-        <img
-          src={"images/openchat.png"}
-          alt=""
-          onClick={() => window.open("https://nhost.io/discord", "_blank")}
-          style={{width:120}}
-        />
-      </div>
-    </AppContainer>
+        <div className="main-container">
+          <Component {...pageProps} />
+        </div>
+        <div className="discort-button-style">
+          <img
+            src={"images/openchat.png"}
+            alt=""
+            onClick={() => window.open("https://nhost.io/discord", "_blank")}
+            style={{width:120}}
+          />
+        </div>
+      </AppContainer>
+    </MDXProvider>
   );
 }

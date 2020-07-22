@@ -1,0 +1,23 @@
+# Custom Schemas (advance usage)
+
+For most Nhost projects you will only use the default schema (`public`). If you need other schemas Haura supports that too.
+
+## Adding a schema
+
+To add a schema, click the '+' symbol in the left menu in the Hasura console.
+
+![Add new database schema in Hasura](/images/postgresql/new-schema.png)
+
+Here, we have created a chat schema, with no tables. You can change schemas via the schema dropdown on the top left.
+
+![Chat schema](/images/postgresql/chat-schema.png)
+
+When you create a table, you can create foreign key constraints between schemas:
+
+![Foreign keys](/images/postgresql/fk.png)
+
+You can access tables from a different schema from the GraphQL endpoint, note that the schema name is prepended (`chat_`) to the table name:
+
+![GraphQL Naming on non-default schemas](/images/postgresql/graphql-naming-on-non-default-schemas.png)
+
+> Custom schemas prepend the schema name to the GraphQL field. All tables in the public schema are accessible via Hasura without the schema name.

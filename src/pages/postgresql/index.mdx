@@ -1,0 +1,33 @@
+# PostgreSQL
+
+Every Nhost project comes with a PostgreSQL database.
+
+## Version
+
+Nhost support PostgreSQL version: 9.6, 10.5, 11.5 and 12.0 and you select what version you want when you create your Nhost project.
+
+![Select PostgreSQL version](/images/postgresql/select-postgresql-version.png)
+
+You can not change PostgreSQL version in the Nhost console. [Contact us](mailto:support@nhost.io) if you want to change PostgreSQL version on an existing Nhost project.
+
+## Access
+
+You have **full access** to your PostgreSQL database. Each database is preconfigured with SSL certificate. All **PostgreSQL access details** can be found under **PostgreSQL**
+
+The Connection String looks like this:
+
+```
+postgresql://postgres:<password>@backend-xxx.nhost.app:<port>/postgres?sslmode=require
+```
+
+> Click **Show password** before you copy the connection string.
+
+You can use any [PostgreSQL client](https://wiki.postgresql.org/wiki/PostgreSQL_Clients). We will use [Table Plus](https://tableplus.com/) in this example.
+
+Right-click and select New > Connecting from URL. Paste your Connection String and connect to your database.
+
+![Connect to Nhost PostgreSQL using URL](/images/postgresql/connection-url.png)
+
+We are now connected to the database and have full access to tables, functions and everything else in PostgreSQL.
+
+![Connected to Nhost PostgreSQL database](/images/postgresql/connected.png)

@@ -71,6 +71,14 @@ export default function App({ Component, pageProps }) {
         <div className="main-container">
           <Component {...pageProps} />
         </div>
+        <div className="discort-button-style">
+          <img
+            src={"images/openchat.png"}
+            alt=""
+            onClick={() => window.open("https://nhost.io/discord", "_blank")}
+            style={{width:120}}
+          />
+        </div>
       </AppContainer>
     </MDXProvider>
   );

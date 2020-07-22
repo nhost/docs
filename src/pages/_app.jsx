@@ -76,7 +76,7 @@ export default function App({ Component, pageProps }) {
             src={"images/openchat.png"}
             alt=""
             onClick={() => window.open("https://nhost.io/discord", "_blank")}
-            style={{width:120}}
+            style={{ width: 120 }}
           />
         </div>
       </AppContainer>

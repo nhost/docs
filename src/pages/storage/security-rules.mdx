@@ -24,9 +24,13 @@ paths:
 In the above example we have the following rules:
 
 - Anyone can read files located in the `/public*` folder. Because we use a `*` all paths that starts with `/public` will be covered by this rule. Ex: `/public/image.png` and `/public/other-path/cv.pdf`.
--
+- Only logged in users are allowed to write to `/public*`.
+- Anyone can read files from `/users/:userId/:fileName`. Ex: `/users/1/image.png`.
+- Only logged in users can write to their own directory. Ex user with id `1` can upload a file to `/users/1/image.png` but not to `/users/2/image.png`.
 
-Storage Rules follows this standard:
+## Structure
+
+Storage Rules follows this structure:
 
 ```yaml
 functions:

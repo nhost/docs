@@ -1,3 +1,14 @@
+import { Post } from "components/post";
+
+export const meta = {
+  title: `Nhost documentation`,
+  description: `Discover and learn Nhost to get your Jamstack backend with Hasura.`,
+  editUrl: "/blob/master/src/pages/index.mdx",
+  lastEdited: "2020-07-23 13:53:47",
+};
+
+<Post meta={meta}>
+
 # Nhost documentation
 
 Welcome to Nhost's documentation!
@@ -17,12 +28,12 @@ Nhost is inspired by Google Firebase, but we use SQL and GraphQL (and 100% open 
 
 ## PostgresQL
 
-PostgreSQL is the world's most advanced open source relational database. Mostly your client will access the GraphQL endpoint, and you will manage your database with the Hasura console, but Nhost also gives you direct access to your database for advanced usage.
+PostgreSQL is the world's most advanced open-source relational database. Mostly your client will access the GraphQL endpoint, and you will manage your database with the Hasura console, but Nhost also gives you direct access to your database for advanced usage.
 
 ## Hasura
 
 Hasura provides an instant realtime GraphQL API on your database. Nhost gives you access to the Hasura console which enables you to configure your PostgreSQL database and even directly run SQL functions.
-As well as giving you access to your tables, Hasura also provides aggregate functions, which can be used to count or sum your data, or return avg, max ormin values.
+As well as giving you access to your tables, Hasura also provides aggregate functions, which can be used to count or sum your data, or return avg, max or min values.
 
 ## GraphQL
 
@@ -41,3 +52,5 @@ Let users upload and download files. Control what users are allowed to read/writ
 ## Open Source
 
 All software in a Nhost project is **open source**. This means **no vendor lock-in**.
+
+</Post>

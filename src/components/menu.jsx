@@ -182,6 +182,7 @@ const menu_graphql = [
 const menu_auth = [
   {
     name: "Auth",
+    path: "/auth",
     menu: [
       {
         link: "/auth",
@@ -194,6 +195,7 @@ const menu_auth = [
       {
         // link: "/auth/local-users",
         name: "OAuth providers",
+        path: "/auth/oauth-providers",
         menu: [
           {
             link: "/auth/oauth-providers",
@@ -316,8 +318,17 @@ export function Menu(props) {
   );
 }
 
+function menuShouldStartOpen(menu, router) {
+  if (!menu) return false;
+  if (menu.length < 1) return false;
+
+  return router.pathname.startsWith(menu[0].path);
+}
+
 function MenuUL({ menu, router }) {
-  const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const [subMenuOpen, setSubMenuOpen] = useState(
+    menuShouldStartOpen(menu, router)
+  );
 
   if (!menu) return null;
 
@@ -327,7 +338,11 @@ function MenuUL({ menu, router }) {
         const cssClass = item.link === router.pathname ? "active" : "";
 
         function showSubMenu() {
-          return subMenuOpen || router.pathname.startsWith(item.link);
+          return (
+            subMenuOpen ||
+            router.pathname.startsWith(item.link) ||
+            router.pathname.startsWith(item.path)
+          );
         }
 
         return (

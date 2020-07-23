@@ -322,6 +322,9 @@ function menuShouldStartOpen(menu, router) {
   if (!menu) return false;
   if (menu.length < 1) return false;
 
+  console.log(router.pathname);
+  console.log(menu);
+
   return router.pathname.startsWith(menu[0].path);
 }
 

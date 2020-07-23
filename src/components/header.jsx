@@ -3,25 +3,28 @@ import styled from "styled-components";
 import Link from "next/link";
 
 const HeaderContainer = styled.div`
-  display: grid;
-  grid-column: full;
-  grid-template-columns: inherit;
+  grid-area: header;
+  box-shadow: 0 3px 8px 0 rgba(116, 129, 141, 0.1);
+  border-bottom: 1px solid #d4dadf;
 
-  height: 65px;
-  border-bottom: 1px solid #e7e7e7;
-
-  .main-container {
-    grid-column: main;
+  .header-container {
     display: flex;
-    align-items: center;
+    height: 100%;
 
-    .main-container--left {
+    .header-container--left {
+      height: 100%;
+      a {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
       .logo {
-        height: 60px;
+        height: 35px;
+        margin-left: 1rem;
       }
     }
 
-    .main-container--right {
+    .header-container--right {
       display: flex;
       margin-left: auto;
       .menu {
@@ -56,15 +59,15 @@ const HeaderContainer = styled.div`
 export function Header(props) {
   return (
     <HeaderContainer>
-      <div className="main-container">
-        <div className="main-container--left">
+      <div className="header-container">
+        <div className="header-container--left">
           <Link href="/">
             <a>
               <img src="/images/logo.svg" alt="Nhost logo" className="logo" />
             </a>
           </Link>
         </div>
-        <div className="main-container--right">
+        <div className="header-container--right">
           <div className="menu">Docs</div>
         </div>
       </div>

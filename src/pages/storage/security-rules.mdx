@@ -171,7 +171,7 @@ functions:
   validToken: 'return request.query.token === resource.Metadata.token'`
 paths:
   /data*
-    read: validToken()
+    read: 'validToken()'
 ```
 
 Given our `validToken` rule, anyone can access `/data/document.txt` with the `token` like this: `https://backend-xxx.nhost.app/storage/o/data/document.txt?token=6a587e56-04d4-415d-bb2c-9a39491e31d2`.

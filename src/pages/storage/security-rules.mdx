@@ -148,7 +148,7 @@ You can also use helper operations:
 
 When a file gets uploaded Nhost Storage will automatically generate a `token` (access token) for the file. The `token` will be added to the file's metadata.
 
-Let's say you upload a file to `/data/document.txt`:
+Let's say you upload a file to `/data/document.txt` and get this as return data:
 
 ```json
 {
@@ -174,4 +174,4 @@ paths:
     read: 'validToken()'
 ```
 
-Given our `validToken` function, anyone can access `/data/document.txt` with the `token` like this: `https://backend-xxx.nhost.app/storage/o/data/document.txt?token=6a587e56-04d4-415d-bb2c-9a39491e31d2`.
+Now, given our `validToken` function, anyone can access `/data/document.txt` with the `token` like this: `https://backend-xxx.nhost.app/storage/o/data/document.txt?token=6a587e56-04d4-415d-bb2c-9a39491e31d2`.

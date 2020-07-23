@@ -1,0 +1,141 @@
+# Nhost Storage Security Rules
+
+All files in Nhost Storage are protected with Security Rules.
+
+With security rules, you can set granular access on **who** is allowed to do **what** based on the user and the file.
+
+Security rules are written in yaml format.
+
+Here is an example security rules.
+
+```yaml
+functions:
+  isAuthenticated: "return !!request.auth"
+  isOwner: "return !!request.auth && userId === request.auth['user-id']"
+paths:
+  /public*:
+    read: "true"
+    write: "isAuthenticated()"
+  /users/:userId/:fileName:
+    read: "public()"
+    write: "isOwner(userId)"
+```
+
+In the above example we have the following rules:
+
+- Anyone can read files located in the `/public*` folder. Because we use a `*` all paths that starts with `/public` will be covered by this rule. Ex: `/public/image.png` and `/public/other-path/cv.pdf`.
+-
+
+Storage Rules follows this standard:
+
+```yaml
+functions:
+  functionName: "one line javascript that returns true or false"
+paths:
+  /path/to/file.png:
+    operation: "true/false or functionName()"
+    operation: "true/false or functionName()"
+    operation: "true/false or functionName()"
+  /path/to/folder:
+    operation: "true/false or functionName()"
+    operation: "true/false or functionName()"
+    operation: "true/false or functionName()"
+  /path/to/folder*:
+    operation: "true/false or functionName()"
+    operation: "true/false or functionName()"
+    operation: "true/false or functionName()"
+```
+
+## Paths
+
+Paths are specified under the `paths:` directive and specifies that path to the file or folder that you want to set rules for.
+
+### Path Variables
+
+You can use path variables in the path to capture values specified at their position in the URL. These path variables can be used in the security rules functions.
+
+Below is an example where we capture `:userId` as a variable in the URL and use that same `userId` variable to resolve `userId === request.auth['user-id']` in the `isOwner` function.
+
+```yaml
+functions:
+  isOwner: "return !!request.auth && userId === request.auth['user-id']"
+paths:
+  /users/:userId/:fileName:
+    write: "isOwner(userId)"
+```
+
+You can **not** nest paths like this:
+
+```yaml
+paths:
+  /path/to/:
+    read: "true/false or functionName()"
+    /then/:
+      read: "true/false or functionName()"
+```
+
+## Functions
+
+You can use a function to resolve if a request should be allowed or not. A function can access information from the user making the request, file metadata and path variables.
+
+A funtion must return `true` or `false`.
+
+Functions are placed after the `functions:` directive and can be used after an operation like this:
+
+```yaml
+functions:
+  public: "return true"
+paths:
+  /open-access*:
+    read: "public()"
+    write: "public()"
+```
+
+Functions can take arguments from the file path. In the example below we'll allow anyone to read a file located in `/users/:userId` but only users are allowed to write in their own folder with the name of their user id.
+
+```yaml
+functions:
+  public: "return true"
+  isOwner: "return !!request.auth && userId === request.auth['user-id']"
+paths:
+  /users/:userId/:fileName:
+    read: "public()"
+    write: "isOwner(userId)"
+```
+
+Who is allowed to do what given the rules above?
+
+| User id       | Path                 | Operation     | Allowed? |
+| ------------- | -------------------- | ------------- | -------- |
+| 1             | `/users/1/image.png` | read (GET)    | Yes      |
+| 1             | `/users/2/image.png` | read (GET)    | Yes      |
+| 1             | `/users/1/image.png` | write (POST)  | Yes      |
+| 1             | `/users/2/image.png` | write (POST)) | No       |
+| Not logged in | `/users/2/image.png` | read (GET))   | Yes      |
+| Not logged in | `/users/1/image.png` | write (POST)) | No       |
+| Not logged in | `/users/2/image.png` | write (POST)) | No       |
+
+### Available variables
+
+#### Path variables
+
+Path variables can be accessed in function if they are present in the path (`/users/:myVariable`) and sent as a parameter to the function `isOwner(myVariable)`.
+
+#### User
+
+You can access user information at `request.auth['']`. All
+
+## Operations
+
+The following operations can be used:
+
+- `create` Upload new file
+- `update` Overwrite existing file
+- `get` - Get file
+- `list` - List files in directory
+- `delete` - Delete file
+
+You can also use helper operations:
+
+- `read` is the same as `create` and `update` and `delete`.
+- `write` is the same as `get` and `list`.

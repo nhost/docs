@@ -143,3 +143,35 @@ You can also use helper operations:
 
 - `read` is the same as `create` and `update` and `delete`.
 - `write` is the same as `get` and `list`.
+
+## Access Token
+
+When a file gets uploaded Nhost Storage will automatically generate a `token` (access token) for the file. The `token` will be added to the file's metadata.
+
+Let's say you have the following security rules:
+
+```yaml
+functions:
+  validToken: 'return request.query.token === resource.Metadata.token'`
+paths:
+  /data*
+    read: validToken()
+```
+
+Now we upload a file to `/data/document.txt` and get this as return data:
+
+```json
+{
+  "key": "/data/document.txt",
+  "AcceptRanges": "bytes",
+  "LastModified": "2020-01-01T01:02:03.000Z",
+  "ContentLength": 12345,
+  "ETag": "Etag",
+  "ContentType": "text/plain",
+  "Metadata": {
+    "token": "6a587e56-04d4-415d-bb2c-9a39491e31d2"
+  }
+}
+```
+
+Given our `validToken` rule anyone can access `/data/document.txt` with the `token` like this: `https://backend-xxx.nhost.app/storage/o/data/document.txt?token=6a587e56-04d4-415d-bb2c-9a39491e31d2`.

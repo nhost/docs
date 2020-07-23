@@ -9,7 +9,7 @@ See [docs-git-master.nhost.vercel.app](https://docs-git-master.nhost.vercel.app)
 - [x] Hasura
 - [ ] GraphQL
 - [x] Auth
-- [ ] Storage
+- [x] Storage
 
 # Getting Started
 

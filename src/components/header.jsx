@@ -67,9 +67,6 @@ export function Header(props) {
             </a>
           </Link>
         </div>
-        <div className="header-container--right">
-          <div className="menu">Docs</div>
-        </div>
       </div>
     </HeaderContainer>
   );

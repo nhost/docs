@@ -31,9 +31,34 @@ const AppContainer = styled.div`
     height: calc(100vh - 65px);
     overflow-y: auto;
     padding: 0 3rem;
+    padding-bottom: 10rem;
 
     .main-container-width {
       max-width: 90rem;
+    }
+  }
+
+  .discort-button-style {
+    position: absolute;
+    bottom: 0;
+    right: 3rem;
+    font-size: 1.4rem;
+    padding: 1rem 1rem 0.3rem;
+    box-shadow: 0 0 8px 2px rgba(116, 129, 141, 0.1);
+
+    &:hover {
+      background: #f5f7f9;
+      box-shadow: 0 0 8px 2px rgba(116, 129, 141, 0.3);
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    img {
+      width: 30px;
+      margin-right: 0.7rem;
     }
   }
 `;
@@ -85,12 +110,10 @@ export default function App({ Component, pageProps }) {
           </div>
         </div>
         <div className="discort-button-style">
-          <img
-            src={"images/openchat.png"}
-            alt=""
-            onClick={() => window.open("https://nhost.io/discord", "_blank")}
-            style={{ width: 120 }}
-          />
+          <a href="https://nhost.io/discord" target="_blank">
+            <img src="/images/icon-discord.png" alt="" />
+            Chat with us at Discord
+          </a>
         </div>
       </AppContainer>
     </MDXProvider>

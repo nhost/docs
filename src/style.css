@@ -159,11 +159,3 @@ h4 {
 .next-page-container a {
   cursor: pointer;
 }
-
-.discort-button-style {
-  max-width: 10%;
-  min-width: 10%;
-  position: fixed;
-  bottom: 0;
-  right: 3em;
-}

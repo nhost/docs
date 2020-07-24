@@ -31,7 +31,7 @@ Perfect, let's move on.
 Install these packages. The packages will connect your React App with your Nhost GraphQL API:
 
 ```bash
-npm install nhost-react @apollo/client graphql graphql-tag
+npm install react-nhost @apollo/client graphql graphql-tag
 ```
 
 Start the app:
@@ -71,7 +71,7 @@ ReactDOM.render(
 
 It's time to fetch data!
 
-`src/App.js`
+`src/components/App.js`
 
 ```jsx
 import React from "react";
@@ -122,7 +122,7 @@ We can now list todos, now let's add functionallity to our app so we can add tod
 
 We'll import `useMutation`, create a new GraphQL mutation and add a form that will add todos.
 
-`src/App.js`
+`src/components/App.js`
 
 ```jsx
 import React, { useState } from "react";
@@ -213,7 +213,7 @@ Subscriptions are used to get data in realtime from the database. When the data 
 
 We'll change `useQuery` to `useSubscription` and we'll replace `query` to `subscription` in `GET_TODOS`.
 
-`src/App.js`
+`src/components/App.js`
 
 ```jsx
 import React, { useState } from "react";

@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 
-export function Post({ meta, children }) {
+export function MetaTags({ meta }) {
   return (
     <React.Fragment>
       <Head>
@@ -10,7 +10,6 @@ export function Post({ meta, children }) {
         <meta property="og:title" content={meta.title} key="title" />
         <meta property="og:description" content={meta.description} />
       </Head>
-      {children}
     </React.Fragment>
   );
 }

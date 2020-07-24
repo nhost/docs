@@ -4,6 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 const MenuContainer = styled.div`
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
   a {
     color: #000;
   }
@@ -322,10 +329,27 @@ function menuShouldStartOpen(menu, router) {
   if (!menu) return false;
   if (menu.length < 1) return false;
 
-  console.log(router.pathname);
-  console.log(menu);
-
   return router.pathname.startsWith(menu[0].path);
+}
+
+function MenuArrow({ open }) {
+  if (open) {
+    return (
+      <img
+        src="/images/arrow-up.svg"
+        style={{ height: "10px", width: "10px" }}
+      />
+    );
+  }
+
+  return (
+    <img
+      src="/images/arrow-up.svg"
+      style={{ height: "10px", width: "10px", transform: "rotate(180deg)" }}
+    />
+  );
+
+  return "false";
 }
 
 function MenuUL({ menu, router }) {
@@ -360,7 +384,10 @@ function MenuUL({ menu, router }) {
                   className="li-header"
                   onClick={() => setSubMenuOpen(!subMenuOpen)}
                 >
-                  {item.name} <div>{subMenuOpen ? "close" : "open"}</div>
+                  {item.name}{" "}
+                  <div>
+                    <MenuArrow open={subMenuOpen} />
+                  </div>
                 </div>
               )}
             </li>

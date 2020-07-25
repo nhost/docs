@@ -2,9 +2,9 @@
 
 The GraphQL API is protected by a permission system using roles. The permission system is based on [JWT tokens](https://jwt.io/introduction/). The user gets a JWT token upon login. This JWT token is being sent as a header with all GraphQL API requests to authenticate the user so correct permissions can be applied.
 
-There are specific user information in the JWT token such as user id. In the permission system in Hasura you can specify what a user is allowed based on ex the user id in the JWT token and the data.
+The JWT-token contains specific user information, such as user id. In the permission system in Hasura you can specify what a user is allowed to do based on ex the user id in the JWT-token and the data.
 
-**A basic use-case** is to allow a user read _something_ if `user_id` in the database is equal to the user id (`x-hasura-user-id`) in the JWT token.
+**A comon use-case** is to allow a user read _something_ if `user_id` in the database is equal to the user id (`x-hasura-user-id`) in the JWT token.
 
 By default, every user has the following session variables that can be used when creating permission rules:
 

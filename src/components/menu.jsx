@@ -95,10 +95,6 @@ const menu_quick_start = [
         link: "/quick-start/deploy-app",
         name: "Deploy app",
       },
-      {
-        link: "/quick-start/whats-next",
-        name: "What's next?",
-      },
     ],
   },
 ];

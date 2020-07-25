@@ -109,8 +109,8 @@ const menu_postgresql = [
         name: "Overview",
       },
       {
-        link: "/postgresql/create-tables-in-postgresql",
-        name: "Create Tables in PostgreSQL",
+        link: "/postgresql/create-tables",
+        name: "Create Tables",
       },
       {
         link: "/postgresql/custom-schemas",

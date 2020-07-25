@@ -11,7 +11,7 @@ npx create-react-app nhost-app
 cd nhost-app
 ```
 
-Before we go any further, to make it easier to import files in our App, add a `jsconfig.json` in the root of your project with the following content:
+We'll start by adding a `jsconfig.json` to your React app to make imports easier. Create a file `jsconfig.json` in the root of your project:
 
 `jsconfig.json`
 
@@ -24,11 +24,13 @@ Before we go any further, to make it easier to import files in our App, add a `j
 }
 ```
 
-Also create a folder called `components` and move `App.js` to the `components` folder.
+Create a new folder `src/components` and move `App.js` to the `src/components` folder.
 
-Perfect, let's move on.
+Because we moved the `App.js` file you now must update the import of `App` in the `src/index.js` to: `import App from "components/App";`
 
-Install these packages. The packages will connect your React App with your Nhost GraphQL API:
+Perfect, let's move on!
+
+Install these packages that you'll use to connect your React App to your Nhost GraphQL API.
 
 ```bash
 npm install react-nhost @apollo/client graphql graphql-tag
@@ -40,26 +42,27 @@ Start the app:
 npm start
 ```
 
+Your app should start as normal now.
+
 ## Add NhostApolloProvider to index.js
 
-The `NhostApolloProvider` make sure we can connect to our GraphQL API anywhere in our app. That's why we want to wrapp our whole app around it.
+Wrapp `NhostApolloProvider` around your app so we can use GraphQL anywhere in the app.
 
-Replace `https://hasura-xxx.nhost.app/v1/graphql` with your project's GraphQL API URL. You can find your GraphQL API endpoint in the Dashboard in the Nhost console.
+> Replace `https://hasura-xxx.nhost.app/v1/graphql` with your project's GraphQL API URL. You can find your GraphQL API endpoint in the Dashboard in the Nhost console.
 
 `src/index.js`
 
 ```jsx
 import React from "react";
 import ReactDOM from "react-dom";
-// New import path for `App`
-import App from "components/App";
+import App from "App";
 // import `NhostApolloProvider`
 import { NhostApolloProvider } from "react-nhost";
 
 // Wrapp `NhostApolloProvider` around `<App />`.
 ReactDOM.render(
   <React.StrictMode>
-    <NhostApolloProvider gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql">
+    <NhostApolloProvider gql_endpoint="https://hasura-REPLACE.nhost.app/v1/graphql">
       <App />
     </NhostApolloProvider>
   </React.StrictMode>,
@@ -122,7 +125,7 @@ We can now list todos, now let's add functionallity to our app so we can add tod
 
 We'll import `useMutation`, create a new GraphQL mutation and add a form that will add todos.
 
-`src/components/App.js`
+`src/compoentns/App.js`
 
 ```jsx
 import React, { useState } from "react";

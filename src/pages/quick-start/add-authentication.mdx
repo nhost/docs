@@ -1,8 +1,8 @@
 # Add authentication
 
-Right now our app's todos are open to anyone. Let's make our app more secure by adding authentication.
+Right now our app's todos are open to anyone. This was good for testing, but you'll now make your app more secure by adding authentication.
 
-Authentication is built in to Nhost so it's easy to get started with.
+Authentication is built in-to Nhost so it's easy to get started with.
 
 ## Create user in Nhost console
 
@@ -28,7 +28,7 @@ Create a new folder `src/utils` and create a file `src/utils/nhost.js`. Here we'
 import nhost from "nhost-js-sdk";
 
 const config = {
-  base_url: "https://backend-xxxx.nhost.app",
+  base_url: "https://backend-REPLACE.nhost.app",
 };
 
 nhost.initializeApp(config);
@@ -39,13 +39,13 @@ const storage = nhost.storage();
 export { auth, storage };
 ```
 
-Remember to replace https://backend-xxx.nhost.app with your own backend Nhost domain. Note that the URL should start with https://**backend**-[...].
+Remember to replace https://backend-REPLACE.nhost.app with your own backend Nhost domain. Note that the URL should start with https://**backend**-[...].
 
-## Introduce NhostAuthprovider
+## Introduce NhostAuthProvider
 
-Now we'll wrapp our app with the `NhostAuthProvider`. With this provider we'll know if a user is logged in or not.
+You will now wrap your app with another provider. The `NhostAuthProvider`. With this provider, we'll know if a user is logged in or not.
 
-We'll also send our `auth` object to both our `NhostAuthProvider` and `NhostApolloProvider` so the whole app can share the same auth state.
+We'll also send our `auth` object to both our two providers, `NhostAuthProvider` and `NhostApolloProvider`, so the whole app can share the same auth state.
 
 ```jsx
 import React from "react";
@@ -73,9 +73,9 @@ ReactDOM.render(
 );
 ```
 
-## App.js
+## Auth links
 
-We'll add two links to `App.js`. On to `/login` and one that will logout the user.
+Add two links to `App.js`. One to `/login` and one that will logout the user.
 
 `src/components/App.js`
 
@@ -98,7 +98,7 @@ We'll add two links to `App.js`. On to `/login` and one that will logout the use
 
 Create a simple Login component so users can login.
 
-`src/components/login.js`
+`src/components/Login.js`
 
 ```jsx
 import React, { useState } from "react";
@@ -149,7 +149,7 @@ export default function Login(props) {
 }
 ```
 
-## Adding routes for `/` and `/login`
+## Routes
 
 Install [React Router](https://reactrouter.com/web/guides/quick-start):
 
@@ -167,7 +167,7 @@ import App from "components/App";
 import Login from "components/Login";
 // import `react-router-dom`
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { auth } from "./utils/nhost";
+import { auth } from "utils/nhost";
 import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
 // Create two routes for `/` and `/login`
@@ -197,22 +197,22 @@ ReactDOM.render(
 
 Phew, that's a lot of code. Let's stop here and just see what we got.
 
-Both routes (`/` and `/login`) are still unprotected, we'll fix that in soon. When we are at `/` we can still see all todos, that's fine for now since we allow the `public` role to **select** todos.
+Both routes (`/` and `/login`) are still unprotected, we'll fix that soon. When we are at `/` we can still see all todos, that's fine for now since we allow the `public` role to **select** todos.
 
-When we login all todos are gone and we can only see **No data**. If we **logout** our todos are back. Strange? What's going on?
+When we login, there are no todos listed and we can only see **No data**. If we **logout** our todos are back. Strange? What's going on?
 
-It's not strange at all. When we are **logged out** we automatically use the `public` role. The `public` role has permission to **select** todos. When we are **logged in** we **don't** use the `public` role. Instead we use the `user` role. The `user` role don't have permission to **select** todos, yet!
+It's not strange at all. When we are **logged out** we automatically use the `public` role. The `public` role has permission to **select** todos. When we are **logged in** we use the `user` role, not the `public` role. The `user` role don't have permission to **select** todos, yet!
 
 Let's finish secure our app by doing the following:
 
 - **Protect** the `/` route for **logged in users** only.
-- **Remove all permissions** for the `public` role.
+- **Remove all permissions** for the `public` role. We'll only allow logged in users to insert and select `todos`.
 - Create a `user_id` column on all `todos` **so we know who each todo belongs to**.
 - Set permission so that users are only allowed to **insert** and **select** their own todos.
 
 ## PrivateRoute
 
-We'll create a PrivateRoute component to make sure only logged in users are allowed to visit this route.
+We'll create a PrivateRoute component. This component will be used to protect a route by making sure only logged in users can visit the route.
 
 `src/components/PrivateRoute.js`
 
@@ -248,7 +248,7 @@ export default function PrivateRoute({ children, ...rest }) {
 }
 ```
 
-We can now use out PrivateRoute to secure `/` in `src/index.js`
+We can now use `PrivateRoute` to secure `/` in `src/index.js`
 
 `src/index.js`
 
@@ -288,7 +288,7 @@ ReactDOM.render(
 );
 ```
 
-You'll now notice that you can only access `/` if you are logged in. If you are not logged in you'll be redirected to `/login`.
+Now users can only access `/` if they are logged in. If you are not logged in you'll be redirected to `/login`.
 
 ## Permission updates
 
@@ -302,11 +302,11 @@ Now we'll add a new column to our `todos` table. **But first we must delete all 
 
 After all todos are deleted, go to the **Modify** tab for todos to add a new column. The new column's name is `user_id` (UUID type). Also make sure to **not** click in **nullable**. Then add the column.
 
-> `user_id` will refer to the user's id that each todo belongs to.
+> `user_id` will refer to the id of the user that the todo belongs to.
 
 ![New user_id column](/images/add-authentication/new-user-id-column.png)
 
-For our GraphQL API to really understand that the `user_id` refers to the user's id we will create a **Foreign Key**.
+For our GraphQL API, and database, to understand that the `user_id` refers to the user's id we will create a **Foreign Key**.
 
 > A Foreign key is a link between two tables
 
@@ -324,16 +324,16 @@ For Hasura to use the foreign key relation in the GraphQL API we need to track t
 
 ### Insert
 
-We'll now allow a user to insert a todo. The user can only insert `name`. All other columns will be set automatically. `user_id` will be set automatically to the id of the user making the request.
+We'll now allow a user to insert a todo. The user can only insert `name`. All other columns will be set automatically. `user_id` will be set automatically to the id (`x-hasura-user-id`) of the user making the request.
 
 ![User insert permission](/images/add-authentication/user-insert-permission.png)
 
 ### Select
 
-Here we'll set a custom check that users are only allowed to select todos where `user_id` is the same as their own user id.
+Set a **custom check** so users are only allowed to select todos where `user_id` is the same as their own user id. In other words, users are only allowed to select their own todos.
 
 ![User select permission](/images/add-authentication/user-select-permission.png)
 
 # We are done!
 
-You have probably already tested your app during this guide, but now we are finished and you can no use your app!
+You have probably already tested your app during this guide, but your app is now finished. Congratulations!

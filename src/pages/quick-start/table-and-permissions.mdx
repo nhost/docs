@@ -4,7 +4,7 @@ You will now create a table and set permissions for that table.
 
 ## Hasura console
 
-You will create the new table in the Hasura console.
+The tables will be created in the Hasura console.
 
 > Hasura console is where you manage tables and data of your app.
 
@@ -14,7 +14,9 @@ Click on **Hasura** in the left menu and copy the **Admin secret**. Open the **H
 
 ## Create table
 
-Now it's time to create our `todo` table. Go to the **DATA** tab in the top menu and click **Create table**. This is what your table will look like:
+Go to the **DATA** tab in the top menu and click **Create table**.
+
+We'll create a `todo` table for our app with the these columns:
 
 | Name       | Type      | Default value     |
 | :--------- | :-------- | :---------------- |
@@ -23,11 +25,11 @@ Now it's time to create our `todo` table. Go to the **DATA** tab in the top menu
 | name       | Text      |                   |
 | completed  | Boolean   | false             |
 
-First create `id` and `created_at` using **Frequently user columns**. This will make sure that the `id` and `created_at` columns are automatically generated.
+Create `id` and `created_at` using **Frequently user columns**. This will make sure that the `id` and `created_at` columns are automatically generated when new data gets inserted.
 
 ![Frequently used columns in the Hasura console](/images/backend/frequently-used-columns.png)
 
-Then add `name` (Text) and `completed` (Boolean). Make sure you set the default value for `completed` to `false`.
+Add `name` (Text) and `completed` (Boolean). Make sure you set the default value for `completed` to `false`.
 
 ![Create a table in the Hasura console](/images/backend/create-table.png)
 
@@ -35,11 +37,11 @@ Scroll down and click **Add table**.
 
 ### Test
 
-Let's test so everything works. First, add two todos.
+Let's test so everything works by adding two todos:
 
 ![Insert todos](/images/backend/insert-todos.gif)
 
-Then go to the Nhost console and to go **GraphQL API** and make a GraphQL request to see if your GraphQL API returns two todos.
+After you have added two todos, got to your Nhost console tab and to go **GraphQL API** and make a GraphQL request for the `todos`:
 
 ```graphql
 query {
@@ -52,13 +54,15 @@ query {
 }
 ```
 
+You should now see two todos in the response to the right of your screen.
+
 ## Set permissions
 
-Currently the only way to interact with todos is as admin (`x-hasura-admin-secret`). We'll now set the permissions so **anyone** (public) can insert and select todos.
+Currently the only way to get todos is as and admin with the admin-secret (`x-hasura-admin-secret`). We'll now set the permissions so **anyone** (`public`) can insert and select todos.
 
-Go to your `todos` table and click on the **Permissions** tab. Here you'll use the role `public` to set permissions for **insert** and **select**.
+In the Hasura cosnole, go to your `todos` table and click on the **Permissions** tab. For the `public` role, set permissions for **insert** and **select**.
 
-> The `public` role is applied when a user is not logged in.
+> The `public` role is used for logged out users.
 
 ### Insert permissions
 

@@ -10,12 +10,12 @@ Let's first create our user in the Nhost console under **Auth**.
 
 ![Add user](/images/add-authentication/add-user.gif)
 
-## Install and initialize `nhost-js-sdk`
+## Install more packages
 
-Install `nhost-js-sdk`
+Install [`nhost-js-sdk`](/libraries/nhost-js-sdk) and [`react-router-dom`](https://reactrouter.com/web/guides/quick-start).
 
 ```bash
-npm install nhost-js-sdk
+npm install nhost-js-sdk react-router-dom
 ```
 
 > `nhost-js-sdk` is used to interact with auth (ex login and register) and storage (upload, download).
@@ -63,7 +63,7 @@ ReactDOM.render(
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint="https://hasura-zgp96xwz.nhost.app/v1/graphql"
+        gql_endpoint="https://hasura-REPLACE.nhost.app/v1/graphql"
       >
         <App />
       </NhostApolloProvider>
@@ -71,27 +71,6 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-```
-
-## Auth links
-
-Add two links to `App.js`. One to `/login` and one that will logout the user.
-
-`src/components/App.js`
-
-```jsx
-
-  [..]
-
-  return (
-    <div>
-      <Link to="/login">Login</Link>
-      <div onClick={() => auth.logout()}>Logout</div>
-      <div>
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-      [..]
 ```
 
 ## Login component
@@ -151,18 +130,12 @@ export default function Login(props) {
 
 ## Routes
 
-Install [React Router](https://reactrouter.com/web/guides/quick-start):
-
-```bash
-npm install react-router-dom
-```
-
 Now let's create two routes. One for `/` where we'll have our todos listed. And one for `/login` where users can login.
 
 ```jsx
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "components/App";
+import App from "App";
 // Import Login component
 import Login from "components/Login";
 // import `react-router-dom`
@@ -176,7 +149,7 @@ ReactDOM.render(
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint="https://hasura-zgp96xwz.nhost.app/v1/graphql"
+        gql_endpoint="https://hasura-REPLACE.nhost.app/v1/graphql"
       >
         <Router>
           <Switch>
@@ -193,6 +166,31 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
+```
+
+### Auth links
+
+Add two links to `App.js`. One to `/login` and one that will logout the user.
+
+`src/App.js`
+
+```jsx
+
+// Add Link and auth as import
+[..]
+import { Link } from "react-router-dom";
+import { auth } from "utils/nhost";
+[..]
+
+  return (
+    <div>
+      <Link to="/login">Login</Link>
+      <div onClick={() => auth.logout()}>Logout</div>
+      <div>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+      [..]
 ```
 
 Phew, that's a lot of code. Let's stop here and just see what we got.

@@ -24,10 +24,6 @@ We'll start by adding a `jsconfig.json` to your React app to make imports easier
 }
 ```
 
-Create a new folder `src/components` and move `App.js` to the `src/components` folder.
-
-Because we moved the `App.js` file you now must update the import of `App` in the `src/index.js` to: `import App from "components/App";`
-
 Perfect, let's move on!
 
 Install these packages that you'll use to connect your React App to your Nhost GraphQL API.
@@ -74,7 +70,7 @@ ReactDOM.render(
 
 It's time to fetch data!
 
-`src/components/App.js`
+`src/App.js`
 
 ```jsx
 import React from "react";
@@ -121,7 +117,7 @@ That was easy. Your todos are now listed in your app!
 
 ## Add todos
 
-We can now list todos, now let's add functionallity to our app so we can add todos.
+We can now list todos, now let's add functionality to our app so we can add todos.
 
 We'll import `useMutation`, create a new GraphQL mutation and add a form that will add todos.
 
@@ -216,7 +212,7 @@ Subscriptions are used to get data in realtime from the database. When the data 
 
 We'll change `useQuery` to `useSubscription` and we'll replace `query` to `subscription` in `GET_TODOS`.
 
-`src/components/App.js`
+`src/App.js`
 
 ```jsx
 import React, { useState } from "react";

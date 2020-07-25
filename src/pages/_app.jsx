@@ -34,7 +34,7 @@ const AppContainer = styled.div`
     padding-bottom: 10rem;
 
     .main-container-width {
-      max-width: 90rem;
+      max-width: 70rem;
     }
   }
 

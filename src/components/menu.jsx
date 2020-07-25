@@ -278,29 +278,29 @@ const menu_libraries = [
   },
 ];
 
-const menu_example_apps = [
-  {
-    name: "Example Apps",
-    menu: [
-      {
-        link: "/example-projets/nhost-react-typescript-example-app",
-        name: "Nhost React Typescript Example App",
-      },
-      {
-        link: "/example-projets/nhost-nextjs-example-app",
-        name: "Nhost NextJS Example App",
-      },
-      {
-        link: "/example-projets/nhost-react-native-example-app",
-        name: "Nhost React Native Example App",
-      },
-      {
-        link: "/example-projets/nhost-nuxtjs-example-app",
-        name: "Nhost NuxtJS Example App",
-      },
-    ],
-  },
-];
+// const menu_example_apps = [
+//   {
+//     name: "Example Apps",
+//     menu: [
+//       {
+//         link: "/example-projets/nhost-react-typescript-example-app",
+//         name: "Nhost React Typescript Example App",
+//       },
+//       {
+//         link: "/example-projets/nhost-nextjs-example-app",
+//         name: "Nhost NextJS Example App",
+//       },
+//       {
+//         link: "/example-projets/nhost-react-native-example-app",
+//         name: "Nhost React Native Example App",
+//       },
+//       {
+//         link: "/example-projets/nhost-nuxtjs-example-app",
+//         name: "Nhost NuxtJS Example App",
+//       },
+//     ],
+//   },
+// ];
 
 export function Menu(props) {
   const router = useRouter();
@@ -316,7 +316,7 @@ export function Menu(props) {
       <MenuUL menu={menu_auth} router={router} />
       <MenuUL menu={menu_storage} router={router} />
       <MenuUL menu={menu_libraries} router={router} />
-      <MenuUL menu={menu_example_apps} router={router} />
+      {/* <MenuUL menu={menu_example_apps} router={router} /> */}
     </MenuContainer>
   );
 }

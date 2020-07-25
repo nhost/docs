@@ -127,7 +127,7 @@ Path variables can be accessed in function if they are present in the path (`/us
 
 #### User
 
-You can access user information at `request.auth['']`. All
+You can access user information at `request.auth['']`. All variables from the JWT-token claim can be accessed here without the `x-hasura`. For example, thi is how you access the user's id: `request.auth['user-id']`.
 
 ## Operations
 

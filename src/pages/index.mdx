@@ -13,18 +13,18 @@ export const meta = {
 
 Welcome to Nhost's documentation!
 
-If you are new to Nhost we recommend the [quick start guide](/quick-start/setup) where you'll build an app using Nhost.
+If you are new to Nhost we recommend the [quick start guide](/quick-start/setup) where you'll build an app using Nhost and React.
 
-Nhost is a Backend-as-a-Service. You should focus on building your app, not managing infrastructure.
+**Nhost is a Backend-as-a-Service**. We built Nhost so that you can focus on your app, your users and your business. Not managing servers, configuration and infrastructure.
 
-Nhost Project:
+Nhost is inspired by Google Firebase, but we use **SQL**, **GraphQL** and your stack is 100% open-source which means **no vendor lock-in**.
+
+A overview of what's in a Nhost Project:
 
 - PostgreSQL
 - GraphQL API (Hasura)
 - Authentication
 - Storage
-
-Nhost is inspired by Google Firebase, but we use SQL and GraphQL (and 100% open source).
 
 ## PostgresQL
 
@@ -32,22 +32,19 @@ PostgreSQL is the world's most advanced open-source relational database. Mostly 
 
 ## Hasura
 
-Hasura provides an instant realtime GraphQL API on your database. Nhost gives you access to the Hasura console which enables you to configure your PostgreSQL database and even directly run SQL functions.
-As well as giving you access to your tables, Hasura also provides aggregate functions, which can be used to count or sum your data, or return avg, max or min values.
+Hasura provides an instant realtime GraphQL API based on your PostgreSQL database. Nhost gives you access to the Hasura console where your can manage your schema, data, permissions, event trigger, remote schemas and more.
 
 ## GraphQL
 
-Your database is automatically and instantly available via a GraphQL API with full CRUD capabilities. You can also perform anything from simple queries to complicated aggregate subscriptions.
+A realtime GraphQL API with full CRUD capabilities is instantly available.
 
 ## Authentication
 
-Authentication is built into Nhost and all your users are saved in your database (in a `users` table). You can register and login users in minutes.
-
-You can let users login using email/password or use external OAuth providers such as Github, Google, Facebook and many more.
+Register and login your users. Either with email and password or via external OAuth such as Github, Google, Facebook etc. All users is saved in a `users` table in your database.
 
 ## Storage
 
-Let users upload and download files. Control what users are allowed to read/write using custom storage rules. All files are stored in a MinIO S3 server.
+Let users upload and download files. Control what users are allowed to read/write using storage security rules. All files are stored in a MinIO S3 server which you also have direct access to.
 
 ## Open Source
 

@@ -76,12 +76,16 @@ const menu_quick_start = [
     name: "Quick Start",
     menu: [
       {
+        link: "/quick-start/introduction",
+        name: "Introduction",
+      },
+      {
         link: "/quick-start/setup",
         name: "Setup",
       },
       {
         link: "/quick-start/table-and-permissions",
-        name: "Table and permissions",
+        name: "Table Permissions",
       },
       {
         link: "/quick-start/app",
@@ -89,11 +93,11 @@ const menu_quick_start = [
       },
       {
         link: "/quick-start/add-authentication",
-        name: "Add authentication",
+        name: "Authentication",
       },
       {
         link: "/quick-start/deploy-app",
-        name: "Deploy app",
+        name: "Deployment",
       },
     ],
   },

@@ -1,22 +1,20 @@
-# Table and permissions
+# Table and Permissions
 
-You will now create a table and set permissions for that table.
+We need a table to store the to-dos that our application will manage, and also correct permissions on querying and inserting them. Hasura Console to the rescue.
 
-## Hasura console
+> Hasura Console is where you manage your project's database and GraphQL API.
 
-The tables will be created in the Hasura console.
+## Hasura Console
 
-> Hasura console is where you manage tables and data of your app.
-
-Click on **Hasura** in the left menu and copy the **Admin secret**. Open the **Hasura console URL** and login using the **Admin secret**.
+On your project's dashboard, click on the `Hasura` option on the left-side menu. You will find details of the Hasura installation, as well as an option to add `Environment Variables`. Go ahead and copy Hasura's `Admin secret` and use it to login to the `Hasura console URL`.
 
 ![Nhost Hasura](/images/backend/open-hasura.png)
 
-## Create table
+## Create `todos` table
 
-Go to the **DATA** tab in the top menu and click **Create table**.
+Go to the `DATA` tab in the top menu and click `Create table`.
 
-We'll create a `todo` table for our app with the these columns:
+We'll create a `todos` table with the following columns:
 
 | Name       | Type      | Default value     |
 | :--------- | :-------- | :---------------- |
@@ -25,23 +23,23 @@ We'll create a `todo` table for our app with the these columns:
 | name       | Text      |                   |
 | completed  | Boolean   | false             |
 
-Create `id` and `created_at` using **Frequently user columns**. This will make sure that the `id` and `created_at` columns are automatically generated when new data gets inserted.
+For the `id` and `created_at` columns you can either create them manually or use the `Frequently used columns` option that is at the bottom of the `Columns` section. This makes sure those columns are automatically generated when new data is inserted. 
 
 ![Frequently used columns in the Hasura console](/images/backend/frequently-used-columns.png)
 
-Add `name` (Text) and `completed` (Boolean). Make sure you set the default value for `completed` to `false`.
+`name` (Text) and `completed` (Boolean) should be manually created as per the table above. Make sure you set the default value for `completed` to `false`.
 
 ![Create a table in the Hasura console](/images/backend/create-table.png)
 
-Scroll down and click **Add table**.
+Scroll down and click `Add table`.
 
-### Test
+### Query Data
 
-Let's test so everything works by adding two todos:
+To make sure that we have a working GraphQL API, we will now insert a couple of to-dos. Navigate to the `Insert Row` tab and create some to-dos by writing a name and clicking on `save` multiple times (see the animation bellow).
 
 ![Insert todos](/images/backend/insert-todos.gif)
 
-After you have added two todos, got to your Nhost console tab and to go **GraphQL API** and make a GraphQL request for the `todos`:
+With to-dos in place, go back to the Nhost console and click on the `GraphQL API` option on the left-side menu. Copy-and-paste the following query and hit play.
 
 ```graphql
 query {
@@ -54,23 +52,23 @@ query {
 }
 ```
 
-You should now see two todos in the response to the right of your screen.
+The to-dos you just created should now be be part of the response shown on the right.
 
-## Set permissions
+## Set Permissions
 
-Currently the only way to get todos is as and admin with the admin-secret (`x-hasura-admin-secret`). We'll now set the permissions so **anyone** (`public`) can insert and select todos.
+Currently, the only way to query to-dos is as admin with the admin-secret (`x-hasura-admin-secret`). We'll now set permissions so that **anyone** (`public`) can insert and select todos.
 
-In the Hasura cosnole, go to your `todos` table and click on the **Permissions** tab. For the `public` role, set permissions for **insert** and **select**.
+In the Hasura Console, go to your `todos` table and click on `Permissions`. We will now set **insert** and **select** permissions for the **public** role.
 
-> The `public` role is used for logged out users.
+> The `public` role is used with users that are not logged in.
 
-### Insert permissions
+### Insert Permissions
 
 Allow anyone to insert **without any checks** and to insert **name**. The other columns (id, created_at, completed) will be set using default values.
 
 ![Hasura permissions public insert](/images/backend/permissions-public-insert.png)
 
-### Select permissoins
+### Select Permissions
 
 Allow anyone to select **without any checks** and to select all columns.
 

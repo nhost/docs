@@ -1,9 +1,14 @@
 import styled from "styled-components";
+import { DefaultSeo } from "next-seo";
+import { MDXProvider } from "@mdx-js/react";
+import Zoom from "react-medium-image-zoom";
 import { Header } from "components/header";
 import { Menu } from "components/menu";
-import { MDXProvider } from "@mdx-js/react";
+import "react-medium-image-zoom/dist/styles.css";
 import "../style.css";
-import "prismjs/themes/prism-okaidia.css";
+import "../styles/prism.css";
+
+import SEO from "../../next-seo.config";
 
 const AppContainer = styled.div`
   display: grid;
@@ -92,11 +97,22 @@ const mdComponents = {
       </a>
     );
   },
+  img: ({ src, alt }) => {
+    return (
+      <Zoom>
+        <img src={src} alt={alt} className="img-md" />
+      </Zoom>
+    );
+  },
+  inlineCode: ({ children }) => {
+    return <code className="inline-code">{children}</code>;
+  },
 };
 
 export default function App({ Component, pageProps }) {
   return (
     <MDXProvider components={mdComponents}>
+      <DefaultSeo {...SEO} />
       <AppContainer>
         <Header />
         <div className="menu-container">

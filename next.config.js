@@ -1,10 +1,18 @@
-const rehypePrism = require("@mapbox/rehype-prism");
-const withMDX = require("@next/mdx")({
-  extension: /\.mdx?$/,
-  options: {
-    hastPlugins: [rehypePrism],
-  },
-});
-module.exports = withMDX({
+const mdxPrism = require("mdx-prism");
+const withMdxEnhanced = require("next-mdx-enhanced");
+
+module.exports = withMdxEnhanced({
+  layoutPath: "src/layouts",
+  defaultLayout: true,
+  remarkPlugins: [require("remark-code-titles")],
+  rehypePlugins: [mdxPrism],
   pageExtensions: ["js", "jsx", "mdx", "md"],
-});
+})();
+
+// const withMDX = require("@next/mdx")({
+//   extension: /\.mdx?$/,
+//   options: {
+//     rehypePlugins: [rehypePrism],
+//   },
+// });
+// module.exports = withMDX({});

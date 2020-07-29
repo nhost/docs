@@ -1,4 +1,8 @@
-# App
+---
+title: "App - Nhost Quick Start"
+publishedAt: "2020-07-29 09:25:17"
+summary: "Build App"
+---
 
 Our backend is ready, let's build the frontend app!
 
@@ -46,16 +50,12 @@ Wrapp `NhostApolloProvider` around your app so we can use GraphQL anywhere in th
 
 > Replace `https://hasura-xxx.nhost.app/v1/graphql` with your project's GraphQL API URL. You can find your GraphQL API endpoint in the Dashboard in the Nhost console.
 
-`src/index.js`
-
-```jsx
+```jsx{4,8,10}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "App";
-// import `NhostApolloProvider`
 import { NhostApolloProvider } from "react-nhost";
 
-// Wrapp `NhostApolloProvider` around `<App />`.
 ReactDOM.render(
   <React.StrictMode>
     <NhostApolloProvider gql_endpoint="https://hasura-REPLACE.nhost.app/v1/graphql">
@@ -70,9 +70,7 @@ ReactDOM.render(
 
 It's time to fetch data!
 
-`src/App.js`
-
-```jsx
+```jsx:src/App.js
 import React from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";

@@ -35,7 +35,7 @@ Scroll down and click `Add table`.
 
 ### Query Data
 
-To make sure that we have a working GraphQL API, we will now insert a couple of to-dos. Navigate to the `Insert Row` tab and create some to-dos by writing a name and clicking on `save` multiple times (see the animation bellow).
+To make sure we have a working GraphQL API, we will now insert a couple of to-dos. Navigate to the `Insert Row` tab and create a couple of to-dos by specifying a **name** and clicking on `save` (see the animation bellow).
 
 ![Insert todos](/images/backend/insert-todos.gif)
 
@@ -52,31 +52,31 @@ query {
 }
 ```
 
-The to-dos you just created should now be be part of the response shown on the right.
+The to-dos you just created should be part of the response shown on the right.
 
-## Set Permissions
+## Permissions
 
-Currently, the only way to query to-dos is as admin with the admin-secret (`x-hasura-admin-secret`). We'll now set permissions so that **anyone** (`public`) can insert and select todos.
+Right now, the only way to query to-dos is by using the **admin** role with an admin-secret (`x-hasura-admin-secret`). We are going to change that so **anyone** (`public`) is able to insert and select todos.
 
 In the Hasura Console, go to your `todos` table and click on `Permissions`. We will now set **insert** and **select** permissions for the **public** role.
 
-> The `public` role is used with users that are not logged in.
+> The `public` role is used by users that are not logged in.
 
-### Insert Permissions
+### Insert 
 
-Allow anyone to insert **without any checks** and to insert **name**. The other columns (id, created_at, completed) will be set using default values.
+`Row insert permissions` should be set to **Without any checks** and `Column insert permissions` should only have **name** checked.
 
 ![Hasura permissions public insert](/images/backend/permissions-public-insert.png)
 
-### Select Permissions
+### Select
 
-Allow anyone to select **without any checks** and to select all columns.
+`Row insert permissions` should be set to **Without any checks** and `Column insert permissions` should have all columns checked.
 
 ![Hasura permissions public insert](/images/backend/permissions-public-select.png)
 
 ---
 
-Now anyone can insert and select todos. This is not secure, but it's a good start. We'll secure our backend later when we add authentication.
+Anyone can now insert and select to-dos. This is not secure, but it's a good start. We will secure our backend later when we add authentication.
 
 ## Next
 

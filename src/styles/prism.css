@@ -26,6 +26,7 @@ pre[class*="language-"] {
   hyphens: none;
   background: #f5f7ff;
   color: #5e6687;
+  margin: 0;
 }
 
 pre {

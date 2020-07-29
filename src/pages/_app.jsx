@@ -100,9 +100,12 @@ const mdComponents = {
   img: ({ src, alt }) => {
     return (
       <Zoom>
-        <img src={src} alt={alt} />
+        <img src={src} alt={alt} className="img-md" />
       </Zoom>
     );
+  },
+  inlineCode: ({ children }) => {
+    return <code className="inline-code">{children}</code>;
   },
 };
 

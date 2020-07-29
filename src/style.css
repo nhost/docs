@@ -49,9 +49,21 @@ img {
   max-width: 100%;
 }
 
+.img-md {
+  padding: 2rem;
+  border: 1px solid #ddd;
+}
+
 pre {
   max-width: 700px;
   background: #f5f5f5;
+}
+
+code.inline-code {
+  font-size: 1.8rem;
+  color: #5e6687;
+  background: #f5f7ff;
+  padding: 4px 6px;
 }
 
 blockquote {

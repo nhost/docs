@@ -49,15 +49,20 @@ img {
   max-width: 100%;
 }
 
+.img-md {
+  padding: 2rem;
+  border: 1px solid #ddd;
+}
+
 pre {
   max-width: 700px;
   background: #f5f5f5;
 }
 
-code {
+code.inline-code {
   font-size: 1.8rem;
-  color: #476582;
-  background: #f5f5f5;
+  color: #5e6687;
+  background: #f5f7ff;
   padding: 4px 6px;
 }
 
@@ -67,6 +72,7 @@ blockquote {
   margin: 0;
   padding: 0.1rem 1.4rem;
   border-left: 3px solid #4851ff;
+  margin: 1.3rem 0;
 }
 
 table {

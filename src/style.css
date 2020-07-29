@@ -62,11 +62,11 @@ code {
 }
 
 blockquote {
-  border-radius: 4px;
   background: #fafafa;
   margin: 0;
   padding: 0.1rem 1.4rem;
-  border-left: 3px solid #4851ff;
+  border-left: 4px solid #4851ff;
+  margin: 1.3rem 0;
 }
 
 table {

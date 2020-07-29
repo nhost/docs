@@ -1,16 +1,20 @@
-# Add authentication
+# Authentication
 
-Right now our app's todos are open to anyone. This was good for testing, but you'll now make your app more secure by adding authentication.
+Currently, everyone can see our todos. That is ok for testing but now it's time to add authentication.
 
-Authentication is built in-to Nhost so it's easy to get started with.
+Authentication is built-in to Nhost so it's easy to get started with.
 
-## Create user in Nhost console
+## Create User
 
-Let's first create our user in the Nhost console under **Auth**.
+Let's first create our user by going to the project's `Auth` section.
 
 ![Add user](/images/add-authentication/add-user.gif)
 
-## Install more packages
+You will use this user to access your todos later on.
+
+## Install and Configure nhost-js-sdk
+
+> `nhost-js-sdk` is an open-source JavaScript library for interacting with Nhost's auth and storage.
 
 Install [`nhost-js-sdk`](/libraries/nhost-js-sdk) and [`react-router-dom`](https://reactrouter.com/web/guides/quick-start).
 
@@ -18,17 +22,13 @@ Install [`nhost-js-sdk`](/libraries/nhost-js-sdk) and [`react-router-dom`](https
 npm install nhost-js-sdk react-router-dom
 ```
 
-> `nhost-js-sdk` is used to interact with auth (ex login and register) and storage (upload, download).
+Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and add `nhost.js` to it. 
 
-Create a new folder `src/utils` and create a file `src/utils/nhost.js`. Here we'll initialize our connection to Nhost.
-
-`src/utils/nhost.js`
-
-```js
+```js:src/util/nhost.js
 import nhost from "nhost-js-sdk";
 
 const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
+  base_url: "https://backend-xxx.nhost.app",
 };
 
 nhost.initializeApp(config);
@@ -39,31 +39,27 @@ const storage = nhost.storage();
 export { auth, storage };
 ```
 
-Remember to replace https://backend-REPLACE.nhost.app with your own backend Nhost domain. Note that the URL should start with https://**backend**-[...].
+Please don't forget to replace `https://backend-xxx.nhost.app` with your own endpoint.
 
-## Introduce NhostAuthProvider
+## Add NhostAuthProvider
 
-You will now wrap your app with another provider. The `NhostAuthProvider`. With this provider, we'll know if a user is logged in or not.
+Now it's time to wrap app with another provider. The `NhostAuthProvider` is used to know whether a user is logged in or not.
 
-We'll also send our `auth` object to both our two providers, `NhostAuthProvider` and `NhostApolloProvider`, so the whole app can share the same auth state.
+We'll also pass our `auth` object as a prop to both providers, `NhostAuthProvider` and `NhostApolloProvider`, so that the whole app can share the same auth state.
 
-```jsx
+```jsx{4,5,9,10,13}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "components/App";
-// importing new `auth` class
-import { auth } from "utils/nhost";
-// Importing new `NhostAuthProvider`
+import { auth } from "util/nhost";
 import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
-// Wrapp `NhostAuthprovider` around our whole app. Make sure to
-// add `auth={auth}` for both Nhost providers.
 ReactDOM.render(
   <React.StrictMode>
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint="https://hasura-REPLACE.nhost.app/v1/graphql"
+        gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql"
       >
         <App />
       </NhostApolloProvider>
@@ -73,16 +69,20 @@ ReactDOM.render(
 );
 ```
 
-## Login component
+Now it's a good time to recap what has been done so far in this chapter. We started by creating a new user for our Nhost project, followed by installing and configuring `nhost-js-sdk`, and finally we wrapped our app with `NhostAuthProvider`, passing `auth` as a prop, so that the same auth object is used everywhere.
 
-Create a simple Login component so users can login.
+Next, we will create the login component.
 
-`src/components/Login.js`
+## Login 
 
-```jsx
+We need to write a login component that handles the form submittion of a user's data, and also some scaffolding for the app routes.
+
+Create `Login.js` with the following content:
+
+```jsx:src/components/Login.js
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { auth } from "utils/nhost";
+import { auth } from "util/nhost";
 
 export default function Login(props) {
   const [email, setEmail] = useState("");
@@ -128,22 +128,17 @@ export default function Login(props) {
 }
 ```
 
-## Routes
+Now let's create two routes. One for `/` where we'll have our todos listed, and one for `/login` where users can login.
 
-Now let's create two routes. One for `/` where we'll have our todos listed. And one for `/login` where users can login.
-
-```jsx
+```jsx{4,5,13,14,15,17,18,19,20,21,22}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "App";
-// Import Login component
 import Login from "components/Login";
-// import `react-router-dom`
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { auth } from "utils/nhost";
 import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
-// Create two routes for `/` and `/login`
 ReactDOM.render(
   <React.StrictMode>
     <NhostAuthProvider auth={auth}>
@@ -168,19 +163,42 @@ ReactDOM.render(
 );
 ```
 
-### Auth links
+Finally, add two links to `App.js`. One to `/login` and one that will logout the user.
 
-Add two links to `App.js`. One to `/login` and one that will logout the user.
-
-`src/App.js`
-
-```jsx
-
-// Add Link and auth as import
-[..]
+```jsx{4,5,22,23}:src/App.js
+import React, { useState } from "react";
+import { useSubscription, useMutation } from "@apollo/client";
+import gql from "graphql-tag";
 import { Link } from "react-router-dom";
-import { auth } from "utils/nhost";
-[..]
+import { auth } from "util/nhost";
+
+const GET_TODOS = gql`
+  subscription {
+    todos {
+      id
+      created_at
+      name
+      completed
+    }
+  }
+`;
+
+const INSERT_TODO = gql`
+  mutation($todo: todos_insert_input!) {
+    insert_todos(objects: [$todo]) {
+      affected_rows
+    }
+  }
+`;
+
+function App() {
+  const { data, loading } = useSubscription(GET_TODOS);
+  const [insertTodo] = useMutation(INSERT_TODO);
+  const [todoName, setTodoName] = useState("");
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <div>
@@ -189,19 +207,36 @@ import { auth } from "utils/nhost";
       <div>
         <form
           onSubmit={async (e) => {
-            e.preventDefault();
-      [..]
+          
+          [...]
+
+        </form>
+      </div>
+      {!data ? (
+        "no data"
+      ) : (
+        <ul>
+          {data.todos.map((todo) => {
+            return <li key={todo.id}>{todo.name}</li>;
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
 ```
 
-Phew, that's a lot of code. Let's stop here and just see what we got.
+Phew, that's a lot of code. Let's stop here and recap what we have.
 
-Both routes (`/` and `/login`) are still unprotected, we'll fix that soon. When we are at `/` we can still see all todos, that's fine for now since we allow the `public` role to **select** todos.
+Both routes (`/` and `/login`) are still unprotected, we'll fix that soon. When we visit `/` we can still see all todos, that's fine for now since we allow the `public` role to **select** todos.
 
 When we login, there are no todos listed and we can only see **No data**. If we **logout** our todos are back. Strange? What's going on?
 
-It's not strange at all. When we are **logged out** we automatically use the `public` role. The `public` role has permission to **select** todos. When we are **logged in** we use the `user` role, not the `public` role. The `user` role don't have permission to **select** todos, yet!
+When we are **logged out**, the `public` role is used. The `public` role has permissions to **select** todos. When we are **logged in** we use the `user` role, not the `public` role. The `user` role doesn't have permission to **select** todos, yet!
 
-Let's finish secure our app by doing the following:
+These are the things we still have to do in order to secure our app:
 
 - **Protect** the `/` route for **logged in users** only.
 - **Remove all permissions** for the `public` role. We'll only allow logged in users to insert and select `todos`.

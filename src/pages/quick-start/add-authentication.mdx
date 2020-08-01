@@ -230,26 +230,26 @@ export default App;
 
 Phew, that's a lot of code. Let's stop here and recap what we have.
 
-Both routes (`/` and `/login`) are still unprotected, we'll fix that soon. When we visit `/` we can still see all todos, that's fine for now since we allow the `public` role to **select** todos.
+Both routes (`/` and `/login`) are still unprotected, we'll fix that soon. When we visit `/` we still see all todos, that's fine for now since we allow the `public` role to select them.
 
-When we login, there are no todos listed and we can only see **No data**. If we **logout** our todos are back. Strange? What's going on?
+On the other hand, when we login, we only see **No data**. And if we logout again our todos are back. What's going on?
 
-When we are **logged out**, the `public` role is used. The `public` role has permissions to **select** todos. When we are **logged in** we use the `user` role, not the `public` role. The `user` role doesn't have permission to **select** todos, yet!
+When logged out, the `public` role is used, which still has permissions to select todos. When we are logged in, the `user` role is used instead, which doesn't have permission to select todos, yet!
 
 These are the things we still have to do in order to secure our app:
 
-- **Protect** the `/` route for **logged in users** only.
-- **Remove all permissions** for the `public` role. We'll only allow logged in users to insert and select `todos`.
-- Create a `user_id` column on all `todos` **so we know who each todo belongs to**.
-- Set permission so that users are only allowed to **insert** and **select** their own todos.
+- Protect the `/` route so that it is available to **logged in** users only.
+- Remove all permissions for the `public` role. Only **logged in** users are able insert and select todos.
+- Add `user_id` to the `todos` table so that every todo belongs to a user.
+- Set permissions so that users are only allowed to insert and select their own todos.
 
 ## PrivateRoute
 
-We'll create a PrivateRoute component. This component will be used to protect a route by making sure only logged in users can visit the route.
+Let's now create the `PrivateRoute` component that will be used to protect a route by making sure that only logged in users can visit that route.
 
-`src/components/PrivateRoute.js`
+Please create `PrivateRoute.js` file with the following content:
 
-```jsx
+```jsx:src/components/PrivateRoute.js
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "react-nhost";
@@ -281,28 +281,24 @@ export default function PrivateRoute({ children, ...rest }) {
 }
 ```
 
-We can now use `PrivateRoute` to secure `/` in `src/index.js`
+`PrivateRoute` simply checks whether a user is logged in and redirects to `/login` otherwise. Please open `src/index.js` and replace `Route` with `PrivateRoute` for `/`.
 
-`src/index.js`
-
-```jsx
+```jsx{5,16,18}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "components/App";
 import Login from "components/Login";
-// import PrivateRoute component
 import PrivateRoute from "components/PrivateRoute";
 import { auth } from "utils/nhost";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
-// Replace Route to PrivateRoute that wrapps the <App /> component
 ReactDOM.render(
   <React.StrictMode>
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint="https://hasura-zgp96xwz.nhost.app/v1/graphql"
+        gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql"
       >
         <Router>
           <Switch>
@@ -321,19 +317,19 @@ ReactDOM.render(
 );
 ```
 
-Now users can only access `/` if they are logged in. If you are not logged in you'll be redirected to `/login`.
+Now users can only access `/` if they are logged in.
 
-## Permission updates
+## Update Public
 
-We won't use the `public` role anymore. Let's remove all permissions for the `public` role in the Hasura console.
+We won't use the `public` role anymore so let's remove all of its permissions on the Hasura console.
 
 ![Remove public permissions from Hasura](/images/add-authentication/remove-public-permissions.png)
 
-## Connect all todos with a user
+## A todo belongs to a user
 
-Now we'll add a new column to our `todos` table. **But first we must delete all todos**. You can delete all todos in the **Browse data** tab and click the trash can icon for each todo.
+A todo should be tied to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. On the `Browse Rows` tab, for the `todos` table, select all todos and click on the trash can icon.
 
-After all todos are deleted, go to the **Modify** tab for todos to add a new column. The new column's name is `user_id` (UUID type). Also make sure to **not** click in **nullable**. Then add the column.
+After all todos are deleted, select the `Modify` tab and at the bottom of the **Columns** section, click on `Add a new column`. The new column should be named `user_id` and be of type UUID. Also make sure to uncheck Nullable. You can now save the column.
 
 > `user_id` will refer to the id of the user that the todo belongs to.
 
@@ -345,11 +341,11 @@ For our GraphQL API, and database, to understand that the `user_id` refers to th
 
 Our foreign key will act as a link between the `users` table and the `todos` table.
 
-You create the foreign key in the same **Modify** tab.
+You create the foreign key in the same `Modify` tab.
 
 ![Foreign key](/images/add-authentication/create-foreign-key.png)
 
-For Hasura to use the foreign key relation in the GraphQL API we need to track the foreign key relationship. Go to the **DATA** tab and click **Track all**.
+For Hasura to use the foreign key relation in the GraphQL API we need to track the foreign key relationship. Go to the `DATA` tab and click `Track all`.
 
 ![Track all relationships](/images/add-authentication/track-all-relationships.png)
 
@@ -357,7 +353,7 @@ For Hasura to use the foreign key relation in the GraphQL API we need to track t
 
 ### Insert
 
-We'll now allow a user to insert a todo. The user can only insert `name`. All other columns will be set automatically. `user_id` will be set automatically to the id (`x-hasura-user-id`) of the user making the request.
+We'll now allow a user to insert a todo. A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`).
 
 ![User insert permission](/images/add-authentication/user-insert-permission.png)
 

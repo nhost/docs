@@ -1,5 +1,5 @@
 ---
-title: "Todos App"
+title: "Client App"
 publishedAt: "2020-07-29 09:25:17"
 summary: "Build App"
 ---
@@ -15,12 +15,12 @@ In your terminal, please type in the following:
 npx create-react-app nhost-todos
 ```
 
-After `create-react-app` finishes, we have to install some packages that will make our lifes easier when connecting to the Nhost backend.
+After `create-react-app` finishes, we will install some packages that will make our lifes easier when connecting to the Nhost backend.
 
 ```bash
 cd nhost-todos
 
-npm install react-nhost @apollo/client graphql graphql-tag
+npm install react-nhost @apollo/client graphql graphql-tag react-router-dom
 ```
 
 Now it's a good time to start the app and see that everything is working as expected. 
@@ -48,9 +48,9 @@ Let's go!
 
 ## Add NhostApolloProvider to index.js
 
-`NhostApolloProvider` comes from [react-nhost](https://github.com/nhost/react-nhost) and it deals with all the boilerplate for having `ApolloClient` properly configured to communicate securely with Nhost.
+`NhostApolloProvider` comes from [react-nhost](https://github.com/nhost/react-nhost) and deals with all the boilerplate for having `ApolloClient` properly configured to communicate securely with Nhost.
 
-Import `NhostApolloProvider` and use it to wrap your app so that GraphQL is available everywhere.
+Import `NhostApolloProvider` and wrap `App` so that GraphQL is available everywhere.
 
 > Replace `https://hasura-xxx.nhost.app/v1/graphql` with your project's GraphQL API endpoint. You can find the endpoint in your project's dashboard.
 
@@ -70,7 +70,7 @@ ReactDOM.render(
 );
 ```
 
-Now, with `ApolloCLient` configured, we can move on to fetching data.
+Now, with `ApolloClient` configured, we can move on to fetch data.
 
 ## Fetch data using GraphQL in App.js
 
@@ -206,7 +206,7 @@ function App() {
 export default App;
 ```
 
-Great! we can now create new todos using the form we just added. But for the new todos to be listed, we have to reload the page ourselves. We can do better, so Let's fix that by introducing subscriptions.
+Great! we can now create new todos using the form we just added. But for the new todos to be listed, we have to reload the page ourselves. We can do better, so let's fix that by introducing subscriptions.
 
 ## Get data in realtime using subscriptions
 
@@ -214,7 +214,7 @@ Subscriptions are used to get data in realtime. When the data changes in the dat
 
 We'll replace `useQuery` with `useSubscription` and `query` with `subscription` in `GET_TODOS`.
 
-```jsx{2,10}:src/App.js
+```jsx{2,5,10}:src/App.js
 import React, { useState } from "react";
 import { useSubscription, useMutation } from "@apollo/client";
 import gql from "graphql-tag";
@@ -295,10 +295,10 @@ function App() {
 export default App;
 ```
 
-Perfect! New todos get listed in realtime when we create them. You can even open two tabs and add new todos in one tab and see how all windows displays the latest data.
+Perfect! New todos get listed in realtime when we create them. You can even open two tabs, add new todos in one tab and see how all windows display the latest data.
 
 Your app now has superpowers!
 
 ## Next
 
-[Add authentication](/quick-start/add-authentication)
+[Authentication](/quick-start/authentication)

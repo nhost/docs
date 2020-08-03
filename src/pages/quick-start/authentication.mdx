@@ -1,6 +1,6 @@
 # Authentication
 
-Currently, everyone can see our todos. That is ok for testing but now it's time to add authentication.
+Currently, everyone can see all todos. That was ok to start with but now it's time to add authentication.
 
 Authentication is built-in to Nhost so it's easy to get started with.
 
@@ -10,19 +10,17 @@ Let's first create our user by going to the project's `Auth` section.
 
 ![Add user](/images/add-authentication/add-user.gif)
 
-You will use this user to access your todos later on.
+You will use this user to access your todos later on. But first, we will install [nhost-js-sdk](/libraries/nhost-js-sdk) to help us with authentication.
 
 ## Install and Configure nhost-js-sdk
 
 > `nhost-js-sdk` is an open-source JavaScript library for interacting with Nhost's auth and storage.
 
-Install [`nhost-js-sdk`](/libraries/nhost-js-sdk) and [`react-router-dom`](https://reactrouter.com/web/guides/quick-start).
-
 ```bash
-npm install nhost-js-sdk react-router-dom
+npm install nhost-js-sdk
 ```
 
-Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and add `nhost.js` to it. 
+Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and create `nhost.js` inside it. 
 
 ```js:src/util/nhost.js
 import nhost from "nhost-js-sdk";
@@ -43,14 +41,14 @@ Please don't forget to replace `https://backend-xxx.nhost.app` with your own end
 
 ## Add NhostAuthProvider
 
-Now it's time to wrap app with another provider. The `NhostAuthProvider` is used to know whether a user is logged in or not.
+Now it's time to wrap `App` with another provider. The `NhostAuthProvider` is used to know whether a user is logged in or not.
 
 We'll also pass our `auth` object as a prop to both providers, `NhostAuthProvider` and `NhostApolloProvider`, so that the whole app can share the same auth state.
 
 ```jsx{4,5,9,10,13}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "components/App";
+import App from "App";
 import { auth } from "util/nhost";
 import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
@@ -136,7 +134,7 @@ import ReactDOM from "react-dom";
 import App from "App";
 import Login from "components/Login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { auth } from "utils/nhost";
+import { auth } from "util/nhost";
 import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
 ReactDOM.render(
@@ -286,10 +284,10 @@ export default function PrivateRoute({ children, ...rest }) {
 ```jsx{5,16,18}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "components/App";
+import App from "App";
 import Login from "components/Login";
 import PrivateRoute from "components/PrivateRoute";
-import { auth } from "utils/nhost";
+import { auth } from "util/nhost";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
@@ -319,12 +317,6 @@ ReactDOM.render(
 
 Now users can only access `/` if they are logged in.
 
-## Update Public
-
-We won't use the `public` role anymore so let's remove all of its permissions on the Hasura console.
-
-![Remove public permissions from Hasura](/images/add-authentication/remove-public-permissions.png)
-
 ## A todo belongs to a user
 
 A todo should be tied to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. On the `Browse Rows` tab, for the `todos` table, select all todos and click on the trash can icon.
@@ -351,9 +343,17 @@ For Hasura to use the foreign key relation in the GraphQL API we need to track t
 
 ## Permissions for users
 
+### Remove Public
+
+We won't use the `public` role anymore so let's remove all of its permissions on the Hasura console.
+
+![Remove public permissions from Hasura](/images/add-authentication/remove-public-permissions.png)
+
+Finally, we just miss configuring the `user` role which is used when logged in.
+
 ### Insert
 
-We'll now allow a user to insert a todo. A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`).
+A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`) and is configured in the `Column presets` section (see picture bellow).
 
 ![User insert permission](/images/add-authentication/user-insert-permission.png)
 

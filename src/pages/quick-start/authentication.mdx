@@ -1,0 +1,368 @@
+# Authentication
+
+Currently, everyone can see all todos. That was ok to start with but now it's time to add authentication.
+
+Authentication is built-in to Nhost so it's easy to get started with.
+
+## Create User
+
+Let's first create our user by going to the project's `Auth` section.
+
+![Add user](/images/add-authentication/add-user.gif)
+
+You will use this user to access your todos later on. But first, we will install [nhost-js-sdk](/libraries/nhost-js-sdk) to help us with authentication.
+
+## Install and Configure nhost-js-sdk
+
+> `nhost-js-sdk` is an open-source JavaScript library for interacting with Nhost's auth and storage.
+
+```bash
+npm install nhost-js-sdk
+```
+
+Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and create `nhost.js` inside it. 
+
+```js:src/util/nhost.js
+import nhost from "nhost-js-sdk";
+
+const config = {
+  base_url: "https://backend-xxx.nhost.app",
+};
+
+nhost.initializeApp(config);
+
+const auth = nhost.auth();
+const storage = nhost.storage();
+
+export { auth, storage };
+```
+
+Please don't forget to replace `https://backend-xxx.nhost.app` with your own endpoint.
+
+## Add NhostAuthProvider
+
+Now it's time to wrap `App` with another provider. The `NhostAuthProvider` is used to know whether a user is logged in or not.
+
+We'll also pass our `auth` object as a prop to both providers, `NhostAuthProvider` and `NhostApolloProvider`, so that the whole app can share the same auth state.
+
+```jsx{4,5,9,10,13}:src/index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "App";
+import { auth } from "util/nhost";
+import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
+
+ReactDOM.render(
+  <React.StrictMode>
+    <NhostAuthProvider auth={auth}>
+      <NhostApolloProvider
+        auth={auth}
+        gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql"
+      >
+        <App />
+      </NhostApolloProvider>
+    </NhostAuthProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+
+Now it's a good time to recap what has been done so far in this chapter. We started by creating a new user for our Nhost project, followed by installing and configuring `nhost-js-sdk`, and finally we wrapped our app with `NhostAuthProvider`, passing `auth` as a prop, so that the same auth object is used everywhere.
+
+Next, we will create the login component.
+
+## Login 
+
+We need to write a login component that handles the form submittion of a user's data, and also some scaffolding for the app routes.
+
+Create `Login.js` with the following content:
+
+```jsx:src/components/Login.js
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { auth } from "util/nhost";
+
+export default function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    // login
+    try {
+      await auth.login(email, password);
+    } catch (error) {
+      alert("error logging in");
+      console.error(error);
+      return;
+    }
+
+    // redirect back to `/`
+    history.push("/");
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button>Login</button>
+      </form>
+    </div>
+  );
+}
+```
+
+Now let's create two routes. One for `/` where we'll have our todos listed, and one for `/login` where users can login.
+
+```jsx{4,5,13,14,15,17,18,19,20,21,22}:src/index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "App";
+import Login from "components/Login";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { auth } from "util/nhost";
+import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
+
+ReactDOM.render(
+  <React.StrictMode>
+    <NhostAuthProvider auth={auth}>
+      <NhostApolloProvider
+        auth={auth}
+        gql_endpoint="https://hasura-REPLACE.nhost.app/v1/graphql"
+      >
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <App />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+          </Switch>
+        </Router>
+      </NhostApolloProvider>
+    </NhostAuthProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+
+Finally, add two links to `App.js`. One to `/login` and one that will logout the user.
+
+```jsx{4,5,22,23}:src/App.js
+import React, { useState } from "react";
+import { useSubscription, useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import { Link } from "react-router-dom";
+import { auth } from "util/nhost";
+
+const GET_TODOS = gql`
+  subscription {
+    todos {
+      id
+      created_at
+      name
+      completed
+    }
+  }
+`;
+
+const INSERT_TODO = gql`
+  mutation($todo: todos_insert_input!) {
+    insert_todos(objects: [$todo]) {
+      affected_rows
+    }
+  }
+`;
+
+function App() {
+  const { data, loading } = useSubscription(GET_TODOS);
+  const [insertTodo] = useMutation(INSERT_TODO);
+  const [todoName, setTodoName] = useState("");
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
+  return (
+    <div>
+      <Link to="/login">Login</Link>
+      <div onClick={() => auth.logout()}>Logout</div>
+      <div>
+        <form
+          onSubmit={async (e) => {
+          
+          [...]
+
+        </form>
+      </div>
+      {!data ? (
+        "no data"
+      ) : (
+        <ul>
+          {data.todos.map((todo) => {
+            return <li key={todo.id}>{todo.name}</li>;
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+Phew, that's a lot of code. Let's stop here and recap what we have.
+
+Both routes (`/` and `/login`) are still unprotected, we'll fix that soon. When we visit `/` we still see all todos, that's fine for now since we allow the `public` role to select them.
+
+On the other hand, when we login, we only see **No data**. And if we logout again our todos are back. What's going on?
+
+When logged out, the `public` role is used, which still has permissions to select todos. When we are logged in, the `user` role is used instead, which doesn't have permission to select todos, yet!
+
+These are the things we still have to do in order to secure our app:
+
+- Protect the `/` route so that it is available to **logged in** users only.
+- Remove all permissions for the `public` role. Only **logged in** users are able insert and select todos.
+- Add `user_id` to the `todos` table so that every todo belongs to a user.
+- Set permissions so that users are only allowed to insert and select their own todos.
+
+## PrivateRoute
+
+Let's now create the `PrivateRoute` component that will be used to protect a route by making sure that only logged in users can visit that route.
+
+Please create `PrivateRoute.js` file with the following content:
+
+```jsx:src/components/PrivateRoute.js
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { useAuth } from "react-nhost";
+
+export default function PrivateRoute({ children, ...rest }) {
+  const { signedIn } = useAuth();
+
+  if (signedIn === null) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        signedIn ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+```
+
+`PrivateRoute` simply checks whether a user is logged in and redirects to `/login` otherwise. Please open `src/index.js` and replace `Route` with `PrivateRoute` for `/`.
+
+```jsx{5,16,18}:src/index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "App";
+import Login from "components/Login";
+import PrivateRoute from "components/PrivateRoute";
+import { auth } from "util/nhost";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
+
+ReactDOM.render(
+  <React.StrictMode>
+    <NhostAuthProvider auth={auth}>
+      <NhostApolloProvider
+        auth={auth}
+        gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql"
+      >
+        <Router>
+          <Switch>
+            <PrivateRoute exact path="/">
+              <App />
+            </PrivateRoute>
+            <Route path="/login">
+              <Login />
+            </Route>
+          </Switch>
+        </Router>
+      </NhostApolloProvider>
+    </NhostAuthProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+
+Now users can only access `/` if they are logged in.
+
+## A todo belongs to a user
+
+A todo should be tied to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. On the `Browse Rows` tab, for the `todos` table, select all todos and click on the trash can icon.
+
+After all todos are deleted, select the `Modify` tab and at the bottom of the **Columns** section, click on `Add a new column`. The new column should be named `user_id` and be of type UUID. Also make sure to uncheck Nullable. You can now save the column.
+
+> `user_id` will refer to the id of the user that the todo belongs to.
+
+![New user_id column](/images/add-authentication/new-user-id-column.png)
+
+For our GraphQL API, and database, to understand that the `user_id` refers to the user's id we will create a **Foreign Key**.
+
+> A Foreign key is a link between two tables
+
+Our foreign key will act as a link between the `users` table and the `todos` table.
+
+You create the foreign key in the same `Modify` tab.
+
+![Foreign key](/images/add-authentication/create-foreign-key.png)
+
+For Hasura to use the foreign key relation in the GraphQL API we need to track the foreign key relationship. Go to the `DATA` tab and click `Track all`.
+
+![Track all relationships](/images/add-authentication/track-all-relationships.png)
+
+## Permissions for users
+
+### Remove Public
+
+We won't use the `public` role anymore so let's remove all of its permissions on the Hasura console.
+
+![Remove public permissions from Hasura](/images/add-authentication/remove-public-permissions.png)
+
+Finally, we just miss configuring the `user` role which is used when logged in.
+
+### Insert
+
+A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`) and is configured in the `Column presets` section (see picture bellow).
+
+![User insert permission](/images/add-authentication/user-insert-permission.png)
+
+### Select
+
+Set a **custom check** so users are only allowed to select todos where `user_id` is the same as their own user id. In other words, users are only allowed to select their own todos.
+
+![User select permission](/images/add-authentication/user-select-permission.png)
+
+# We are done!
+
+You have probably already tested your app during this guide, but your app is now finished. Congratulations!

@@ -76,24 +76,28 @@ const menu_quick_start = [
     name: "Quick Start",
     menu: [
       {
-        link: "/quick-start/setup",
-        name: "Setup",
+        link: "/quick-start/introduction",
+        name: "Introduction",
       },
       {
-        link: "/quick-start/table-and-permissions",
-        name: "Table and permissions",
+        link: "/quick-start/nhost-backend",
+        name: "Nhost Backend",
       },
       {
-        link: "/quick-start/app",
-        name: "App",
+        link: "/quick-start/todos-table",
+        name: "Todos Table",
       },
       {
-        link: "/quick-start/add-authentication",
-        name: "Add authentication",
+        link: "/quick-start/client-app",
+        name: "Client App",
+      },
+      {
+        link: "/quick-start/authentication",
+        name: "Authentication",
       },
       {
         link: "/quick-start/deploy-app",
-        name: "Deploy app",
+        name: "Deployment",
       },
     ],
   },

@@ -33,8 +33,9 @@ const MenuContainer = styled.div`
     width: 100%;
     font-size: 1.4rem;
 
-    a {
+    a > span {
       display: block;
+      width: 100%;
       padding: 0.7rem 2.4rem 0.7rem 1.6rem;
     }
 
@@ -308,14 +309,26 @@ export function Menu(props) {
   return (
     <MenuContainer>
       <div>Documentation</div>
-      <MenuUL menu={menu_quick_start} router={router} />
+      <MenuUL
+        menu={menu_quick_start}
+        router={router}
+        closeMenu={props.closeMenu}
+      />
       <div>Nhost</div>
-      <MenuUL menu={menu_postgresql} router={router} />
-      <MenuUL menu={menu_hasura} router={router} />
-      <MenuUL menu={menu_graphql} router={router} />
-      <MenuUL menu={menu_auth} router={router} />
-      <MenuUL menu={menu_storage} router={router} />
-      <MenuUL menu={menu_libraries} router={router} />
+      <MenuUL
+        menu={menu_postgresql}
+        router={router}
+        closeMenu={props.closeMenu}
+      />
+      <MenuUL menu={menu_hasura} router={router} closeMenu={props.closeMenu} />
+      <MenuUL menu={menu_graphql} router={router} closeMenu={props.closeMenu} />
+      <MenuUL menu={menu_auth} router={router} closeMenu={props.closeMenu} />
+      <MenuUL menu={menu_storage} router={router} closeMenu={props.closeMenu} />
+      <MenuUL
+        menu={menu_libraries}
+        router={router}
+        closeMenu={props.closeMenu}
+      />
       {/* <MenuUL menu={menu_example_apps} router={router} /> */}
     </MenuContainer>
   );
@@ -344,11 +357,9 @@ function MenuArrow({ open }) {
       style={{ height: "10px", width: "10px", transform: "rotate(180deg)" }}
     />
   );
-
-  return "false";
 }
 
-function MenuUL({ menu, router }) {
+function MenuUL({ menu, router, closeMenu, other }) {
   const [subMenuOpen, setSubMenuOpen] = useState(
     menuShouldStartOpen(menu, router)
   );
@@ -373,7 +384,19 @@ function MenuUL({ menu, router }) {
             <li className={cssClass}>
               {item.link ? (
                 <Link href={item.link}>
-                  <a>{item.name}</a>
+                  <a>
+                    <span
+                      onClick={() => {
+                        if (typeof closeMenu === "function") {
+                          closeMenu();
+                        } else {
+                          console.log("no closeMenu function");
+                        }
+                      }}
+                    >
+                      {item.name}
+                    </span>
+                  </a>
                 </Link>
               ) : (
                 <div
@@ -387,7 +410,9 @@ function MenuUL({ menu, router }) {
                 </div>
               )}
             </li>
-            {showSubMenu() && <MenuUL menu={item.menu} router={router} />}
+            {showSubMenu() && (
+              <MenuUL menu={item.menu} router={router} closeMenu={closeMenu} />
+            )}
           </React.Fragment>
         );
       })}

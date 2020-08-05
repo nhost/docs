@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { Menu } from "components/menu";
 
 const HeaderContainer = styled.div`
   grid-area: header;
@@ -9,64 +10,93 @@ const HeaderContainer = styled.div`
 
   .header-container {
     display: flex;
+    align-items: center;
     height: 100%;
 
-    .header-container--left {
+    a {
       height: 100%;
-      a {
-        height: 100%;
-        display: flex;
-        align-items: center;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      height: 35px;
+      margin-left: 1rem;
+    }
+
+    .menu-controller {
+      display: none;
+      align-items: center;
+      margin-left: 2rem;
+      cursor: pointer;
+
+      span {
+        margin-left: 0.4rem;
       }
-      .logo {
-        height: 35px;
-        margin-left: 1rem;
+
+      @media only screen and (max-width: 980px) {
+        display: flex;
       }
     }
 
-    .header-container--right {
-      display: flex;
-      margin-left: auto;
-      .menu {
-        display: flex;
-        align-items: center;
-        margin-right: 5rem;
+    .mobile-menu-container {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      background: #f5f7f9;
+      z-index: 100;
+      padding: 3rem;
 
-        & > * {
-          margin-left: 3rem;
-        }
-
-        a {
-          font-family: Manrope;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 22px;
-          color: #757575;
-        }
-      }
-      .buttons-container {
-        display: flex;
-
-        & > * {
-          margin-left: 2rem;
-        }
+      .mobile-menu-container-main {
+        max-width: 45rem;
+        margin-left: 50%;
+        transform: translateX(-50%);
       }
     }
   }
 `;
 
 export function Header(props) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
   return (
     <HeaderContainer>
       <div className="header-container">
-        <div className="header-container--left">
-          <Link href="/">
-            <a>
-              <img src="/images/logo.svg" alt="Nhost logo" className="logo" />
-            </a>
-          </Link>
+        <Link href="/">
+          <a>
+            <img src="/images/logo.svg" alt="Nhost logo" className="logo" />
+          </a>
+        </Link>
+        <div className="menu-controller" onClick={() => setMenuOpen(true)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            strokeWidth="1.5"
+            strokeLinecap="butt"
+            strokeLinejoin="round"
+          >
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <span>menu</span>
         </div>
+        {menuOpen && (
+          <div className="mobile-menu-container">
+            <div className="mobile-menu-container-main">
+              <Menu
+                closeMenu={() => {
+                  setMenuOpen(false);
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </HeaderContainer>
   );

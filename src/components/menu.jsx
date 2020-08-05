@@ -73,8 +73,8 @@ const MenuContainer = styled.div`
 
 const menu_quick_start = [
   {
-    // link: "/quick-start",
     name: "Quick Start",
+    path: "/quick-start",
     menu: [
       {
         link: "/quick-start/setup",
@@ -102,8 +102,8 @@ const menu_quick_start = [
 
 const menu_postgresql = [
   {
-    // link: "/postgresql",
     name: "PostgreSQL",
+    path: "/postgresql",
     menu: [
       {
         link: "/postgresql",
@@ -123,8 +123,8 @@ const menu_postgresql = [
 
 const menu_hasura = [
   {
-    // link: "/hasura",
     name: "Hasura",
+    path: "/hasura",
     menu: [
       {
         link: "/hasura",
@@ -152,8 +152,8 @@ const menu_hasura = [
 
 const menu_graphql = [
   {
-    // link: "/hasura",
     name: "GraphQL",
+    path: "/graphql",
     menu: [
       {
         link: "/graphql/overview",
@@ -246,6 +246,7 @@ const menu_auth = [
 const menu_storage = [
   {
     name: "Storage",
+    path: "/storage",
     menu: [
       {
         link: "/storage",
@@ -266,6 +267,7 @@ const menu_storage = [
 const menu_libraries = [
   {
     name: "Libraries",
+    path: "/libraries",
     menu: [
       {
         link: "/libraries/nhost-js-sdk",
@@ -389,8 +391,6 @@ function MenuUL({ menu, router, closeMenu, other }) {
                       onClick={() => {
                         if (typeof closeMenu === "function") {
                           closeMenu();
-                        } else {
-                          console.log("no closeMenu function");
                         }
                       }}
                     >

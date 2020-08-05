@@ -91,7 +91,6 @@ export function Header(props) {
             <div className="mobile-menu-container-main">
               <Menu
                 closeMenu={() => {
-                  console.log("setMenuOpen(false)");
                   setMenuOpen(false);
                 }}
               />

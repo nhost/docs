@@ -33,8 +33,9 @@ const MenuContainer = styled.div`
     width: 100%;
     font-size: 1.4rem;
 
-    a {
+    a > span {
       display: block;
+      width: 100%;
       padding: 0.7rem 2.4rem 0.7rem 1.6rem;
     }
 
@@ -72,28 +73,32 @@ const MenuContainer = styled.div`
 
 const menu_quick_start = [
   {
-    // link: "/quick-start",
     name: "Quick Start",
+    path: "/quick-start",
     menu: [
       {
-        link: "/quick-start/setup",
-        name: "Setup",
+        link: "/quick-start/introduction",
+        name: "Introduction",
       },
       {
-        link: "/quick-start/table-and-permissions",
-        name: "Table and permissions",
+        link: "/quick-start/nhost-backend",
+        name: "Nhost Backend",
       },
       {
-        link: "/quick-start/app",
-        name: "App",
+        link: "/quick-start/todos-table",
+        name: "Todos Table",
       },
       {
-        link: "/quick-start/add-authentication",
-        name: "Add authentication",
+        link: "/quick-start/client-app",
+        name: "Client App",
+      },
+      {
+        link: "/quick-start/authentication",
+        name: "Authentication",
       },
       {
         link: "/quick-start/deploy-app",
-        name: "Deploy app",
+        name: "Deployment",
       },
     ],
   },
@@ -101,8 +106,8 @@ const menu_quick_start = [
 
 const menu_postgresql = [
   {
-    // link: "/postgresql",
     name: "PostgreSQL",
+    path: "/postgresql",
     menu: [
       {
         link: "/postgresql",
@@ -122,8 +127,8 @@ const menu_postgresql = [
 
 const menu_hasura = [
   {
-    // link: "/hasura",
     name: "Hasura",
+    path: "/hasura",
     menu: [
       {
         link: "/hasura",
@@ -151,8 +156,8 @@ const menu_hasura = [
 
 const menu_graphql = [
   {
-    // link: "/hasura",
     name: "GraphQL",
+    path: "/graphql",
     menu: [
       {
         link: "/graphql/overview",
@@ -245,6 +250,7 @@ const menu_auth = [
 const menu_storage = [
   {
     name: "Storage",
+    path: "/storage",
     menu: [
       {
         link: "/storage",
@@ -265,6 +271,7 @@ const menu_storage = [
 const menu_libraries = [
   {
     name: "Libraries",
+    path: "/libraries",
     menu: [
       {
         link: "/libraries/nhost-js-sdk",
@@ -308,14 +315,26 @@ export function Menu(props) {
   return (
     <MenuContainer>
       <div>Documentation</div>
-      <MenuUL menu={menu_quick_start} router={router} />
+      <MenuUL
+        menu={menu_quick_start}
+        router={router}
+        closeMenu={props.closeMenu}
+      />
       <div>Nhost</div>
-      <MenuUL menu={menu_postgresql} router={router} />
-      <MenuUL menu={menu_hasura} router={router} />
-      <MenuUL menu={menu_graphql} router={router} />
-      <MenuUL menu={menu_auth} router={router} />
-      <MenuUL menu={menu_storage} router={router} />
-      <MenuUL menu={menu_libraries} router={router} />
+      <MenuUL
+        menu={menu_postgresql}
+        router={router}
+        closeMenu={props.closeMenu}
+      />
+      <MenuUL menu={menu_hasura} router={router} closeMenu={props.closeMenu} />
+      <MenuUL menu={menu_graphql} router={router} closeMenu={props.closeMenu} />
+      <MenuUL menu={menu_auth} router={router} closeMenu={props.closeMenu} />
+      <MenuUL menu={menu_storage} router={router} closeMenu={props.closeMenu} />
+      <MenuUL
+        menu={menu_libraries}
+        router={router}
+        closeMenu={props.closeMenu}
+      />
       {/* <MenuUL menu={menu_example_apps} router={router} /> */}
     </MenuContainer>
   );
@@ -344,11 +363,9 @@ function MenuArrow({ open }) {
       style={{ height: "10px", width: "10px", transform: "rotate(180deg)" }}
     />
   );
-
-  return "false";
 }
 
-function MenuUL({ menu, router }) {
+function MenuUL({ menu, router, closeMenu, other }) {
   const [subMenuOpen, setSubMenuOpen] = useState(
     menuShouldStartOpen(menu, router)
   );
@@ -373,7 +390,17 @@ function MenuUL({ menu, router }) {
             <li className={cssClass}>
               {item.link ? (
                 <Link href={item.link}>
-                  <a>{item.name}</a>
+                  <a>
+                    <span
+                      onClick={() => {
+                        if (typeof closeMenu === "function") {
+                          closeMenu();
+                        }
+                      }}
+                    >
+                      {item.name}
+                    </span>
+                  </a>
                 </Link>
               ) : (
                 <div
@@ -387,7 +414,9 @@ function MenuUL({ menu, router }) {
                 </div>
               )}
             </li>
-            {showSubMenu() && <MenuUL menu={item.menu} router={router} />}
+            {showSubMenu() && (
+              <MenuUL menu={item.menu} router={router} closeMenu={closeMenu} />
+            )}
           </React.Fragment>
         );
       })}

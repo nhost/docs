@@ -12,17 +12,29 @@ import SEO from "../../next-seo.config";
 
 const AppContainer = styled.div`
   display: grid;
-  grid-template-columns: 40rem 1fr;
+  grid-template-columns: 30rem 1fr;
   grid-template-rows: 65px auto;
   grid-template-areas:
     "header header"
     "menu main";
+
+  @media only screen and (max-width: 980px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 65px auto;
+    grid-template-areas:
+      "header header"
+      "main main";
+  }
 
   .menu-container {
     grid-area: menu;
     height: calc(100vh - 65px);
     overflow-y: auto;
     background: #f5f7f9;
+
+    @media only screen and (max-width: 980px) {
+      display: none;
+    }
 
     .menu-content {
       /* width: 30rem; */
@@ -40,6 +52,9 @@ const AppContainer = styled.div`
 
     .main-container-width {
       max-width: 70rem;
+      @media only screen and (max-width: 980px) {
+        max-width: 100%;
+      }
     }
   }
 

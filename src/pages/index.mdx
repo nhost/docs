@@ -1,44 +1,42 @@
 ---
-title: "Nhost documentation"
+title: "Welcome to Nhost"
 publishedAt: "2020-07-29"
-summary: "Explore our documentation and learn about Nhsot"
+summary: "Explore our documentation and learn about Nhost"
 ---
 
-Welcome to Nhost's documentation!
+Nhost is a full-fledged serverless backend for Jamstack and client-serverless applications. It enables developers to build dynamic websites without having to worry about infrastructure, data storage, data access and user management.
 
-If you are new to Nhost we recommend the [quick start guide](/quick-start/setup) where you'll build an app using Nhost and React.
+Nhost was inspired by Google Firebase, but uses **SQL**, **GraphQL** and has **no vendor lock-in**.
 
-**Nhost is a Backend-as-a-Service**. We built Nhost so that you can focus on your app, your users and your business. Not managing servers, configuration and infrastructure.
+## Get started
 
-Nhost is inspired by Google Firebase, but we use **SQL**, **GraphQL** and your stack is 100% open-source which means **no vendor lock-in**.
+If you are new to Nhost we recommend the [quick start guide](/quick-start/introduction) where you build an app using Nhost and React.
 
-A overview of what's in a Nhost Project:
+## Discover Nhost
 
-- PostgreSQL
-- GraphQL API (Hasura)
-- Authentication
-- Storage
+Every project is comprised of infrastructure from which to build upon powerful applications:
 
-## PostgresQL
+### PostgresQL
 
-PostgreSQL is the world's most advanced open-source relational database. Mostly your client will access the GraphQL endpoint, and you will manage your database with the Hasura console, but Nhost also gives you direct access to your database for advanced usage.
+PostgreSQL is the world's most advanced open-source relational database. Your data will be instantly accessible over GraphQL and any modication to your database instance can be done through the Hasura console.
 
-## Hasura
 
-Hasura provides an instant realtime GraphQL API based on your PostgreSQL database. Nhost gives you access to the Hasura console where your can manage your schema, data, permissions, event trigger, remote schemas and more.
+### Hasura
 
-## GraphQL
+Hasura provides access to your data layer through an instant realtime GraphQL API based on your PostgreSQL database. Managing your data, schemas, permissions, event triggers, remote schemas, etc is done through the Hasura console.
+
+### GraphQL
 
 A realtime GraphQL API with full CRUD capabilities is instantly available.
 
-## Authentication
+### Authentication
 
-Register and login your users. Either with email and password or via external OAuth such as Github, Google, Facebook etc. All users is saved in a `users` table in your database.
+Register, login and manage users. Either with email and password or via external OAuth providers such as GitHub, Google, Facebook, etc. All users are stored in a `users` table.
 
-## Storage
+### Storage
 
 Let users upload and download files. Control what users are allowed to read/write using storage security rules. All files are stored in a MinIO S3 server which you also have direct access to.
 
-## Open Source
+### Open Source
 
-All software in a Nhost project is **open source**. This means **no vendor lock-in**.
+All software in a Nhost project is **open-source**. This means **no vendor lock-in**.

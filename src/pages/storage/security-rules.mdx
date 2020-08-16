@@ -170,7 +170,7 @@ And have the following storage rules:
 functions:
   validToken: 'return request.query.token === resource.Metadata.token'`
 paths:
-  /data*
+  /data*:
     read: 'validToken()'
 ```
 

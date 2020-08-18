@@ -1,0 +1,90 @@
+---
+title: "GraphQL Query"
+publishedAt: "2020-08-17"
+summary: ""
+---
+
+You can **read data** with a GraphQL **query**. The best way to get started is with the Hasura console or with a GraphQL explorer like GraphiQL.
+
+A GraphQL query looks like this:
+
+```graphql:Query
+query GetTodos {
+  todos {
+    title
+    body
+    done
+  }
+}
+```
+
+```json:Response
+{
+  "data": {
+    "todos": [
+      {
+        "title": "Delete Firebase account",
+        "body": "Migrate to nhost.io",
+        "done": false
+      }
+    ]
+  }
+}
+```
+
+This will select the `title`, `body`, and `done` flag for every row in your `todos` table.
+
+GraphQL queries can be more complex, with filters, limits, sorting and aggregation. For example:
+
+```graphql:Query
+query GetTodosWithLatestComments {
+  todos(where: { done: { _eq: false } }) {
+    title
+    body
+    comments(limit: 5, order_by: { created_at: desc }) {
+      comment
+      created_at
+      author
+    }
+    comments_aggregate {
+      aggregate {
+        count(columns: id)
+      }
+    }
+  }
+}
+```
+
+```json:Response
+{
+  "data": {
+    "todos": [
+      {
+        "title": "Delete Firebase account",
+        "body": "Migrate to nhost.io",
+        "comments": [
+          {
+            "comment": "Let's do this",
+            "created_at": "2019-10-31T08:34:25.621167+00:00",
+            "author": "John"
+          },
+          {
+            "comment": "🎉",
+            "created_at": "2019-10-31T08:33:18.465623+00:00",
+            "author": "Charlie"
+          }
+        ],
+        "comments_aggregate": {
+          "aggregate": {
+            "count": 2
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+This will select all items in the `todo` table that aren't `done`, with the total number of comments and the last five comments.
+
+A great place to get started with setting up queries is in the Hasura Console.

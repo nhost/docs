@@ -179,10 +179,6 @@ const menu_graphql = [
         link: "/graphql/variables",
         name: "Variables",
       },
-      {
-        link: "/graphql/headers",
-        name: "HTTP Headers",
-      },
     ],
   },
 ];

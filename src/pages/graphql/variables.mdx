@@ -1,0 +1,48 @@
+---
+title: "GraphQL Variables"
+publishedAt: "2020-08-17"
+summary: ""
+---
+
+You can send variables to your GraphQL queries and mutations. To do so, the variables and the type must be specified, ex: `$title: String`.
+
+```graphql{1-2}:Mutation
+mutation InsertTodo($title: String, $body: String, $done: Boolean) {
+  insert_todos(objects: { title: $title, body: $body, done: $done }) {
+    returning {
+      id
+      title
+      body
+      done
+    }
+  }
+}
+```
+
+> Because GraphQL is strongly typed, you will need to specify the variable types, which should match the types in your database.
+
+How you use variables will depend on your GraphQL client, but here is an example using the popular Apollo client. INSERT_TODO is the mutation above.
+
+```js
+const INSERT_TODOS = gql`
+  mutation InsertTodo($title: String, $body: String, $done: Boolean) {
+    insert_todos(objects: { title: $title, body: $body, done: $done }) {
+      returning {
+        id
+        title
+        body
+        done
+      }
+    }
+  }
+`;
+
+client.mutate({
+  mutation: INSERT_TODO,
+  variables: {
+    title: "Set up variables",
+    body: "Variables allow separation of concerns!",
+    done: false,
+  },
+});
+```

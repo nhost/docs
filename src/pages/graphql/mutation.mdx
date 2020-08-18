@@ -1,0 +1,215 @@
+---
+title: "GraphQL Mutation"
+publishedAt: "2020-08-17"
+summary: ""
+---
+
+## Insert
+
+The simplest type of mutation is an insert.
+
+```graphql:Mutation
+mutation InsertTodo {
+  insert_todos(
+    objects: [
+      {
+        title: "Delete Firebase account"
+        body: "Migrate to nhost.io"
+        done: false
+      }
+    ]
+  ) {
+    returning {
+      id
+      title
+      body
+      done
+    }
+  }
+}
+```
+
+```json:Response
+{
+  "data": {
+    "insert_todos": [
+      {
+        "id": "bf4b01ec-8eb6-451b-afac-81f5058ce852",
+        "title": "Delete Firebase account",
+        "body": "Migrate to nhost.io",
+        "done": true
+      }
+    ]
+  }
+}
+```
+
+### Insert multiple rows
+
+You can add multiple rows at once with an array as the `objects` property. This can be useful for migrating data.
+
+```graphql:Mutation
+mutation InsertMultipleTodos {
+  insert_todos(
+    objects: [
+      {
+        title: "Build the front end"
+        body: "Mobile app or website first?"
+        done: false
+      }
+      { title: "Launch 🚀", body: "That was easy", done: false }
+    ]
+  ) {
+    returning {
+      id
+      title
+      body
+      done
+    }
+  }
+}
+```
+
+## Update
+
+You can update your data with a mutation. You can update multiple rows at once, for example marking all todos assigned to yourself as done.
+
+> **Update mutations** are for when you know the data exists. Use an [upsert](/graphql/mutation#upsert) mutation if you want to optionally create or update data depending on whether it exists.
+
+For example, to mark a todo as done, you would use an update mutation, based on the id of your table:
+
+```graphql:Mutation
+mutation UpdateTodoStatus($id: uuid, $done: Boolean) {
+  update_todos(_set: { done: $done }, where: { id: { _eq: $id } }) {
+    returning {
+      body
+      done
+      title
+    }
+  }
+}
+```
+
+Notice how we are using variables as the `id` and `done` properties, which lets us mark any todo as done or not done with the same mutation.
+
+## Upsert
+
+An **upsert** mutation will insert an object into the database in case there is no conflict with another row in the table. In case there is a conflict with one or more rows, it will either update the fields of the conflicted rows or ignore the request, depending on your mutation.
+
+In order to convert your `insert` mutation to an upsert, you need to add an `on_conflict` property, which tells Hasura which fields it should use to find duplicates.
+
+> The `on_conflict` key can only be a unique key in your database.
+
+For an upsert, **all columns need to be passed**. This is different to an update mutation.
+
+> Upsert mutations are for when you are not sure if the data already exists. Use an [update](/graphql/mutation#update) mutation if you know it does.
+
+### Upsert example
+
+We have set the title to a unique value, which means that you cannot have multiple todos with the same title. If you would like to overwrite the existing data, use a upsert mutation which is constrained to the title:
+
+```graphql:Mutation
+mutation UpsertTodo {
+  insert_todos(
+    objects: {
+      title: "Delete Firebase account"
+      body: "Migrate to an nhost.io project"
+      done: false
+    }
+    on_conflict: { constraint: todos_title_key, update_columns: [body, done] }
+  ) {
+    returning {
+      body
+      done
+      id
+      title
+    }
+  }
+}
+```
+
+This will update the `body` and `done` properties of the todo title to 'Delete Firebase account'.
+
+### Conditional upsert
+
+Insert a new object in the `article` table, or if the primary key constraint `todos_title_key` is violated, update the columns specified in `update_columns` only if the provided `where` condition is met.
+
+For example, you may want to only update an existing todo if it is not done:
+
+```graphql:Mutation
+mutation UpsertTodo {
+  insert_todos(
+    objects: {
+      title: "Delete Firebase account"
+      body: "Migrate to an nhost.io project"
+      done: false
+    }
+    on_conflict: {
+      constraint: todos_title_key
+      update_columns: [body, done]
+      where: { done: { _eq: false } }
+    }
+  ) {
+    returning {
+      body
+      done
+      id
+      title
+    }
+  }
+}
+```
+
+### Ignore mutation on conflict
+
+If `update_columns` is **empty** Hasura ignore the mutation if there is a conflict.
+
+Insert a new object into the author table or, if the unique constraint `todos_title_key` is violated, ignore the request.
+
+Here we have set the `title` to a unique key, to prevent multiple tasks with the same name. We want to avoid overwriting existing todos, so the update_columns array is empty:
+
+```graphql:Mutation
+mutation InsertTodo {
+  insert_todos(
+    objects: {
+      title: "Delete Firebase account"
+      body: "Migrate to nhost.io"
+      done: false
+    }
+    on_conflict: { constraint: todos_title_key, update_columns: [] }
+  ) {
+    returning {
+      body
+      done
+      id
+      title
+    }
+  }
+}
+```
+
+In this case, the insert mutation is ignored because there is a conflict and `update_columns` is empty.
+
+## Delete
+
+To delete your data, use a delete mutation.
+
+This mutation will delete all `todos` where `done` is `true`:
+
+```graphql:Mutation
+mutation DeleteDoneTodos {
+  delete_todos(where: { done: { _eq: true } }) {
+    affected_rows
+  }
+}
+```
+
+If you have set up foreign keys which will restrict a delete violation, you will get an error and will not be able to delete the data until all violations are solved. The simplest way to solve this is by set **On Delete Violation to CASCADE** when you set up a Foreign Key.An
+
+### Soft deletes
+
+Sometimes it is better to keep data rather than deleting outright. In this case, you can add a boolean `deleted` property with a default value of `false` to your table. When a user deletes data, you set `deleted` to `true`.
+
+Use a custom check in the permission settings to stop users from accessing deleted items.
+
+![Soft delete in Hasura](/images/graphql/soft-delete-permissions.png)

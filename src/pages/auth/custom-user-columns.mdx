@@ -32,3 +32,16 @@ The new JWT-token will contain the `company_id` as `x-hasura-company-id`.
 In the example below a user is allowed to select information about their own company (id = `x-hasura-company-id`).
 
 ![](/images/auth/permission-using-custom-claim.png)
+
+## Set user field data on registration
+
+You can specify what user fields that can be set during registration under **Settings -> Authentication -> Registration custom fields**.
+
+A popular field to let users set during registration is `display_name` that exist on the `users` table by default.
+
+With `[nhost-js-sdk](/libraries/nhost-js-sdk)` you can register a user, with the `display_name` like this:
+
+```js
+const name "Joe Doe";
+auth.register(email, password, { display_name: name });
+```

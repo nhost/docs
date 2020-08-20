@@ -47,6 +47,12 @@ Register a new user.
 auth.register(email, password);
 ```
 
+With custom user_data, for ex `display_name`:
+
+```js
+auth.register(email, password, { display_name: "Joe Doe" });
+```
+
 ### Request
 
 `POST /auth/register`
@@ -55,6 +61,18 @@ auth.register(email, password);
 {
   "email": "elon@tesla.com",
   "password": "password"
+}
+```
+
+With custom user_data, for ex `display_name`:
+
+```json
+{
+  "email": "elon@tesla.com",
+  "password": "password"
+  "user_data": {
+    "display_name": "Elon Musk"
+  }
 }
 ```
 

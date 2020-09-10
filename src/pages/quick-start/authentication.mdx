@@ -20,7 +20,7 @@ You will use this user to access your todos later on. But first, we will install
 npm install nhost-js-sdk
 ```
 
-Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and create `nhost.js` inside it. 
+Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and create `nhost.js` inside it.
 
 ```js:src/util/nhost.js
 import nhost from "nhost-js-sdk";
@@ -57,7 +57,7 @@ ReactDOM.render(
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql"
+        gqlEndpoint="https://hasura-xxx.nhost.app/v1/graphql"
       >
         <App />
       </NhostApolloProvider>
@@ -71,7 +71,7 @@ Now it's a good time to recap what has been done so far in this chapter. We star
 
 Next, we will create the login component.
 
-## Login 
+## Login
 
 We need to write a login component that handles the form submittion of a user's data, and also some scaffolding for the app routes.
 
@@ -142,7 +142,7 @@ ReactDOM.render(
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint="https://hasura-REPLACE.nhost.app/v1/graphql"
+        gqlEndpoint="https://hasura-REPLACE.nhost.app/v1/graphql"
       >
         <Router>
           <Switch>
@@ -205,7 +205,7 @@ function App() {
       <div>
         <form
           onSubmit={async (e) => {
-          
+
           [...]
 
         </form>
@@ -296,7 +296,7 @@ ReactDOM.render(
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql"
+        gqlEndpoint="https://hasura-xxx.nhost.app/v1/graphql"
       >
         <Router>
           <Switch>

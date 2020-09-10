@@ -35,7 +35,7 @@ ReactDOM.render(
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gql_endpoint={`https://hasura-xxx.nhost.app/v1/graphql`}
+        gqlEndpoint={`https://hasura-xxx.nhost.app/v1/graphql`}
       >
         <App />
       </NhostApolloProvider>
@@ -262,7 +262,7 @@ import App from "./App";
 ReactDOM.render(
   <React.StrictMode>
     <NhostApolloProvider
-      gql_endpoint={`https://hasura-xxx.nhost.app/v1/graphql`}
+      gqlEndpoint={`https://hasura-xxx.nhost.app/v1/graphql`}
     >
       <App />
     </NhostApolloProvider>

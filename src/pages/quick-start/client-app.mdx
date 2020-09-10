@@ -23,7 +23,7 @@ cd nhost-todos
 npm install react-nhost @apollo/client graphql graphql-tag react-router-dom
 ```
 
-Now it's a good time to start the app and see that everything is working as expected. 
+Now it's a good time to start the app and see that everything is working as expected.
 
 ```bash
 npm start
@@ -62,7 +62,7 @@ import { NhostApolloProvider } from "react-nhost";
 
 ReactDOM.render(
   <React.StrictMode>
-    <NhostApolloProvider gql_endpoint="https://hasura-xxx.nhost.app/v1/graphql">
+    <NhostApolloProvider gqlEndpoint="https://hasura-xxx.nhost.app/v1/graphql">
       <App />
     </NhostApolloProvider>
   </React.StrictMode>,

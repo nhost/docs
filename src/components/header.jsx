@@ -65,7 +65,11 @@ export function Header(props) {
       <div className="header-container">
         <Link href="/">
           <a>
-            <img src="/images/logo.svg" alt="Nhost logo" className="logo" />
+            <img
+              src="/images/nhost-logo.svg"
+              alt="Nhost logo"
+              className="logo"
+            />
           </a>
         </Link>
         <div className="menu-controller" onClick={() => setMenuOpen(true)}>

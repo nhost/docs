@@ -13,39 +13,23 @@ import SEO from "../../next-seo.config";
 
 const mdComponents = {
   h1: (props) => {
-    let link_id = "";
-    try {
-      link_id = props.children.replace(/ /g, "-").toLowerCase();
-    } catch (error) {
-      console.log("unable to to use .replace");
-      console.log(props.children);
-    }
-
+    const linkId = props.children.replace(/ /g, "-").toLowerCase();
     return (
-      <h1 id={link_id} {...props} className="text-4xl pb-2">
-        <a href={`#${link_id}`} className="header-anchor ">
-          #
-        </a>
+      <h1 id={linkId} {...props} className="text-4xl pb-2 font-semibold">
         {props.children}
       </h1>
     );
   },
   h2: (props) => {
-    let link_id = "";
-    try {
-      link_id = props.children.replace(/ /g, "-").toLowerCase();
-    } catch (error) {
-      console.log("unable to to use .replace");
-      console.log(props.children);
-    }
+    const linkId = props.children.replace(/ /g, "-").toLowerCase();
     return (
       <h2
-        id={link_id}
+        id={linkId}
         {...props}
         className="group flex whitespace-pre-wrap pt-6 pb-2 text-3xl font-semibold"
       >
         <a
-          href={`#${link_id}`}
+          href={`#${linkId}`}
           className="absolute no-underline after:hash opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out text-primary"
           style={{ marginLeft: "-1.5rem", paddingRight: "0.5rem" }}
         >
@@ -63,7 +47,16 @@ const mdComponents = {
     );
   },
   p: (props) => {
-    return <p className="py-3">{props.children}</p>;
+    return (
+      <p className="py-3 text-lg text-gray-800 leading-7">{props.children}</p>
+    );
+  },
+  ul: (props) => {
+    return (
+      <ul className="text-lg text-gray-800 leading-7 list-disc pl-6">
+        {props.children}
+      </ul>
+    );
   },
   inlineCode: ({ children }) => {
     return <code className="inline-code">{children}</code>;
@@ -71,9 +64,6 @@ const mdComponents = {
 };
 
 export default function App({ Component, pageProps }) {
-  console.log({ Component });
-  console.log({ pageProps });
-
   return (
     <MDXProvider components={mdComponents}>
       <DefaultSeo {...SEO} />

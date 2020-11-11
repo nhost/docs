@@ -1,14 +1,9 @@
 import { SEO } from "components/seo";
 export default function Layout(frontMatter) {
   return ({ children: content }) => {
-    // React hooks, for example `useState` or `useEffect`, go here.
-    const slug = frontMatter.__resourcePath
-      .replace(/.*pages\//, "")
-      .replace(".mdx", "");
-
-    console.log({ frontMatter });
-
-    console.log({ content });
+    // const slug = frontMatter.__resourcePath
+    //   .replace(/.*pages\//, "")
+    //   .replace(".mdx", "");
 
     const h2s = content
       .filter((item) => item.props.mdxType === "h2")
@@ -31,7 +26,7 @@ export default function Layout(frontMatter) {
             </div>
             <div>
               {h2s.map((h2) => {
-                const linkId = h2.replace(/ /g, "-").toLowerCase();
+                const linkId = `#${h2.replace(/ /g, "-").toLowerCase()}`;
                 return (
                   <div className="py-1">
                     <a href={`#${linkId}`}>{h2}</a>

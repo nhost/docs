@@ -15,10 +15,7 @@ const mdComponents = {
     const linkId = props.children.replace(/ /g, "-").toLowerCase();
 
     return (
-      <h1 id={linkId} {...props} className="text-4xl pb-2">
-        <a href={`#${linkId}`} className="header-anchor ">
-          #
-        </a>
+      <h1 id={linkId} {...props} className="text-4xl pb-2 font-semibold">
         {props.children}
       </h1>
     );

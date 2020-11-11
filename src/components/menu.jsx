@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import classNames from "classnames";
 
 const menuQuickStart = [
   {
@@ -232,7 +233,7 @@ export function Menu(props) {
       <MenuHeader>Quick Start</MenuHeader>
       <MenuList menu={menuQuickStart} router={router} />
 
-      <div>Nhost</div>
+      <MenuHeader>PostgreSQL</MenuHeader>
       <MenuList menu={menuPostgres} router={router} />
       {/* <MenuUL menu={menu_example_apps} router={router} /> */}
     </div>
@@ -240,19 +241,25 @@ export function Menu(props) {
 }
 
 function MenuHeader({ children }) {
-  return <div className="text-sm uppercase text-gray-700">{children}</div>;
+  return <div className="text-sm uppercase text-gray-900 pb-1">{children}</div>;
 }
 
 function MenuList({ menu }) {
+  const router = useRouter();
   return (
-    <div>
+    <div className="mb-6">
       {menu.map((item) => {
+        const active = item.link === router.pathname;
+
+        const classes = classNames({
+          block: true,
+          "py-1 text-gray-600 hover:text-gray-800": !active,
+          "text-gray-800 font-semibold": active,
+        });
         return (
-          <div key={item.link}>
-            <Link href={item.link}>
-              <a>{item.name}</a>
-            </Link>
-          </div>
+          <Link href={item.link} key={item.link}>
+            <a className={classes}>{item.name}</a>
+          </Link>
         );
       })}
     </div>

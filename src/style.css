@@ -35,14 +35,19 @@ blockquote {
     @apply py-1;
   }
 
-  .md-container code {
+  .md-container img {
+    @apply py-3 border rounded-md;
+  }
+
+  .md-container code.inline-code {
+    font-size: 0.9rem;
     color: rgb(0, 153, 255);
   }
 
-  .md-container code::before {
+  .md-container code.inline-code::before {
     content: "\`";
   }
-  .md-container code::after {
+  .md-container code.inline-code::after {
     content: "\`";
   }
 }

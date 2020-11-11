@@ -30,24 +30,18 @@ const menuQuickStart = [
   },
 ];
 
-const menu_postgresql = [
+const menuPostgres = [
   {
-    name: "PostgreSQL",
-    path: "/postgresql",
-    menu: [
-      {
-        link: "/postgresql",
-        name: "Overview",
-      },
-      {
-        link: "/postgresql/create-tables",
-        name: "Create Tables",
-      },
-      {
-        link: "/postgresql/custom-schemas",
-        name: "Custom schemas",
-      },
-    ],
+    link: "/postgresql",
+    name: "Overview",
+  },
+  {
+    link: "/postgresql/create-tables",
+    name: "Create Tables",
+  },
+  {
+    link: "/postgresql/custom-schemas",
+    name: "Custom schemas",
   },
 ];
 
@@ -238,7 +232,9 @@ export function Menu(props) {
     <div>
       <MenuHeader>Quick Start</MenuHeader>
       <MenuList menu={menuQuickStart} router={router} />
+
       <div>Nhost</div>
+      <MenuList menu={menuPostgres} router={router} />
       {/* <MenuUL menu={menu_example_apps} router={router} /> */}
     </div>
   );
@@ -261,83 +257,5 @@ function MenuList({ menu }) {
         );
       })}
     </div>
-  );
-}
-
-function menuShouldStartOpen(menu, router) {
-  if (!menu) return false;
-  if (menu.length < 1) return false;
-
-  return router.pathname.startsWith(menu[0].path);
-}
-
-function MenuArrow({ open }) {
-  if (open) {
-    return (
-      <img
-        src="/images/arrow-up.svg"
-        style={{ height: "10px", width: "10px" }}
-      />
-    );
-  }
-
-  return (
-    <img
-      src="/images/arrow-up.svg"
-      style={{ height: "10px", width: "10px", transform: "rotate(180deg)" }}
-    />
-  );
-}
-
-function MenuUL({ menu, router, closeMenu, other }) {
-  return (
-    <ul>
-      {menu.map((item) => {
-        const cssClass = item.link === router.pathname ? "active" : "";
-
-        function showSubMenu() {
-          return (
-            subMenuOpen ||
-            router.pathname.startsWith(item.link) ||
-            router.pathname.startsWith(item.path)
-          );
-        }
-
-        return (
-          <React.Fragment key={item.name}>
-            <li className={cssClass}>
-              {item.link ? (
-                <Link href={item.link}>
-                  <a>
-                    <span
-                      onClick={() => {
-                        if (typeof closeMenu === "function") {
-                          closeMenu();
-                        }
-                      }}
-                    >
-                      {item.name}
-                    </span>
-                  </a>
-                </Link>
-              ) : (
-                <div
-                  className="li-header"
-                  onClick={() => setSubMenuOpen(!subMenuOpen)}
-                >
-                  {item.name}{" "}
-                  <div>
-                    <MenuArrow open={subMenuOpen} />
-                  </div>
-                </div>
-              )}
-            </li>
-            {showSubMenu() && (
-              <MenuUL menu={item.menu} router={router} closeMenu={closeMenu} />
-            )}
-          </React.Fragment>
-        );
-      })}
-    </ul>
   );
 }

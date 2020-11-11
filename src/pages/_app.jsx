@@ -251,17 +251,17 @@ export default function App({ Component, pageProps }) {
         <div className="container mx-auto px-4">header</div>
       </div>
       <div className="container mx-auto px-4 flex pt-12">
-        <div className="xl:w-1/5 h-screen overflow-y-scroll">
+        <div className="lg:w-1/5 h-screen overflow-y-scroll">
           <div>
             <Menu />
           </div>
         </div>
-        <div className="xl:w-4/5">
+        <div className="lg:w-4/5">
           <div className="flex">
             <div className="px-8 xl:w-3/4 md-container">
               <Component {...pageProps} />
             </div>
-            <div className="xl:w-1/4 relative">
+            <div className="hidden xl:block xl:w-1/4 relative">
               <div className="fixed">
                 ToC1 <br />
                 ToC2 <br />

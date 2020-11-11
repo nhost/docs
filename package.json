@@ -24,7 +24,6 @@
     "remark-unwrap-images": "^2.0.0"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "tailwindcss": "^1.9.6",
     "webpack": "^4.43.0",

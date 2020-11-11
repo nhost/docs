@@ -254,7 +254,7 @@ function MenuList({ menu }) {
         const classes = classNames({
           block: true,
           "py-1 text-gray-600 hover:text-gray-800": !active,
-          "text-gray-800 font-semibold": active,
+          "py-1 text-gray-800 font-semibold": active,
         });
         return (
           <Link href={item.link} key={item.link}>

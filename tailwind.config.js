@@ -3,7 +3,6 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: ["./src/**/*.jsx"],
   theme: {
     extend: {
       colors: {

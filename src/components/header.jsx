@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
 import { SvgDiscord, SvgTwitter, SvgGithub } from "components/svg";
 // import Link from "next/link";
 // import { Menu } from "components/menu";
@@ -9,7 +10,11 @@ export function Header(props) {
   return (
     <div className="container mx-auto px-4 py-3 flex justify-between items-center">
       <div>
-        <img src="/images/logo.svg" style={{ height: "40px" }} />
+        <Link href="/">
+          <a>
+            <img src="/images/logo.svg" style={{ height: "40px" }} />
+          </a>
+        </Link>
       </div>
       <div>Documentation</div>
       <div className="flex">

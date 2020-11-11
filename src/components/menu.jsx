@@ -3,104 +3,30 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const MenuContainer = styled.div`
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-  a {
-    color: #000;
-  }
-
-  ul {
-    border-left: 1px solid #ddd;
-    margin: 0 0 0 2rem;
-    /* margin: 0 auto; */
-    padding: 0;
-    list-style-type: none;
-  }
-
-  /* Skip margin and border for first ul */
-  > ul {
-    margin-left: 0;
-    border: 0;
-  }
-
-  li {
-    width: 100%;
-    font-size: 1.4rem;
-
-    a > span {
-      display: block;
-      width: 100%;
-      padding: 0.7rem 2.4rem 0.7rem 1.6rem;
-    }
-
-    .li-header {
-      display: block;
-      padding: 0.7rem 2.4rem 0.7rem 1.6rem;
-      margin: 0;
-
-      display: flex;
-      justify-content: space-between;
-      cursor: pointer;
-    }
-
-    &.header {
-      padding: 0.7rem 2.4rem 0.7rem 1.6rem;
-      font-weight: bold;
-      color: #000;
-    }
-
-    &:hover {
-      background: #ddd;
-    }
-    &.active {
-      background: #fff;
-      border-top: 1px solid #f0f1f2;
-      border-bottom: 1px solid #f0f1f2;
-      font-weight: bold;
-      color: var(--primary-color);
-      a {
-        color: var(--primary-color);
-      }
-    }
-  }
-`;
-
-const menu_quick_start = [
+const menuQuickStart = [
   {
-    name: "Quick Start",
-    path: "/quick-start",
-    menu: [
-      {
-        link: "/quick-start/introduction",
-        name: "Introduction",
-      },
-      {
-        link: "/quick-start/nhost-backend",
-        name: "Nhost Backend",
-      },
-      {
-        link: "/quick-start/todos-table",
-        name: "Todos Table",
-      },
-      {
-        link: "/quick-start/client-app",
-        name: "Client App",
-      },
-      {
-        link: "/quick-start/authentication",
-        name: "Authentication",
-      },
-      {
-        link: "/quick-start/deploy-app",
-        name: "Deployment",
-      },
-    ],
+    link: "/quick-start/introduction",
+    name: "Introduction",
+  },
+  {
+    link: "/quick-start/nhost-backend",
+    name: "Nhost Backend",
+  },
+  {
+    link: "/quick-start/todos-table",
+    name: "Todos Table",
+  },
+  {
+    link: "/quick-start/client-app",
+    name: "Client App",
+  },
+  {
+    link: "/quick-start/authentication",
+    name: "Authentication",
+  },
+  {
+    link: "/quick-start/deploy-app",
+    name: "Deployment",
   },
 ];
 
@@ -309,30 +235,32 @@ export function Menu(props) {
   const router = useRouter();
 
   return (
-    <MenuContainer>
-      <div>Documentation</div>
-      <MenuUL
-        menu={menu_quick_start}
-        router={router}
-        closeMenu={props.closeMenu}
-      />
+    <div>
+      <MenuHeader>Quick Start</MenuHeader>
+      <MenuList menu={menuQuickStart} router={router} />
       <div>Nhost</div>
-      <MenuUL
-        menu={menu_postgresql}
-        router={router}
-        closeMenu={props.closeMenu}
-      />
-      <MenuUL menu={menu_hasura} router={router} closeMenu={props.closeMenu} />
-      <MenuUL menu={menu_graphql} router={router} closeMenu={props.closeMenu} />
-      <MenuUL menu={menu_auth} router={router} closeMenu={props.closeMenu} />
-      <MenuUL menu={menu_storage} router={router} closeMenu={props.closeMenu} />
-      <MenuUL
-        menu={menu_libraries}
-        router={router}
-        closeMenu={props.closeMenu}
-      />
       {/* <MenuUL menu={menu_example_apps} router={router} /> */}
-    </MenuContainer>
+    </div>
+  );
+}
+
+function MenuHeader({ children }) {
+  return <div className="text-sm uppercase text-gray-700">{children}</div>;
+}
+
+function MenuList({ menu }) {
+  return (
+    <div>
+      {menu.map((item) => {
+        return (
+          <div>
+            <Link href={item.link}>
+              <a>{item.name}</a>
+            </Link>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -362,12 +290,6 @@ function MenuArrow({ open }) {
 }
 
 function MenuUL({ menu, router, closeMenu, other }) {
-  const [subMenuOpen, setSubMenuOpen] = useState(
-    menuShouldStartOpen(menu, router)
-  );
-
-  if (!menu) return null;
-
   return (
     <ul>
       {menu.map((item) => {

@@ -4,11 +4,130 @@ import { MDXProvider } from "@mdx-js/react";
 import Zoom from "react-medium-image-zoom";
 import { Header } from "components/header";
 import { Menu } from "components/menu";
+
 import "react-medium-image-zoom/dist/styles.css";
 import "../style.css";
 import "../styles/prism.css";
 
 import SEO from "../../next-seo.config";
+
+function MenuLong() {
+  return (
+    <div>
+      Menu1 <br />
+      Menu2 <br />
+      Menu3 <br />
+      Menu4 <br />
+      Menu5 <br />
+      Menu6 <br />
+      Menu7 <br />
+      Menu8 <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+      Menu <br />
+    </div>
+  );
+}
 
 const AppContainer = styled.div`
   display: grid;
@@ -128,25 +247,33 @@ export default function App({ Component, pageProps }) {
   return (
     <MDXProvider components={mdComponents}>
       <DefaultSeo {...SEO} />
-      <AppContainer>
-        <Header />
-        <div className="menu-container">
-          <div className="menu-content">
+      <div className="w-full fixed z-50 bg-white border-b">
+        <div className="container mx-auto px-4">header</div>
+      </div>
+      <div className="container mx-auto px-4 flex pt-12">
+        <div className="xl:w-1/5 h-screen overflow-y-scroll">
+          <div>
             <Menu />
           </div>
         </div>
-        <div className="main-container">
-          <div className="main-container-width">
-            <Component {...pageProps} />
+        <div className="xl:w-4/5">
+          <div className="flex">
+            <div className="px-8 xl:w-3/4 md-container">
+              <Component {...pageProps} />
+            </div>
+            <div className="xl:w-1/4 relative">
+              <div className="fixed">
+                ToC1 <br />
+                ToC2 <br />
+                ToC3 <br />
+                ToC <br />
+                ToC <br />
+                ToC <br />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="discort-button-style">
-          <a href="https://nhost.io/discord" target="_blank">
-            <img src="/images/icon-discord.png" alt="" />
-            Chat with us at Discord
-          </a>
-        </div>
-      </AppContainer>
+      </div>
     </MDXProvider>
   );
 }

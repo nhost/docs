@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { DefaultSeo } from "next-seo";
 import { MDXProvider } from "@mdx-js/react";
 import Zoom from "react-medium-image-zoom";

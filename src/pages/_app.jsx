@@ -13,8 +13,12 @@ import SEO from "../../next-seo.config";
 const mdComponents = {
   h1: (props) => {
     const linkId = props.children.replace(/ /g, "-").toLowerCase();
+
     return (
-      <h1 id={linkId} {...props} className="text-4xl pb-2 font-semibold">
+      <h1 id={linkId} {...props} className="text-4xl pb-2">
+        <a href={`#${linkId}`} className="header-anchor ">
+          #
+        </a>
         {props.children}
       </h1>
     );
@@ -46,16 +50,7 @@ const mdComponents = {
     );
   },
   p: (props) => {
-    return (
-      <p className="py-3 text-lg text-gray-800 leading-7">{props.children}</p>
-    );
-  },
-  ul: (props) => {
-    return (
-      <ul className="text-lg text-gray-800 leading-7 list-disc pl-6">
-        {props.children}
-      </ul>
-    );
+    return <p className="py-3">{props.children}</p>;
   },
   inlineCode: ({ children }) => {
     return <code className="inline-code">{children}</code>;

@@ -5,8 +5,15 @@ module.exports = {
   },
   purge: [],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#0099FF",
+      },
+    },
   },
-  variants: {},
+  variants: {
+    textColor: ["responsive", "hover", "focus", "group-hover"],
+    opacity: ["responsive", "hover", "focus", "active", "group-hover"],
+  },
   plugins: [],
 };

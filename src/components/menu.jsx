@@ -249,7 +249,7 @@ function MenuList({ menu }) {
     <div>
       {menu.map((item) => {
         return (
-          <div>
+          <div key={item.link}>
             <Link href={item.link}>
               <a>{item.name}</a>
             </Link>

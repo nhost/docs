@@ -23,22 +23,6 @@ blockquote {
 @tailwind utilities;
 
 @layer components {
-  .md-container h1 {
-    @apply text-2xl pt-3 pb-1;
-  }
-
-  .md-container h2 {
-    @apply text-xl pt-3 pb-1;
-  }
-
-  .md-container p {
-    @apply py-1;
-  }
-
-  .md-container img {
-    @apply py-3 border rounded-md;
-  }
-
   .md-container code.inline-code {
     font-size: 0.9rem;
     color: rgb(0, 153, 255);

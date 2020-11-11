@@ -11,197 +11,6 @@ import "../styles/prism.css";
 
 import SEO from "../../next-seo.config";
 
-function MenuLong() {
-  return (
-    <div>
-      Menu1 <br />
-      Menu2 <br />
-      Menu3 <br />
-      Menu4 <br />
-      Menu5 <br />
-      Menu6 <br />
-      Menu7 <br />
-      Menu8 <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-      Menu <br />
-    </div>
-  );
-}
-
-const AppContainer = styled.div`
-  display: grid;
-  grid-template-columns: 30rem 1fr;
-  grid-template-rows: 65px auto;
-  grid-template-areas:
-    "header header"
-    "menu main";
-
-  @media only screen and (max-width: 980px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 65px auto;
-    grid-template-areas:
-      "header header"
-      "main main";
-  }
-
-  .menu-container {
-    grid-area: menu;
-    height: calc(100vh - 65px);
-    overflow-y: auto;
-    background: #f5f7f9;
-
-    @media only screen and (max-width: 980px) {
-      display: none;
-    }
-
-    .menu-content {
-      /* width: 30rem; */
-      /* float: right; */
-      padding: 1rem 2rem;
-    }
-  }
-
-  .main-container {
-    grid-area: main;
-    height: calc(100vh - 65px);
-    overflow-y: auto;
-    padding: 0 3rem;
-    padding-bottom: 10rem;
-
-    .main-container-width {
-      max-width: 70rem;
-      @media only screen and (max-width: 980px) {
-        max-width: 100%;
-      }
-    }
-  }
-
-  .discort-button-style {
-    position: absolute;
-    bottom: 0;
-    right: 3rem;
-    font-size: 1.4rem;
-    padding: 1rem 1rem 0.3rem;
-    box-shadow: 0 0 8px 2px rgba(116, 129, 141, 0.1);
-
-    &:hover {
-      background: #f5f7f9;
-      box-shadow: 0 0 8px 2px rgba(116, 129, 141, 0.3);
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-    }
-
-    img {
-      width: 30px;
-      margin-right: 0.7rem;
-    }
-  }
-`;
-
 const mdComponents = {
   h1: (props) => {
     let link_id = "";
@@ -211,10 +20,14 @@ const mdComponents = {
       console.log("unable to to use .replace");
       console.log(props.children);
     }
+
     return (
-      <a href={`#${link_id}`}>
-        <h1 id={link_id} {...props} />
-      </a>
+      <h1 id={link_id} {...props} className="text-4xl pb-2">
+        <a href={`#${link_id}`} className="header-anchor ">
+          #
+        </a>
+        {props.children}
+      </h1>
     );
   },
   h2: (props) => {
@@ -226,9 +39,20 @@ const mdComponents = {
       console.log(props.children);
     }
     return (
-      <a href={`#${link_id}`}>
-        <h2 id={link_id} {...props} />
-      </a>
+      <h2
+        id={link_id}
+        {...props}
+        className="group flex whitespace-pre-wrap pt-6 pb-2 text-3xl font-semibold"
+      >
+        <a
+          href={`#${link_id}`}
+          className="absolute no-underline after:hash opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out text-primary"
+          style={{ marginLeft: "-1.5rem", paddingRight: "0.5rem" }}
+        >
+          #
+        </a>
+        <span>{props.children}</span>
+      </h2>
     );
   },
   img: ({ src, alt }) => {
@@ -238,40 +62,32 @@ const mdComponents = {
       </Zoom>
     );
   },
+  p: (props) => {
+    return <p className="py-3">{props.children}</p>;
+  },
   inlineCode: ({ children }) => {
     return <code className="inline-code">{children}</code>;
   },
 };
 
 export default function App({ Component, pageProps }) {
+  console.log({ Component });
+  console.log({ pageProps });
+
   return (
     <MDXProvider components={mdComponents}>
       <DefaultSeo {...SEO} />
       <div className="w-full fixed z-50 bg-white border-b">
         <Header />
       </div>
-      <div className="container mx-auto px-4 flex pt-12">
+      <div className="container mx-auto px-4 flex pt-24">
         <div className="lg:w-1/5 h-screen overflow-y-scroll">
           <div>
             <Menu />
           </div>
         </div>
         <div className="lg:w-4/5">
-          <div className="flex">
-            <div className="px-8 xl:w-3/4 md-container">
-              <Component {...pageProps} />
-            </div>
-            <div className="hidden xl:block xl:w-1/4 relative">
-              <div className="fixed">
-                ToC1 <br />
-                ToC2 <br />
-                ToC3 <br />
-                ToC <br />
-                ToC <br />
-                ToC <br />
-              </div>
-            </div>
-          </div>
+          <Component {...pageProps} />
         </div>
       </div>
     </MDXProvider>

@@ -3,7 +3,7 @@ import React from "react";
 export function SvgGithub() {
   return (
     <svg
-      class="fill-current w-5 h-5"
+      className="fill-current w-5 h-5"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
     >

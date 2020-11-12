@@ -22,12 +22,12 @@ Please make sure the `DATA` tab on the top menu is selected, and click on `Creat
 
 We'll create a `todos` table with the following columns:
 
-| Name       | Type      | Default value     |
-| :--------- | :-------- | :---------------- |
-| id         | UUID      | gen_random_uuid() |
+|       Name | Type      | Default value     |
+| ---------: | :-------- | :---------------- |
+|         id | UUID      | gen_random_uuid() |
 | created_at | Timestamp | now()             |
-| name       | Text      |                   |
-| completed  | Boolean   | false             |
+|       name | Text      |                   |
+|  completed | Boolean   | false             |
 
 For the `id` and `created_at` columns you can either create them manually with the correct functions as default value or use the `Frequently used columns` option that is at the bottom of the `Columns` section. Values for those columns will be generated on insert.
 

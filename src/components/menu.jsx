@@ -45,159 +45,122 @@ const menuPostgres = [
   },
 ];
 
-const menu_hasura = [
+const menuHasura = [
   {
-    name: "Hasura",
-    path: "/hasura",
-    menu: [
-      {
-        link: "/hasura",
-        name: "Overview",
-      },
-      {
-        link: "/hasura/tables",
-        name: "Tables",
-      },
-      {
-        link: "/hasura/permissions",
-        name: "Permissions",
-      },
-      {
-        link: "/hasura/event-triggers",
-        name: "Event triggers",
-      },
-      {
-        link: "/hasura/remote-schemas",
-        name: "Remote schemas",
-      },
-    ],
+    link: "/hasura",
+    name: "Overview",
+  },
+  {
+    link: "/hasura/tables",
+    name: "Tables",
+  },
+  {
+    link: "/hasura/permissions",
+    name: "Permissions",
+  },
+  {
+    link: "/hasura/event-triggers",
+    name: "Event triggers",
+  },
+  {
+    link: "/hasura/remote-schemas",
+    name: "Remote schemas",
   },
 ];
 
-const menu_graphql = [
+const menuGraphql = [
   {
-    name: "GraphQL",
-    path: "/graphql",
-    menu: [
-      {
-        link: "/graphql/overview",
-        name: "Overview",
-      },
-      {
-        link: "/graphql/query",
-        name: "Query",
-      },
-      {
-        link: "/graphql/mutation",
-        name: "Mutation",
-      },
-      {
-        link: "/graphql/subscription",
-        name: "Subscription",
-      },
-      {
-        link: "/graphql/variables",
-        name: "Variables",
-      },
-    ],
+    link: "/graphql/overview",
+    name: "Overview",
+  },
+  {
+    link: "/graphql/query",
+    name: "Query",
+  },
+  {
+    link: "/graphql/mutation",
+    name: "Mutation",
+  },
+  {
+    link: "/graphql/subscription",
+    name: "Subscription",
+  },
+  {
+    link: "/graphql/variables",
+    name: "Variables",
   },
 ];
 
-const menu_auth = [
+const menuAuth = [
   {
-    name: "Auth",
-    path: "/auth",
-    menu: [
-      {
-        link: "/auth",
-        name: "Overview",
-      },
-      {
-        link: "/auth/local-users",
-        name: "Local users",
-      },
-      {
-        // link: "/auth/local-users",
-        name: "OAuth providers",
-        path: "/auth/oauth-providers",
-        menu: [
-          {
-            link: "/auth/oauth-providers",
-            name: "Overview",
-          },
-          {
-            link: "/auth/oauth-providers/github",
-            name: "Github",
-          },
-          {
-            link: "/auth/oauth-providers/google",
-            name: "Google",
-          },
-          {
-            link: "/auth/oauth-providers/facebook",
-            name: "Facebook",
-          },
-        ],
-      },
-      {
-        link: "/auth/email-templates",
-        name: "Email templates",
-      },
-      {
-        link: "/auth/roles",
-        name: "Roles",
-      },
-      {
-        link: "/auth/custom-user-columns",
-        name: "Custom user columns",
-      },
-      {
-        link: "/auth/multi-factor-authentication",
-        name: "Multi-Factor Authentication",
-      },
-      {
-        link: "/auth/api-reference",
-        name: "API Reference",
-      },
-    ],
+    link: "/auth",
+    name: "Overview",
+  },
+  {
+    link: "/auth/local-users",
+    name: "Local users",
+  },
+  {
+    link: "/auth/oauth-providers",
+    name: "OAuth Overview",
+  },
+  {
+    link: "/auth/oauth-providers/github",
+    name: "Github",
+  },
+  {
+    link: "/auth/oauth-providers/google",
+    name: "Google",
+  },
+  {
+    link: "/auth/oauth-providers/facebook",
+    name: "Facebook",
+  },
+  {
+    link: "/auth/email-templates",
+    name: "Email templates",
+  },
+  {
+    link: "/auth/roles",
+    name: "Roles",
+  },
+  {
+    link: "/auth/custom-user-columns",
+    name: "Custom user columns",
+  },
+  {
+    link: "/auth/multi-factor-authentication",
+    name: "Multi-Factor Authentication",
+  },
+  {
+    link: "/auth/api-reference",
+    name: "API Reference",
   },
 ];
 
-const menu_storage = [
+const menuStorage = [
   {
-    name: "Storage",
-    path: "/storage",
-    menu: [
-      {
-        link: "/storage",
-        name: "Overview",
-      },
-      {
-        link: "/storage/security-rules",
-        name: "Security Rules",
-      },
-      {
-        link: "/storage/api-reference",
-        name: "API Reference",
-      },
-    ],
+    link: "/storage",
+    name: "Overview",
+  },
+  {
+    link: "/storage/security-rules",
+    name: "Security Rules",
+  },
+  {
+    link: "/storage/api-reference",
+    name: "API Reference",
   },
 ];
 
-const menu_libraries = [
+const menuLibraries = [
   {
-    name: "Libraries",
-    path: "/libraries",
-    menu: [
-      {
-        link: "/libraries/nhost-js-sdk",
-        name: "Nhost JS SDK",
-      },
-      {
-        link: "/libraries/react-nhost",
-        name: "React Nhost",
-      },
-    ],
+    link: "/libraries/nhost-js-sdk",
+    name: "Nhost JS SDK",
+  },
+  {
+    link: "/libraries/react-nhost",
+    name: "React Nhost",
   },
 ];
 
@@ -235,7 +198,18 @@ export function Menu(props) {
 
       <MenuHeader>PostgreSQL</MenuHeader>
       <MenuList menu={menuPostgres} router={router} />
-      {/* <MenuUL menu={menu_example_apps} router={router} /> */}
+
+      <MenuHeader>Hasura</MenuHeader>
+      <MenuList menu={menuHasura} router={router} />
+
+      <MenuHeader>GraphQL</MenuHeader>
+      <MenuList menu={menuGraphql} router={router} />
+
+      <MenuHeader>Auth</MenuHeader>
+      <MenuList menu={menuAuth} router={router} />
+
+      <MenuHeader>Libraries</MenuHeader>
+      <MenuList menu={menuLibraries} router={router} />
     </div>
   );
 }
@@ -254,7 +228,7 @@ function MenuList({ menu }) {
         const classes = classNames({
           block: true,
           "py-1 text-gray-600 hover:text-gray-800": !active,
-          "py-1 text-gray-800 font-semibold": active,
+          "py-1 text-gray-800 font-semibold text-primary": active,
         });
         return (
           <Link href={item.link} key={item.link}>

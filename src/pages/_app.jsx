@@ -11,21 +11,20 @@ import "../styles/prism.css";
 import SEO from "../../next-seo.config";
 
 const mdComponents = {
-  h1: (props) => {
-    const linkId = props.children.replace(/ /g, "-").toLowerCase();
+  h1: ({ children }) => {
+    const linkId = children.replace(/ /g, "-").toLowerCase();
 
     return (
-      <h1 id={linkId} {...props} className="text-4xl pb-2 font-semibold">
-        {props.children}
+      <h1 id={linkId} className="text-4xl pb-2 font-semibold">
+        {children}
       </h1>
     );
   },
-  h2: (props) => {
-    const linkId = props.children.replace(/ /g, "-").toLowerCase();
+  h2: ({ children }) => {
+    const linkId = children.replace(/ /g, "-").toLowerCase();
     return (
       <h2
         id={linkId}
-        {...props}
         className="group flex whitespace-pre-wrap pt-6 pb-2 text-3xl font-semibold"
       >
         <a
@@ -35,9 +34,12 @@ const mdComponents = {
         >
           #
         </a>
-        <span>{props.children}</span>
+        <span>{children}</span>
       </h2>
     );
+  },
+  h3: ({ children }) => {
+    return <h3 className="text-2xl pb-2 font-semibold">{children}</h3>;
   },
   img: ({ src, alt }) => {
     return (
@@ -46,8 +48,38 @@ const mdComponents = {
       </Zoom>
     );
   },
-  p: (props) => {
-    return <p className="py-3">{props.children}</p>;
+  p: ({ children }) => {
+    return <p className="py-3">{children}</p>;
+  },
+  a: ({ href, children }) => {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:underline text-primary"
+      >
+        {children}
+      </a>
+    );
+  },
+  ul: ({ children }) => {
+    return <ul className="list-disc my-4 pl-5">{children}</ul>;
+  },
+  table: ({ children }) => {
+    return <table className="my-4 table-auto w-full">{children}</table>;
+  },
+  thead: (props) => {
+    return <thead className="bg-gray-100">{props.children}</thead>;
+  },
+  tr: (props) => {
+    return <tr className="border-b">{props.children}</tr>;
+  },
+  th: ({ align, children }) => {
+    return <th className={`p-3 text-${align}`}>{children}</th>;
+  },
+  td: ({ align, children }) => {
+    return <td className={`p-3 text-${align}`}>{children}</td>;
   },
   inlineCode: ({ children }) => {
     return <code className="inline-code">{children}</code>;
@@ -62,12 +94,12 @@ export default function App({ Component, pageProps }) {
         <Header />
       </div>
       <div className="container mx-auto px-4 flex pt-24">
-        <div className="lg:w-1/5 h-screen overflow-y-scroll">
+        <div className="lg:w-1/5">
           <div>
             <Menu />
           </div>
         </div>
-        <div className="lg:w-4/5">
+        <div className="lg:w-4/5 pb-24">
           <Component {...pageProps} />
         </div>
       </div>

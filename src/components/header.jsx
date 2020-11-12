@@ -16,7 +16,7 @@ export function Header(props) {
           </a>
         </Link>
       </div>
-      <div>Documentation</div>
+      <div className="font-semibold">Documentation</div>
       <div className="flex">
         <a
           href="https://github.com/nhost"

@@ -9,8 +9,6 @@ export default function Layout({ frontMatter, children }) {
     .filter((item) => item.props.mdxType === "h2")
     .map((item) => item.props.children);
 
-  console.log(`slug: ${slug}`);
-
   return (
     <div className="flex">
       <div className="lg:px-8 xl:w-3/4 md-container -mt-3">

@@ -53,12 +53,7 @@ const mdComponents = {
   },
   a: ({ href, children }) => {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hover:underline text-primary"
-      >
+      <a href={href} className="hover:underline text-primary">
         {children}
       </a>
     );

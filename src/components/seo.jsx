@@ -6,12 +6,12 @@ export function SEO({ title, description }) {
   return (
     <React.Fragment>
       <NextSeo
-        title={title}
+        title={`${title} | Nhost Docs`}
         description={description}
         canonical="https://docs.nhost.io"
         openGraph={{
           // url: "https://docs.nhost.io",
-          title: title,
+          title: `${title} | Nhost Docs`,
           description: description,
         }}
       />

@@ -9,12 +9,27 @@ export default function Layout({ frontMatter, children }) {
     .filter((item) => item.props.mdxType === "h2")
     .map((item) => item.props.children);
 
+  console.log(`slug: ${slug}`);
+
   return (
     <div className="flex">
       <div className="lg:px-8 xl:w-3/4 md-container -mt-3">
         <SEO title={frontMatter.title} description={frontMatter.description} />
         <h1 className="text-4xl pb-2 font-semibold">{frontMatter.title}</h1>
         {children}
+        <div className="py-12 border-t">
+          <div>
+            <div>Edit this page on Github:</div>
+            <a
+              href={`https://github.com/nhost/docs/tree/master/src/pages/${slug}.mdx`}
+              rel="noopener noreferrer"
+              className="block hover:underline text-primary"
+            >
+              https://github.com/nhost/docs/tree/master/src/pages/
+              {slug}.mdx
+            </a>
+          </div>
+        </div>
       </div>
       <div className="hidden xl:block xl:w-1/4 relative">
         <div className="fixed">

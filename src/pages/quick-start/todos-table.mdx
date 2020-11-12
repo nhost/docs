@@ -10,42 +10,42 @@ We need a table to store the todos that our application will manage, and also co
 
 ## Hasura Console
 
-On your project's dashboard, click on the **Hasura** option on the left-side menu. You will find details of the Hasura installation, as well as an option to add **Environment Variables**. Go ahead and copy Hasura's `Admin secret` and use it to login to the `Hasura console URL`.
+Go to **Hasura**. Go ahead and copy Hasura's **Admin secret** and use it to login to the **Hasura console**.
 
-![Nhost Hasura](/images/backend/open-hasura.png)
+![Nhost Hasura](/images/quick-start/open-hasura-console.png)
 
 If you are not familiar with the Hasura Console, now it is a good time to click around and explore.
 
 ## Create todos table
 
-Please make sure the `DATA` tab on the top menu is selected, and click on `Create Table`
+Click on **DATA** tab on the top menu, and click on **Create Table**.
 
-We'll create a `todos` table with the following columns:
+We'll create a `todos` table:
 
-|       Name | Type      | Default value     |
-| ---------: | :-------- | :---------------- |
-|         id | UUID      | gen_random_uuid() |
+| Name       | Type      | Default value     |
+| :--------- | :-------- | :---------------- |
+| id         | UUID      | gen_random_uuid() |
 | created_at | Timestamp | now()             |
-|       name | Text      |                   |
-|  completed | Boolean   | false             |
+| name       | Text      |                   |
+| completed  | Boolean   | false             |
 
-For the `id` and `created_at` columns you can either create them manually with the correct functions as default value or use the `Frequently used columns` option that is at the bottom of the `Columns` section. Values for those columns will be generated on insert.
+For the `id` and `created_at` you should use the **Frequently used columns** option. This ensures correct name, type and default values for those columns. It's a quick way to get started creating a new table.
 
-![Frequently used columns in the Hasura console](/images/backend/frequently-used-columns.png)
+![Frequently used columns in the Hasura console](/images/quick-start/frequently-used-columns.png)
 
-`name` and `completed` should be manually created as per the table above. Make sure you set the default value for `completed` to `false`.
+The other columns, `name` and `completed`, you need to add manually (see the image bellow). Make sure you set the **default value** for `completed` to `false`.
 
-![Create a table in the Hasura console](/images/backend/create-table.png)
+![Create a table in the Hasura console](/images/quick-start/create-table.png)
 
-Scroll down and click `Add table`.
+Scroll down and click **Add table**.
 
 ### Query Data
 
-To make sure we have a working GraphQL API, we will now insert a couple of todos. Navigate to the `Insert Row` tab and create a couple of todos by specifying a **name** and clicking on `save` (see the animation bellow).
+To make sure we have a working GraphQL API, we will now insert two todos. Click the **Insert Row** tab and create two todos by specifying a **name** and clicking on **Save** (see the animation bellow).
 
-![Insert todos](/images/backend/insert-todos.gif)
+![Insert todos](/images/quick-start/insert-todos.gif)
 
-With todos in place, go back to the Nhost console and click on the `GraphQL API` option on the left-side menu. Copy-and-paste the following query and hit play.
+Once you've added the todos, go the GraphiQL tab to query the data. **Copy-and-paste** the following query and click the **play button**.
 
 ```graphql
 query {
@@ -58,32 +58,32 @@ query {
 }
 ```
 
-The todos you just created should be part of the response shown on the right.
+You should see your todos to the right as a response.
 
 ## Permissions
 
 Right now, the only way to query todos is by using the **admin** role with an admin-secret (`x-hasura-admin-secret`). We are going to change that behaviour so that **anyone** (`public`) is able to insert and select todos.
 
-In the Hasura Console, go to your `todos` table and click on `Permissions`. We will set **insert** and **select** permissions for the **public** role.
+In the Hasura Console, go to your **todos** table and click on **Permissions**. We will set **insert** and **select** permissions for the **public** role.
 
 > The `public` role is used by users that are not logged in.
 
 ### Insert
 
-`Row insert permissions` should be set to **Without any checks** and `Column insert permissions` should only have **name** checked.
+**Row insert permissions** should be set to **Without any checks** and **Column insert permissions** should only have **name** checked.
 
-![Hasura permissions public insert](/images/backend/permissions-public-insert.png)
+![Hasura permissions public insert](/images/quick-start/permissions-public-insert.png)
 
 ### Select
 
-`Row select permissions` should be set to **Without any checks** and `Column select permissions` should have all columns checked.
+**Row select permissions** should be set to **Without any checks** and **Column select permissions** should have all columns checked.
 
-![Hasura permissions public insert](/images/backend/permissions-public-select.png)
+![Hasura permissions public insert](/images/quick-start/permissions-public-select.png)
 
 ---
 
-Anyone can now insert and select todos. This is not secure, but it's a good start. We will secure our backend later when we add authentication.
+Anyone can now **insert** and **select** todos. This is not secure, but it's a good start. We will secure our backend later when we add authentication.
 
 ## Next
 
-[Client App](/quick-start/client-app)
+[Frontend Web App](/quick-start/frontend-web-app)

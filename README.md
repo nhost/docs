@@ -1,30 +1,16 @@
-# Live
+<p align="center">
+  <a href="https://nhost.io">
+    <img src="https://console.nhost.io/static/media/nhost-logo.9a1055fe.svg" height="84">
+    <h3 align="center">Nhost Docs</h3>
+  </a>
+  <p align="center">Build Better Apps.</p>
+</p>
 
-See [docs-git-master.nhost.vercel.app](https://docs-git-master.nhost.vercel.app) for the latest docs build.
-
-# Road Map First Draft
-
-- [x] Quick Start
-- [x] PostgreSQL
-- [x] Hasura
-- [ ] GraphQL
-- [x] Auth
-- [x] Storage
-
-# Getting Started
-
-## Install dependencies
+## Local development
 
 ```bash
-npm install
+$ git clone git@github.com:nhost/docs.git
+$ cd docs
+$ yarn install
+$ yarn dev
 ```
-
-## Start development server
-
-First, run the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the documentation website.

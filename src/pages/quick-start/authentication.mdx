@@ -25,7 +25,7 @@ npm install nhost-js-sdk
 
 Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and create `nhost.js` inside it.
 
-```js:src/util/nhost.js
+```js:src/utils/nhost.js
 import nhost from "nhost-js-sdk";
 
 const config = {
@@ -60,7 +60,7 @@ import ReactDOM from "react-dom";
 import App from "App";
 import { NhostApolloProvider } from "@nhost/react-apollo";
 import { NhostAuthProvider } from "@nhost/react-auth";
-import { auth } from "util/nhost";
+import { auth } from "utils/nhost";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -87,10 +87,10 @@ We need to write a login component that handles the form submittion of a user's 
 
 Create `Login.js` with the following content:
 
-```jsx:src/components/Login.js
+```jsx:src/components/login.js
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { auth } from "util/nhost";
+import { auth } from "utils/nhost";
 
 export default function Login(props) {
   const [email, setEmail] = useState("");
@@ -138,15 +138,15 @@ export default function Login(props) {
 
 Now let's create two routes. One for `/` where we'll have our todos listed, and one for `/login` where users can login.
 
-```jsx{5,14,15,16,18,19,20,21,22,23}:src/index.js
+```jsx{4,5,14,15,16,18,19,20,21,22,23}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "App";
-import Login from "components/Login";
+import Login from "components/login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NhostApolloProvider } from "@nhost/react-apollo";
 import { NhostAuthProvider } from "@nhost/react-auth";
-import { auth } from "util/nhost";
+import { auth } from "utils/nhost";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -157,11 +157,11 @@ ReactDOM.render(
       >
         <Router>
           <Switch>
-            <Route exact path="/">
-              <App />
-            </Route>
             <Route exact path="/login">
               <Login />
+            </Route>
+            <Route exact path="/">
+              <App />
             </Route>
           </Switch>
         </Router>
@@ -179,7 +179,7 @@ import React, { useState } from "react";
 import { useSubscription, useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import { Link } from "react-router-dom";
-import { auth } from "util/nhost";
+import { auth } from "utils/nhost";
 
 const GET_TODOS = gql`
   subscription {
@@ -252,52 +252,39 @@ These are the things we still have to do in order to secure our app:
 - Add `user_id` to the `todos` table so that every todo belongs to a user.
 - Set permissions so that users are only allowed to insert and select their own todos.
 
-## PrivateRoute
+## Auth Gate
 
-Let's now create the `PrivateRoute` component that will be used to protect a route by making sure that only logged in users can visit that route.
+Let's now create the `AuthGate` component that will make sure users are authenticated before they can access certain routes.
 
-Please create `PrivateRoute.js` file with the following content:
-
-```jsx:src/components/PrivateRoute.js
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+```jsx:src/components/auth-gate.js
+import { Redirect } from "react-router-dom";
 import { useAuth } from "@nhost/react-auth";
 
-export default function PrivateRoute({ children, ...rest }) {
+export default function AuthGate({ children }) {
   const { signedIn } = useAuth();
 
   if (signedIn === null) {
     return <div>Loading...</div>;
   }
 
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        signedIn ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
+  if (!signedIn) {
+    return <Redirect to="/login" />;
+  }
+
+  return children;
 }
 ```
 
-`PrivateRoute` simply checks whether a user is logged in and redirects to `/login` otherwise. Please open `src/index.js` and replace `Route` with `PrivateRoute` for `/`.
+`AuthGate` simply checks whether a user is logged in and redirects to `/login` otherwise.
 
-```jsx{5,17,19}:src/index.js
+Open `src/index.js` and add the `AuthGate` around the routes we want only logged in users to access.
+
+```jsx{5,20,24}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "App";
 import Login from "components/Login";
-import PrivateRoute from "components/PrivateRoute";
+import AuthGate from "components/auth-gate";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NhostApolloProvider } from "@nhost/react-apollo";
 import { NhostAuthProvider } from "@nhost/react-auth";
@@ -312,12 +299,14 @@ ReactDOM.render(
       >
         <Router>
           <Switch>
-            <PrivateRoute exact path="/">
-              <App />
-            </PrivateRoute>
-            <Route path="/login">
+            <Route exact path="/login">
               <Login />
             </Route>
+            <AuthGate>
+              <Route exact path="/">
+                <App />
+              </Route>
+            </AuthGate>
           </Switch>
         </Router>
       </NhostApolloProvider>
@@ -331,9 +320,11 @@ Now users can only access `/` if they are logged in.
 
 ## A todo belongs to a user
 
-A todo should be tied to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. On the `Browse Rows` tab, for the `todos` table, select all todos and click on the trash can icon.
+A todo should be tied to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. Click **Browse Rows** for the `todos` table, select all todos and click on the trash can icon.
 
-After all todos are deleted, select the `Modify` tab and at the bottom of the **Columns** section, click on `Add a new column`. The new column should be named `user_id` and be of type UUID. Also make sure to uncheck Nullable. You can now save the column.
+All todos are now deleted.
+
+Click on **Modify** and then click the button **Add a new column**. Name the new column `user_id` with the type `UUID`. Also make sure to **uncheck Nullable**. Click **Save**.
 
 > `user_id` will refer to the id of the user that the todo belongs to.
 
@@ -345,33 +336,37 @@ For our GraphQL API, and database, to understand that the `user_id` refers to th
 
 Our foreign key will act as a link between the `users` table and the `todos` table.
 
-You create the foreign key in the same `Modify` tab.
+You create the foreign key in the same **Modify** tab. Scroll down a bit to **Foreign Keys** and click **Add**. See image bellow how to set the Foreign Key and click **Save**.
 
 ![Foreign key](/images/add-authentication/create-foreign-key.png)
 
-For Hasura to use the foreign key relation in the GraphQL API we need to track the foreign key relationship. Go to the `DATA` tab and click `Track all`.
+For Hasura to use the foreign key relation in the GraphQL API we need to track the foreign key relationship. Go to the **DATA** tab and click **Track all**.
 
 ![Track all relationships](/images/add-authentication/track-all-relationships.png)
 
 ## Permissions for users
 
-### Remove Public
+### Remove permissions for the public role
 
-We won't use the `public` role anymore so let's remove all of its permissions on the Hasura console.
+We won't use the `public` role anymore so let's remove all permission for that role. See image bellow.
 
 ![Remove public permissions from Hasura](/images/add-authentication/remove-public-permissions.png)
 
-Finally, we just miss configuring the `user` role which is used when logged in.
+Now we'll add permissions for the `user` role.
+
+> All logged in users has the `user` role.
 
 ### Insert
 
-A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`) and is configured in the `Column presets` section (see picture bellow).
+First set the **Insert permission**.
+
+A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`) and is configured in the `Column presets` section. See image bellow.
 
 ![User insert permission](/images/add-authentication/user-insert-permission.png)
 
 ### Select
 
-Set a **custom check** so users are only allowed to select todos where `user_id` is the same as their own user id. In other words, users are only allowed to select their own todos.
+For **Select permission**, set a **custom check** so users are only allowed to select todos where `user_id` is the same as their own user id. In other words: users are only allowed to select their own todos. See image bellw.
 
 ![User select permission](/images/add-authentication/user-select-permission.png)
 

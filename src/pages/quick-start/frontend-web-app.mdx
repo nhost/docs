@@ -23,13 +23,7 @@ $ cd nhost-todos
 $ npm install @nhost/react-apollo @apollo/client graphql graphql-tag react-router-dom
 ```
 
-Start the app and make sure there's no errors:
-
-```bash
-$ npm start
-```
-
-Before we move on to the next section, one last thing we need to do is to create a `jsconfig.json` file at the root directory to make imports easier.
+Create a `jsconfig.json` file in the root of your project to make [imports easier](https://create-react-app.dev/docs/importing-a-component/#absolute-imports).
 
 ```json:jsconfig.json
 {
@@ -38,6 +32,12 @@ Before we move on to the next section, one last thing we need to do is to create
   },
   "include": ["src"]
 }
+```
+
+Start the app.
+
+```bash
+$ npm start
 ```
 
 ## Add NhostApolloProvider to index.js
@@ -168,8 +168,8 @@ function App() {
                 },
               });
             } catch (error) {
-              alert("Error creating todo");
-              console.log(error);
+              console.error(error);
+              return alert("Error creating todo");
             }
             alert("Todo created");
             setTodoName("");

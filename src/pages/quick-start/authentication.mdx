@@ -1,8 +1,11 @@
-# Authentication
+---
+title: "Authentication"
+summary: "Currently, everyone can see all todos. That was ok to start with but now it's time to add authentication."
+---
 
 Currently, everyone can see all todos. That was ok to start with but now it's time to add authentication.
 
-Authentication is built-in to Nhost so it's easy to get started with.
+Authentication is built-in to Nhost and easy to get started with.
 
 ## Create User
 
@@ -26,7 +29,7 @@ Now, we need to configure and initialize a connection to Nhost. Create a new fol
 import nhost from "nhost-js-sdk";
 
 const config = {
-  base_url: "https://backend-xxx.nhost.app",
+  base_url: "https://backend-REPLACE.nhost.app",
 };
 
 nhost.initializeApp(config);
@@ -37,27 +40,34 @@ const storage = nhost.storage();
 export { auth, storage };
 ```
 
-Please don't forget to replace `https://backend-xxx.nhost.app` with your own endpoint.
+Please don't forget to replace `https://backend-REPLACE.nhost.app` with your own endpoint.
 
 ## Add NhostAuthProvider
 
-Now it's time to wrap `App` with another provider. The `NhostAuthProvider` is used to know whether a user is logged in or not.
+Now it's time to wrap our `App` with another provider. The `NhostAuthProvider` is used to know whether a user is logged in or not.
+
+First let's install the `@nhost/react-auth` package:
+
+```bash
+$ npm install @nhost/react-auth
+```
 
 We'll also pass our `auth` object as a prop to both providers, `NhostAuthProvider` and `NhostApolloProvider`, so that the whole app can share the same auth state.
 
-```jsx{4,5,9,10,13}:src/index.js
+```jsx{5,6,10,11,14}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "App";
+import { NhostApolloProvider } from "@nhost/react-apollo";
+import { NhostAuthProvider } from "@nhost/react-auth";
 import { auth } from "util/nhost";
-import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
 ReactDOM.render(
   <React.StrictMode>
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gqlEndpoint="https://hasura-xxx.nhost.app/v1/graphql"
+        gqlEndpoint="https://hasura-REPLACE.nhost.app/v1/graphql"
       >
         <App />
       </NhostApolloProvider>
@@ -128,14 +138,15 @@ export default function Login(props) {
 
 Now let's create two routes. One for `/` where we'll have our todos listed, and one for `/login` where users can login.
 
-```jsx{4,5,13,14,15,17,18,19,20,21,22}:src/index.js
+```jsx{5,14,15,16,18,19,20,21,22,23}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "App";
 import Login from "components/Login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { NhostApolloProvider } from "@nhost/react-apollo";
+import { NhostAuthProvider } from "@nhost/react-auth";
 import { auth } from "util/nhost";
-import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -250,7 +261,7 @@ Please create `PrivateRoute.js` file with the following content:
 ```jsx:src/components/PrivateRoute.js
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAuth } from "react-nhost";
+import { useAuth } from "@nhost/react-auth";
 
 export default function PrivateRoute({ children, ...rest }) {
   const { signedIn } = useAuth();
@@ -281,15 +292,16 @@ export default function PrivateRoute({ children, ...rest }) {
 
 `PrivateRoute` simply checks whether a user is logged in and redirects to `/login` otherwise. Please open `src/index.js` and replace `Route` with `PrivateRoute` for `/`.
 
-```jsx{5,16,18}:src/index.js
+```jsx{5,17,19}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "App";
 import Login from "components/Login";
 import PrivateRoute from "components/PrivateRoute";
-import { auth } from "util/nhost";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
+import { NhostApolloProvider } from "@nhost/react-apollo";
+import { NhostAuthProvider } from "@nhost/react-auth";
+import { auth } from "util/nhost";
 
 ReactDOM.render(
   <React.StrictMode>

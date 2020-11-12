@@ -45,13 +45,11 @@ The URL in this email should go to your app. Your app should receive the ticket 
 Use variables in email-templatest with curly brackets.
 
 ```html
+<p>Hi {{ display_name }}</p>
 <p>
-  Hi {{ display_name }}
-</p>
-<p>
-  <a href="{{ url }}/auth/activate?ticket={{ ticket }}"
-    >Activate your account</a
-  >
+  <a href="{{ url }}/auth/activate?ticket={{ ticket }}">
+    Activate your account
+  </a>
 </p>
 ```
 

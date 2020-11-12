@@ -10,26 +10,26 @@ We need a table to store the todos that our application will manage, and also co
 
 ## Hasura Console
 
-On your project's dashboard, click on the `Hasura` option on the left-side menu. You will find details of the Hasura installation, as well as an option to add `Environment Variables`. Go ahead and copy Hasura's `Admin secret` and use it to login to the `Hasura console URL`.
+On your project's dashboard, click on the **Hasura** option on the left-side menu. You will find details of the Hasura installation, as well as an option to add **Environment Variables**. Go ahead and copy Hasura's `Admin secret` and use it to login to the `Hasura console URL`.
 
 ![Nhost Hasura](/images/backend/open-hasura.png)
 
 If you are not familiar with the Hasura Console, now it is a good time to click around and explore.
 
-## Create `todos` table
+## Create todos table
 
-Please make sure the `DATA` tab on the top menu is selected, and click on `Create Table` 
+Please make sure the `DATA` tab on the top menu is selected, and click on `Create Table`
 
 We'll create a `todos` table with the following columns:
 
-| Name       | Type      | Default value     |
-| :--------- | :-------- | :---------------- |
-| id         | UUID      | gen_random_uuid() |
+|       Name | Type      | Default value     |
+| ---------: | :-------- | :---------------- |
+|         id | UUID      | gen_random_uuid() |
 | created_at | Timestamp | now()             |
-| name       | Text      |                   |
-| completed  | Boolean   | false             |
+|       name | Text      |                   |
+|  completed | Boolean   | false             |
 
-For the `id` and `created_at` columns you can either create them manually with the correct functions as default value or use the `Frequently used columns` option that is at the bottom of the `Columns` section. Values for those columns will be generated on insert. 
+For the `id` and `created_at` columns you can either create them manually with the correct functions as default value or use the `Frequently used columns` option that is at the bottom of the `Columns` section. Values for those columns will be generated on insert.
 
 ![Frequently used columns in the Hasura console](/images/backend/frequently-used-columns.png)
 
@@ -68,7 +68,7 @@ In the Hasura Console, go to your `todos` table and click on `Permissions`. We w
 
 > The `public` role is used by users that are not logged in.
 
-### Insert 
+### Insert
 
 `Row insert permissions` should be set to **Without any checks** and `Column insert permissions` should only have **name** checked.
 

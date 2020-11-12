@@ -1,116 +1,45 @@
-import styled from "styled-components";
 import { DefaultSeo } from "next-seo";
 import { MDXProvider } from "@mdx-js/react";
 import Zoom from "react-medium-image-zoom";
 import { Header } from "components/header";
 import { Menu } from "components/menu";
+
 import "react-medium-image-zoom/dist/styles.css";
 import "../style.css";
 import "../styles/prism.css";
 
 import SEO from "../../next-seo.config";
 
-const AppContainer = styled.div`
-  display: grid;
-  grid-template-columns: 30rem 1fr;
-  grid-template-rows: 65px auto;
-  grid-template-areas:
-    "header header"
-    "menu main";
-
-  @media only screen and (max-width: 980px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 65px auto;
-    grid-template-areas:
-      "header header"
-      "main main";
-  }
-
-  .menu-container {
-    grid-area: menu;
-    height: calc(100vh - 65px);
-    overflow-y: auto;
-    background: #f5f7f9;
-
-    @media only screen and (max-width: 980px) {
-      display: none;
-    }
-
-    .menu-content {
-      /* width: 30rem; */
-      /* float: right; */
-      padding: 1rem 2rem;
-    }
-  }
-
-  .main-container {
-    grid-area: main;
-    height: calc(100vh - 65px);
-    overflow-y: auto;
-    padding: 0 3rem;
-    padding-bottom: 10rem;
-
-    .main-container-width {
-      max-width: 70rem;
-      @media only screen and (max-width: 980px) {
-        max-width: 100%;
-      }
-    }
-  }
-
-  .discort-button-style {
-    position: absolute;
-    bottom: 0;
-    right: 3rem;
-    font-size: 1.4rem;
-    padding: 1rem 1rem 0.3rem;
-    box-shadow: 0 0 8px 2px rgba(116, 129, 141, 0.1);
-
-    &:hover {
-      background: #f5f7f9;
-      box-shadow: 0 0 8px 2px rgba(116, 129, 141, 0.3);
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-    }
-
-    img {
-      width: 30px;
-      margin-right: 0.7rem;
-    }
-  }
-`;
-
 const mdComponents = {
-  h1: (props) => {
-    let link_id = "";
-    try {
-      link_id = props.children.replace(/ /g, "-").toLowerCase();
-    } catch (error) {
-      console.log("unable to to use .replace");
-      console.log(props.children);
-    }
+  h1: ({ children }) => {
+    const linkId = children.replace(/ /g, "-").toLowerCase();
+
     return (
-      <a href={`#${link_id}`}>
-        <h1 id={link_id} {...props} />
-      </a>
+      <h1 id={linkId} className="text-4xl pb-2 font-semibold">
+        {children}
+      </h1>
     );
   },
-  h2: (props) => {
-    let link_id = "";
-    try {
-      link_id = props.children.replace(/ /g, "-").toLowerCase();
-    } catch (error) {
-      console.log("unable to to use .replace");
-      console.log(props.children);
-    }
+  h2: ({ children }) => {
+    const linkId = children.replace(/ /g, "-").toLowerCase();
     return (
-      <a href={`#${link_id}`}>
-        <h2 id={link_id} {...props} />
-      </a>
+      <h2
+        id={linkId}
+        className="group flex whitespace-pre-wrap pt-6 pb-2 text-3xl font-semibold"
+      >
+        <a
+          href={`#${linkId}`}
+          className="absolute no-underline after:hash opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out text-primary"
+          style={{ marginLeft: "-1.5rem", paddingRight: "0.5rem" }}
+        >
+          #
+        </a>
+        <span>{children}</span>
+      </h2>
     );
+  },
+  h3: ({ children }) => {
+    return <h3 className="text-2xl pb-2 font-semibold">{children}</h3>;
   },
   img: ({ src, alt }) => {
     return (
@@ -118,6 +47,39 @@ const mdComponents = {
         <img src={src} alt={alt} className="img-md" />
       </Zoom>
     );
+  },
+  p: ({ children }) => {
+    return <p className="py-3">{children}</p>;
+  },
+  a: ({ href, children }) => {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:underline text-primary"
+      >
+        {children}
+      </a>
+    );
+  },
+  ul: ({ children }) => {
+    return <ul className="list-disc my-4 pl-5">{children}</ul>;
+  },
+  table: ({ children }) => {
+    return <table className="my-4 table-auto w-full">{children}</table>;
+  },
+  thead: (props) => {
+    return <thead className="bg-gray-100">{props.children}</thead>;
+  },
+  tr: (props) => {
+    return <tr className="border-b">{props.children}</tr>;
+  },
+  th: ({ align, children }) => {
+    return <th className={`p-3 text-${align}`}>{children}</th>;
+  },
+  td: ({ align, children }) => {
+    return <td className={`p-3 text-${align}`}>{children}</td>;
   },
   inlineCode: ({ children }) => {
     return <code className="inline-code">{children}</code>;
@@ -128,25 +90,19 @@ export default function App({ Component, pageProps }) {
   return (
     <MDXProvider components={mdComponents}>
       <DefaultSeo {...SEO} />
-      <AppContainer>
+      <div className="w-full fixed z-50 bg-white border-b">
         <Header />
-        <div className="menu-container">
-          <div className="menu-content">
+      </div>
+      <div className="container mx-auto px-4 flex pt-24">
+        <div className="lg:w-1/5">
+          <div>
             <Menu />
           </div>
         </div>
-        <div className="main-container">
-          <div className="main-container-width">
-            <Component {...pageProps} />
-          </div>
+        <div className="lg:w-4/5 pb-24">
+          <Component {...pageProps} />
         </div>
-        <div className="discort-button-style">
-          <a href="https://nhost.io/discord" target="_blank">
-            <img src="/images/icon-discord.png" alt="" />
-            Chat with us at Discord
-          </a>
-        </div>
-      </AppContainer>
+      </div>
     </MDXProvider>
   );
 }

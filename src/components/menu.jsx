@@ -1,283 +1,166 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import classNames from "classnames";
 
-const MenuContainer = styled.div`
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-  a {
-    color: #000;
-  }
-
-  ul {
-    border-left: 1px solid #ddd;
-    margin: 0 0 0 2rem;
-    /* margin: 0 auto; */
-    padding: 0;
-    list-style-type: none;
-  }
-
-  /* Skip margin and border for first ul */
-  > ul {
-    margin-left: 0;
-    border: 0;
-  }
-
-  li {
-    width: 100%;
-    font-size: 1.4rem;
-
-    a > span {
-      display: block;
-      width: 100%;
-      padding: 0.7rem 2.4rem 0.7rem 1.6rem;
-    }
-
-    .li-header {
-      display: block;
-      padding: 0.7rem 2.4rem 0.7rem 1.6rem;
-      margin: 0;
-
-      display: flex;
-      justify-content: space-between;
-      cursor: pointer;
-    }
-
-    &.header {
-      padding: 0.7rem 2.4rem 0.7rem 1.6rem;
-      font-weight: bold;
-      color: #000;
-    }
-
-    &:hover {
-      background: #ddd;
-    }
-    &.active {
-      background: #fff;
-      border-top: 1px solid #f0f1f2;
-      border-bottom: 1px solid #f0f1f2;
-      font-weight: bold;
-      color: var(--primary-color);
-      a {
-        color: var(--primary-color);
-      }
-    }
-  }
-`;
-
-const menu_quick_start = [
+const menuQuickStart = [
   {
-    name: "Quick Start",
-    path: "/quick-start",
-    menu: [
-      {
-        link: "/quick-start/introduction",
-        name: "Introduction",
-      },
-      {
-        link: "/quick-start/nhost-backend",
-        name: "Nhost Backend",
-      },
-      {
-        link: "/quick-start/todos-table",
-        name: "Todos Table",
-      },
-      {
-        link: "/quick-start/client-app",
-        name: "Client App",
-      },
-      {
-        link: "/quick-start/authentication",
-        name: "Authentication",
-      },
-      {
-        link: "/quick-start/deploy-app",
-        name: "Deployment",
-      },
-    ],
+    link: "/quick-start/introduction",
+    name: "Introduction",
+  },
+  {
+    link: "/quick-start/nhost-backend",
+    name: "Nhost Backend",
+  },
+  {
+    link: "/quick-start/todos-table",
+    name: "Todos Table",
+  },
+  {
+    link: "/quick-start/client-app",
+    name: "Client App",
+  },
+  {
+    link: "/quick-start/authentication",
+    name: "Authentication",
+  },
+  {
+    link: "/quick-start/deploy-app",
+    name: "Deployment",
   },
 ];
 
-const menu_postgresql = [
+const menuPostgres = [
   {
-    name: "PostgreSQL",
-    path: "/postgresql",
-    menu: [
-      {
-        link: "/postgresql",
-        name: "Overview",
-      },
-      {
-        link: "/postgresql/create-tables",
-        name: "Create Tables",
-      },
-      {
-        link: "/postgresql/custom-schemas",
-        name: "Custom schemas",
-      },
-    ],
+    link: "/postgresql",
+    name: "Overview",
+  },
+  {
+    link: "/postgresql/create-tables",
+    name: "Create Tables",
+  },
+  {
+    link: "/postgresql/custom-schemas",
+    name: "Custom schemas",
   },
 ];
 
-const menu_hasura = [
+const menuHasura = [
   {
-    name: "Hasura",
-    path: "/hasura",
-    menu: [
-      {
-        link: "/hasura",
-        name: "Overview",
-      },
-      {
-        link: "/hasura/tables",
-        name: "Tables",
-      },
-      {
-        link: "/hasura/permissions",
-        name: "Permissions",
-      },
-      {
-        link: "/hasura/event-triggers",
-        name: "Event triggers",
-      },
-      {
-        link: "/hasura/remote-schemas",
-        name: "Remote schemas",
-      },
-    ],
+    link: "/hasura",
+    name: "Overview",
+  },
+  {
+    link: "/hasura/tables",
+    name: "Tables",
+  },
+  {
+    link: "/hasura/permissions",
+    name: "Permissions",
+  },
+  {
+    link: "/hasura/event-triggers",
+    name: "Event triggers",
+  },
+  {
+    link: "/hasura/remote-schemas",
+    name: "Remote schemas",
   },
 ];
 
-const menu_graphql = [
+const menuGraphql = [
   {
-    name: "GraphQL",
-    path: "/graphql",
-    menu: [
-      {
-        link: "/graphql/overview",
-        name: "Overview",
-      },
-      {
-        link: "/graphql/query",
-        name: "Query",
-      },
-      {
-        link: "/graphql/mutation",
-        name: "Mutation",
-      },
-      {
-        link: "/graphql/subscription",
-        name: "Subscription",
-      },
-      {
-        link: "/graphql/variables",
-        name: "Variables",
-      },
-    ],
+    link: "/graphql/overview",
+    name: "Overview",
+  },
+  {
+    link: "/graphql/query",
+    name: "Query",
+  },
+  {
+    link: "/graphql/mutation",
+    name: "Mutation",
+  },
+  {
+    link: "/graphql/subscription",
+    name: "Subscription",
+  },
+  {
+    link: "/graphql/variables",
+    name: "Variables",
   },
 ];
 
-const menu_auth = [
+const menuAuth = [
   {
-    name: "Auth",
-    path: "/auth",
-    menu: [
-      {
-        link: "/auth",
-        name: "Overview",
-      },
-      {
-        link: "/auth/local-users",
-        name: "Local users",
-      },
-      {
-        // link: "/auth/local-users",
-        name: "OAuth providers",
-        path: "/auth/oauth-providers",
-        menu: [
-          {
-            link: "/auth/oauth-providers",
-            name: "Overview",
-          },
-          {
-            link: "/auth/oauth-providers/github",
-            name: "Github",
-          },
-          {
-            link: "/auth/oauth-providers/google",
-            name: "Google",
-          },
-          {
-            link: "/auth/oauth-providers/facebook",
-            name: "Facebook",
-          },
-        ],
-      },
-      {
-        link: "/auth/email-templates",
-        name: "Email templates",
-      },
-      {
-        link: "/auth/roles",
-        name: "Roles",
-      },
-      {
-        link: "/auth/custom-user-columns",
-        name: "Custom user columns",
-      },
-      {
-        link: "/auth/multi-factor-authentication",
-        name: "Multi-Factor Authentication",
-      },
-      {
-        link: "/auth/api-reference",
-        name: "API Reference",
-      },
-    ],
+    link: "/auth",
+    name: "Overview",
+  },
+  {
+    link: "/auth/local-users",
+    name: "Local users",
+  },
+  {
+    link: "/auth/oauth-providers",
+    name: "OAuth Overview",
+  },
+  {
+    link: "/auth/oauth-providers/github",
+    name: "Github",
+  },
+  {
+    link: "/auth/oauth-providers/google",
+    name: "Google",
+  },
+  {
+    link: "/auth/oauth-providers/facebook",
+    name: "Facebook",
+  },
+  {
+    link: "/auth/email-templates",
+    name: "Email templates",
+  },
+  {
+    link: "/auth/roles",
+    name: "Roles",
+  },
+  {
+    link: "/auth/custom-user-columns",
+    name: "Custom user columns",
+  },
+  {
+    link: "/auth/multi-factor-authentication",
+    name: "Multi-Factor Authentication",
+  },
+  {
+    link: "/auth/api-reference",
+    name: "API Reference",
   },
 ];
 
-const menu_storage = [
+const menuStorage = [
   {
-    name: "Storage",
-    path: "/storage",
-    menu: [
-      {
-        link: "/storage",
-        name: "Overview",
-      },
-      {
-        link: "/storage/security-rules",
-        name: "Security Rules",
-      },
-      {
-        link: "/storage/api-reference",
-        name: "API Reference",
-      },
-    ],
+    link: "/storage",
+    name: "Overview",
+  },
+  {
+    link: "/storage/security-rules",
+    name: "Security Rules",
+  },
+  {
+    link: "/storage/api-reference",
+    name: "API Reference",
   },
 ];
 
-const menu_libraries = [
+const menuLibraries = [
   {
-    name: "Libraries",
-    path: "/libraries",
-    menu: [
-      {
-        link: "/libraries/nhost-js-sdk",
-        name: "Nhost JS SDK",
-      },
-      {
-        link: "/libraries/react-nhost",
-        name: "React Nhost",
-      },
-    ],
+    link: "/libraries/nhost-js-sdk",
+    name: "Nhost JS SDK",
+  },
+  {
+    link: "/libraries/react-nhost",
+    name: "React Nhost",
   },
 ];
 
@@ -309,113 +192,50 @@ export function Menu(props) {
   const router = useRouter();
 
   return (
-    <MenuContainer>
-      <div>Documentation</div>
-      <MenuUL
-        menu={menu_quick_start}
-        router={router}
-        closeMenu={props.closeMenu}
-      />
-      <div>Nhost</div>
-      <MenuUL
-        menu={menu_postgresql}
-        router={router}
-        closeMenu={props.closeMenu}
-      />
-      <MenuUL menu={menu_hasura} router={router} closeMenu={props.closeMenu} />
-      <MenuUL menu={menu_graphql} router={router} closeMenu={props.closeMenu} />
-      <MenuUL menu={menu_auth} router={router} closeMenu={props.closeMenu} />
-      <MenuUL menu={menu_storage} router={router} closeMenu={props.closeMenu} />
-      <MenuUL
-        menu={menu_libraries}
-        router={router}
-        closeMenu={props.closeMenu}
-      />
-      {/* <MenuUL menu={menu_example_apps} router={router} /> */}
-    </MenuContainer>
+    <div>
+      <MenuHeader>Quick Start</MenuHeader>
+      <MenuList menu={menuQuickStart} router={router} />
+
+      <MenuHeader>PostgreSQL</MenuHeader>
+      <MenuList menu={menuPostgres} router={router} />
+
+      <MenuHeader>Hasura</MenuHeader>
+      <MenuList menu={menuHasura} router={router} />
+
+      <MenuHeader>GraphQL</MenuHeader>
+      <MenuList menu={menuGraphql} router={router} />
+
+      <MenuHeader>Auth</MenuHeader>
+      <MenuList menu={menuAuth} router={router} />
+
+      <MenuHeader>Libraries</MenuHeader>
+      <MenuList menu={menuLibraries} router={router} />
+    </div>
   );
 }
 
-function menuShouldStartOpen(menu, router) {
-  if (!menu) return false;
-  if (menu.length < 1) return false;
-
-  return router.pathname.startsWith(menu[0].path);
+function MenuHeader({ children }) {
+  return <div className="text-sm uppercase text-gray-900 pb-1">{children}</div>;
 }
 
-function MenuArrow({ open }) {
-  if (open) {
-    return (
-      <img
-        src="/images/arrow-up.svg"
-        style={{ height: "10px", width: "10px" }}
-      />
-    );
-  }
-
+function MenuList({ menu }) {
+  const router = useRouter();
   return (
-    <img
-      src="/images/arrow-up.svg"
-      style={{ height: "10px", width: "10px", transform: "rotate(180deg)" }}
-    />
-  );
-}
-
-function MenuUL({ menu, router, closeMenu, other }) {
-  const [subMenuOpen, setSubMenuOpen] = useState(
-    menuShouldStartOpen(menu, router)
-  );
-
-  if (!menu) return null;
-
-  return (
-    <ul>
+    <div className="mb-6">
       {menu.map((item) => {
-        const cssClass = item.link === router.pathname ? "active" : "";
+        const active = item.link === router.pathname;
 
-        function showSubMenu() {
-          return (
-            subMenuOpen ||
-            router.pathname.startsWith(item.link) ||
-            router.pathname.startsWith(item.path)
-          );
-        }
-
+        const classes = classNames({
+          block: true,
+          "py-1 text-gray-600 hover:text-gray-800": !active,
+          "py-1 text-gray-800 font-semibold text-primary": active,
+        });
         return (
-          <React.Fragment key={item.name}>
-            <li className={cssClass}>
-              {item.link ? (
-                <Link href={item.link}>
-                  <a>
-                    <span
-                      onClick={() => {
-                        if (typeof closeMenu === "function") {
-                          closeMenu();
-                        }
-                      }}
-                    >
-                      {item.name}
-                    </span>
-                  </a>
-                </Link>
-              ) : (
-                <div
-                  className="li-header"
-                  onClick={() => setSubMenuOpen(!subMenuOpen)}
-                >
-                  {item.name}{" "}
-                  <div>
-                    <MenuArrow open={subMenuOpen} />
-                  </div>
-                </div>
-              )}
-            </li>
-            {showSubMenu() && (
-              <MenuUL menu={item.menu} router={router} closeMenu={closeMenu} />
-            )}
-          </React.Fragment>
+          <Link href={item.link} key={item.link}>
+            <a className={classes}>{item.name}</a>
+          </Link>
         );
       })}
-    </ul>
+    </div>
   );
 }

@@ -2,16 +2,19 @@ import React from "react";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 
-export function SEO({ title, description }) {
+export function SEO({ title, description, slug = "" }) {
+  const titleFormatted = `${title ? title : ""} | Nhost Docs`;
+  const url = `https://docs.nhost.io/${slug}`;
+
   return (
     <React.Fragment>
       <NextSeo
-        title={`${title} | Nhost Docs`}
+        title={titleFormatted}
         description={description}
-        canonical="https://docs.nhost.io"
+        canonical={url}
         openGraph={{
-          // url: "https://docs.nhost.io",
-          title: `${title} | Nhost Docs`,
+          url: url,
+          title: titleFormatted,
           description: description,
         }}
       />

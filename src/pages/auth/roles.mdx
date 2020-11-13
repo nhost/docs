@@ -1,15 +1,17 @@
 # Roles
 
-Each user can have one or more role. By default, each user has the role `user`.
+Each user can have one or more role. By default, each user has the roles `user` and `me`.
 
 A role is used to set [Hasura Permissions](/hasura/permissions) and [Storage Security Rules](/storage/security-rules).
 
-A user's roles are defined in the JWT-token.
+A user's roles are defined in the JWT-token that is automatically generated when a user logs in.
+
+Here's an example:
 
 ```json
 {
   "https://hasura.io/jwt/claims": {
-    "x-hasura-allowed-roles": ["user"],
+    "x-hasura-allowed-roles": ["user", "me"],
     "x-hasura-default-role": "user",
     "x-hasura-user-id": "c8ee8353-b886-4530-9089-631ea7fd4c8a"
   },
@@ -20,24 +22,28 @@ A user's roles are defined in the JWT-token.
 
 ## Default role
 
-The `x-hasura-default-role` is the role being used with a GraphQL request by default. Usually that's the `user` role.
+The `x-hasura-default-role` claim is the **default role** of the user. This role is used for every request unless you change the role manually during the request (See [Change role in a GraphQL request](#change-role-in-a-graphql-request)). By default the default role is `user`.
 
 ## Allowed roles
 
 A user can have multiple allowed roles. Allowed roles are roles that the user can use to make a GraphQL request. A GraphQL request can only use **one** role per request.
 
+## Me role
+
+The `me` role can be used to set user specific permission for the own user. For example, you might want to allow all users (`user` role) to select `id` and `display_name` for all users in your app. But each user should also be able to see their own `birthday`. You can use the `me` role to select the `birthday`.
+
 ## Change role in a GraphQL request
 
-A user can override the default role to a new role in a GraphQL API request by setting the `x-hasura-role` header. The new role **must** be in the `x-hasura-allowed-roles` array.
+A user can override the default role in a GraphQL API request by setting the `x-hasura-role` header. The new role **must** be in the `x-hasura-allowed-roles` array.
 
-As an example, let's say you have:
+As an example, let's say a user has the roles `user`, `me` and `editor`:
 
-```
+```bash
 x-hasura-default-role: user
-x-hasura-roles: ['user', 'editor']
+x-hasura-allowed-roles: ["user", "me", "editor"]
 ```
 
-Then you can make a request as an editor like this:
+Then the user can make a request as an editor like this:
 
 ```jsx
 const { loading, error, data } = useQuery(MY_QUERY, {
@@ -51,4 +57,4 @@ const { loading, error, data } = useQuery(MY_QUERY, {
 
 ## Default allowed user roles
 
-A user can have multiple default roles directly on registration. The default allowed user roles can be set in **Settings -> Authentication -> Default allowed user roles**.
+A user can have multiple default roles directly on registration. The default allowed user roles can be set in **Settings -> Authentication -> DEFAULT ALLOWED ROLES**.

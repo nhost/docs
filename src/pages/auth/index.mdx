@@ -4,24 +4,29 @@ Your app probably need a way to authenticate users. That's easy with Nhost.
 
 Nhost Authentication integrates tightly with other services in your Nhost project such as [Hasura](/hasura) and [Storage](/storage).
 
-You can login users with email/password or third party services such as Github, Google, Facebook and more.
+You can login users with:
 
-For easy integration with auth (and storage) in your app, test our [nhost-js-sdk](/libraries/nhost-js-sdk).
+- Email / Password
+- Github
+- Google
+- Facebook
+
+For easy integration with auth (and storage) in your app, use [nhost-js-sdk](/libraries/nhost-js-sdk).
 
 ## Tokens
 
-Nhost Authentication uses **JWT-tokens and refresh-tokens**. **A JWT token** is used in a GraphQL API request to authenticate the user and to resolve [Hasura permissions](/hasura/permissions). **A refresh tokens** is used to request new JWT-token, before the current JWT-token expires.
+Nhost Authentication uses **JWT-tokens and refresh-tokens**. **A JWT token** is used in a GraphQL API request to authenticate the user and to resolve [Hasura permissions](/hasura/permissions). **A refresh tokens** is used to request new JWT-token.
 
-**A JWT-token can not be revoked**, they can only expires. Because of that, they are short-lived (15 min). Before a JWT-token expires the client should request a new JWT-token using the refresh-token. **A refresh-token can be revoked** and is long-lived (1 year). To revoke a refresh-token, simply remove it from the database in the `auth.refresh_tokens` table.
+**A JWT-token can not be revoked**, they can only expires. Because of that, they are short-lived (15 min). Before a JWT-token expires the client should request a new JWT-token using the refresh-token. **A refresh-token can be revoked** and is long-lived (1 year). To revoke a refresh-token, simply remove the refresh-token from the database in the `auth.refresh_tokens` table.
 
 You can configure the expiration time for both JWT-tokens and refresh-tokens in the Nhost console under **Settings -> Authentication**.
 
-By default each JWT-token includes the user's **id** and **role** as _claims_. Here's an example:
+By default, each JWT-token includes the user's **id** and **roles** as _claims_. Here's an example:
 
 ```json
 {
   "https://hasura.io/jwt/claims": {
-    "x-hasura-allowed-roles": ["user"],
+    "x-hasura-allowed-roles": ["user", "me"],
     "x-hasura-default-role": "user",
     "x-hasura-user-id": "c8ee8353-b886-4530-9089-631ea7fd4c8a"
   },
@@ -30,4 +35,4 @@ By default each JWT-token includes the user's **id** and **role** as _claims_. H
 }
 ```
 
-You can add more claims using [custom user columns](/auth/custom-user-columns).
+You can add more claims to the JWT token using [custom user columns](/auth/custom-user-columns).

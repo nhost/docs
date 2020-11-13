@@ -67,6 +67,9 @@ const mdComponents = {
   ol: ({ children }) => {
     return <ol className="list-decimal my-4 pl-5">{children}</ol>;
   },
+  hr: () => {
+    return <hr className="my-4" />;
+  },
   table: ({ children }) => {
     return <table className="my-4 table-auto w-full">{children}</table>;
   },

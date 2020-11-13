@@ -4,36 +4,32 @@ publishedAt: "2020-11-11"
 summary: Easy integration of Nhost with React.
 ---
 
-Make it easy to use Nhost with React and Apollo.
+Make it easy to use Apollo and React with your Nhost project.
 
-`@nhost/react-apollo`
+`@nhost/react-apollo` exposes one component: `NhostApolloProvider`. Wrap your whole App around this component to make GraphQL requests anywhere from your app.
 
-- `NhostAuthProvider` - AuthProvider to check logged-in state.
-- `NhostApolloProvider` - ApolloProvider preconfigured with authentication for GraphQL mutations, queries and subscriptions.
+It's recommended to use `@nhost/react-apollo` with [`@nhost/react-auth`](/libraries/react-auth) and [`nhost-js-sdk`](/libraries/nhost-js-sdk) for users to login and interact with the GraphQL API.
 
-If a user is logged in, the `Authorization` header will be set with your JWT token for all GraphQL requests.
+If you use `@nhost/react-apollo` and `NhostApolloProvider` **without** authentication (`auth` property) all GraphQL requests will be made with the `public` role.
 
 ## Install
 
 ```bash
-npm install @nhost/auth-react react-nhost @apollo/client graphql graphql-tag
+npm install @nhost/react-apollo @nhost/react-auth nhost-js-sdk @apollo/client graphql graphql-tag
 ```
 
-`@apollo/client` is required for `react-nhost` to work. You will use `@apollo/client` for `useQuery`, `useMutation`, `useSubscription`.
+`@apollo/client` is required for `@nhost/react-apollo` to work and will be used to import `useQuery`, `useMutation`, and `useSubscription`.
 
-## Initiate
+## Create React App
 
-### Create React App
+See full [Nhost Create React App with Apollo](https://github.com/nhost/examples/tree/main/create-react-app-apollo).
 
-Add `NhostAuthProvider` and `NhostApolloProvider`.
-
-`src/index.js`
-
-```jsx
+```jsx:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
-import { auth } from "utils/nhost.js";
+import { NhostAuthProvider } from '@nhost/react-auth";
+import { NhostApolloProvider } from "@nhost/react-apollo";
+import { auth } from "utils/nhost";
 import App from "./App";
 
 ReactDOM.render(
@@ -41,7 +37,7 @@ ReactDOM.render(
     <NhostAuthProvider auth={auth}>
       <NhostApolloProvider
         auth={auth}
-        gqlEndpoint={`https://hasura-xxx.nhost.app/v1/graphql`}
+        gqlEndpoint={`https://hasura-REPLACE.nhost.app/v1/graphql`}
       >
         <App />
       </NhostApolloProvider>
@@ -51,15 +47,39 @@ ReactDOM.render(
 );
 ```
 
-`src/utils/nhost.js`
+## Next.js
 
-Learn more about `auth` and `storage` in the [nhost-js-sdk](https://github.com/nhost/nhost-js-sdk) repository.
+See full [Nhost Next.js with Apollo](https://github.com/nhost/examples/tree/main/nextjs-apollo).
 
-```js
+```jsx:pages/_app.js
+import { NhostAuthProvider } from "@nhost/react-auth";
+import { NhostApolloProvider } from "@nhost/react-apollo";
+
+import { auth } from "utils/nhost";
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <NhostAuthProvider auth={auth}>
+      <NhostApolloProvider
+        auth={auth}
+        gqlEndpoint={`https://hasura-REPLACE.nhost.app/v1/graphql`}
+      >
+        <Component {...pageProps} />
+      </NhostApolloProvider>
+    </NhostAuthProvider>
+  );
+}
+
+export default MyApp;
+```
+
+Learn more about `auth` and `storage` in the [nhost-js-sdk library](/libraries/nhost-js-sdk).
+
+```js:src/utils/nhost.js
 import nhost from "nhost-js-sdk";
 
 const config = {
-  base_url: "https://backend-xxx-nhost.app",
+  base_url: "https://backend-REPLACE.nhost.app",
 };
 
 nhost.initializeApp(config);
@@ -71,8 +91,6 @@ export { auth, storage };
 ```
 
 #### Usage
-
-**GrahQL**
 
 ```jsx
 import React from "react";
@@ -113,166 +131,4 @@ export function function App() {
   );
 }
 
-```
-
-**Auth**
-
-```jsx
-import React from "react";
-import { useAuth } from "react-nhost";
-
-export MyComponent() {
-  const { signedIn } = useAuth();
-
-  if (!signedIn) {
-    return (
-    <div>You are not signed in.</div>;
-    );
-  }
-
-  return (
-    <div>You are signed in 🎉!</div>
-  );
-}
-```
-
----
-
-### NextJS
-
-_(coming soon)_
-
----
-
-## Protected Route
-
-### React Router
-
-`src/components/privateroute.jsx`
-
-```jsx
-import React from "react";
-import { useAuth } from "react-nhost";
-import { Route, Redirect } from "react-router-dom";
-
-export function PrivateRoute({ children, ...rest }) {
-  const { signedIn } = useAuth();
-
-  if (signedIn === null) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        signedIn ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-}
-```
-
-#### Usage
-
-```jsx
-import PrivateRoute from "components/privteroute.jsx";
-
-<Router>
-  <Switch>
-    /* Unprotected routes */
-    <Route exact path="/register">
-      <Register />
-    </Route>
-    <Route exact path="/login">
-      <Login />
-    </Route>
-    /* Protected routes */
-    <PrivateRoute exact path="/">
-      <Dashboard />
-    </Route>
-    <PrivateRoute exact path="/settings">
-      <Settings />
-    </Route>
-  </Switch>
-</Router>;
-```
-
----
-
-### NextJS
-
-`components/privateroute.jsx`
-
-```jsx
-import { useAuth } from "react-nhost";
-
-export function privateRoute(Component) {
-  return () => {
-    const { signedIn } = useAuth();
-
-    // wait to see if the user is logged in or not.
-    if (signedIn === null) {
-      return <div>Checking auth...</div>;
-    }
-
-    if (!signedIn) {
-      return <div>Login form or redirect to `/login`.<div>;
-    }
-
-    return (<Component {...arguments} />);
-  };
-}
-```
-
-#### Usage
-
-`pages/dashboard.jsx`
-
-```jsx
-import React from "react";
-import { protectRoute } from "components/privateroute.jsx";
-
-function Dashboard(props) {
-  return <div>My dashboard</div>;
-}
-
-export default privateRoute(Dashboard);
-```
-
-## FAQ
-
-### Is nhost-js-sdk required?
-
-No. You can use `react-nhost` without `nhost-js-sdk`.
-
-All requests will be sent without an `Authorization` header. This means you can only interact with data that is allowed using the role set as `HASURA_GRAPHQL_UNAUTHORIZED_ROLE`. (default to `public` at Nhost) [Learn more about public access](https://hasura.io/docs/1.0/graphql/manual/auth/authentication/unauthenticated-access.html).
-
-Here's an example:
-
-```jsx
-import React from "react";
-import ReactDOM from "react-dom";
-import { NhostApolloProvider } from "react-nhost";
-import App from "./App";
-
-ReactDOM.render(
-  <React.StrictMode>
-    <NhostApolloProvider
-      gqlEndpoint={`https://hasura-xxx.nhost.app/v1/graphql`}
-    >
-      <App />
-    </NhostApolloProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
 ```

@@ -41,6 +41,9 @@ const mdComponents = {
   h3: ({ children }) => {
     return <h3 className="text-2xl pb-2 font-semibold">{children}</h3>;
   },
+  h4: ({ children }) => {
+    return <h4 className="text-xl pb-2 font-semibold">{children}</h4>;
+  },
   img: ({ src, alt }) => {
     return (
       <Zoom>
@@ -60,6 +63,9 @@ const mdComponents = {
   },
   ul: ({ children }) => {
     return <ul className="list-disc my-4 pl-5">{children}</ul>;
+  },
+  ol: ({ children }) => {
+    return <ol className="list-decimal my-4 pl-5">{children}</ol>;
   },
   table: ({ children }) => {
     return <table className="my-4 table-auto w-full">{children}</table>;

@@ -4,45 +4,75 @@ publishedAt: "2020-08-17"
 summary: ""
 ---
 
-You can send variables to your GraphQL queries and mutations. To do so, the variables and the type must be specified, ex: `$title: String`.
+You can send variables to your GraphQL queries and mutations. To do so, the variables and the type must be specified, ex: `$title: String!` or `$todo: toos_insert_input!`.
 
 ```graphql{1-2}:Mutation
-mutation InsertTodo($title: String, $body: String, $done: Boolean) {
-  insert_todos(objects: { title: $title, body: $body, done: $done }) {
-    returning {
-      id
-      title
-      body
-      done
-    }
+mutation($todo: todos_insert_input!) {
+  insert_todos(objects: [$todo]) {
+    affected_rows
   }
 }
 ```
 
-> Because GraphQL is strongly typed, you will need to specify the variable types, which should match the types in your database.
+> Because GraphQL is strongly typed, you will need to specify the variable types of your GraphQL API.
 
 How you use variables will depend on your GraphQL client, but here is an example using the popular Apollo client. INSERT_TODO is the mutation above.
 
 ```js
-const INSERT_TODOS = gql`
-  mutation InsertTodo($title: String, $body: String, $done: Boolean) {
-    insert_todos(objects: { title: $title, body: $body, done: $done }) {
-      returning {
-        id
-        title
-        body
-        done
-      }
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+
+const INSERT_TODO = gql`
+  mutation($todo: todos_insert_input!) {
+    insert_todos(objects: [$todo]) {
+      affected_rows
     }
   }
 `;
 
+function Component() {
+  //...
+  const [insertTodo] = useMutation(INSERT_TODO);
+  //...
+
+  return (
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+
+        try {
+          await insertTodo({
+            variables: {
+              todo: {
+                name: todoName,
+              },
+            },
+          });
+        } catch (error) {
+          console.error(error);
+          return alert("Error creating todo");
+        }
+        alert("Todo created");
+        setTodoName("");
+      }}
+    >
+      //...
+    </form>
+  );
+}
+```
+
 client.mutate({
-  mutation: INSERT_TODO,
-  variables: {
-    title: "Set up variables",
-    body: "Variables allow separation of concerns!",
-    done: false,
-  },
+mutation: INSERT_TODO,
+variables: {
+todo: {
+title: "Set up variables",
+body: "Variables allow separation of concerns!",
+done: false,
+},
+},
 });
+
+```
+
 ```

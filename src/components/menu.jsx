@@ -156,11 +156,15 @@ const menuStorage = [
 const menuLibraries = [
   {
     link: "/libraries/nhost-js-sdk",
-    name: "Nhost JS SDK",
+    name: "nhost-js-sdk",
   },
   {
-    link: "/libraries/react-nhost",
-    name: "React Nhost",
+    link: "/libraries/react-auth",
+    name: "@nhost/react-auth",
+  },
+  {
+    link: "/libraries/react-apollo",
+    name: "@nhost/react-apollo",
   },
 ];
 

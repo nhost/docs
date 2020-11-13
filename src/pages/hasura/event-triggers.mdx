@@ -14,25 +14,21 @@ You can use any other hosting service to host your API that will receive webhook
 
 ## Security
 
-To make sure that the request your API receives comes from your Hasura instance, and not a hacker, you can send a header (`x-secret-header`) with the webhook.
+To make sure that the request your API receives comes from your Hasura instance, and not a hacker, you can send a header (`x-webhook-secret`) with the webhook.
 
-Your Nhost project is prepared with an environment variable you can use for this specific purpose called `SECRET_WEBHOOK_HEADER`. You can find it under **Settings** in the Nhost console.
+Set a environment variable called `WEBHOOK_SECRET` with a random string.
 
-![Nhost secret header](/images/hasura/nhost-secret-header.png)
+![Nhost secret header](/images/hasura/env-var-secret-header.png)
 
-Use the `SECRET_WEBHOOK_HEADER` as a header for the webhook event trigger. You can name the header anything, ex `x-secret-header`.
+Set a header `x-webhook-secret` and use the `WEBHOOK_SECRET` environment variable.
 
-![Hasura secret header](/images/hasura/hasura-secret-header.png)
+![Hasura secret header](/images/hasura/hasura-set-webhook-secret.png)
 
-In your API, when you receive the webhook, you can control that the header (`x-secret-header`) is correct.
+In your API, when you receive the webhook, you can control that the header (`x-webhook-secret`) to make sure the request is legit.
 
 ```js
-const x_hasura_webhook_secret = "value of `SECRET_WEBHOOK_HEADER`";
-
-if (req.headers["x-secret-header"] !== x_secret_header) {
-  // If `x-secret-header` is incorrect, stop execution.
-  return send(res, 401, "incorrect secret");
-
-  // continue with your webhook
+if (req.headers["x-webhook-secret"] !== process.env.WEBHOOK_SECRET) {
+  return send(res, 401, "incorrect webhook secret");
 }
+// continue with your webhook
 ```

@@ -1,21 +1,66 @@
 # Local users
 
-The easiest way for users to signup is using email/password. All user data will be saved in the database. New users will be added the `users` table and relevant account information will be saved in the tables under the `auth` schema.
+The easiest way for users to signup is using **email and password**. All user are stored in the `users` table and relevant account information will be saved in the tables under the `auth` schema.
 
 Passwords are hashed using [bcrypt](https://www.npmjs.com/package/bcrypt) with multiple salt rounds.
 
-## API
+## Quick Start
 
 The easiest way to register and login users is with [nhost-js-sdk](/libraries/nhost-js-sdk).
 
-Check out our [Auth API Reference](/auth/api-reference) to directly interact with the API.
+### Install
+
+`npm install --save nhost-js-sdk`
+
+### Setup
+
+In ex `/src/utils/nhost.js`:
+
+```js
+import nhost from "nhost-js-sdk";
+
+const config = {
+  base_url: "https://backend-REPLACE.nhost.app",
+};
+
+nhost.initializeApp(config);
+
+const auth = nhost.auth();
+const storage = nhost.storage();
+
+export { auth, storage };
+```
+
+### Usage
+
+Register a user:
+
+```js
+import { auth } from "utils/nhost";
+
+const email = "elon@tesla.com";
+const password = "123123";
+
+auth.register(email, password);
+```
+
+Login user:
+
+```js
+import { auth } from "utils/nhost";
+
+const email = "elon@tesla.com";
+const password = "123123";
+
+auth.login(email, password);
+```
+
+Learn more about the [`nhost-js-sdk`](/libraries/nhost-js-sdk).
+
+Learn more about the [Auth API Reference](/auth/api-reference).
 
 ## Manage users
 
-All users are listed and can be managed in the Nhost console in the **Auth** tab.
+All users can be managed in the Nhost console in the **Auth** tab.
 
 ![Users overview in Nhost](/images/auth/users-overview.png)
-
-Click on the edit icon to manage individual users.
-
-![Manage user in Nhost](/images/auth/manage-user.png)

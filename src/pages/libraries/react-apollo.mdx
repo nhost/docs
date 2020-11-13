@@ -1,10 +1,12 @@
 ---
-title: "React Nhost"
+title: "@nhost/react-apollo"
 publishedAt: "2020-11-11"
 summary: Easy integration of Nhost with React.
 ---
 
-Make it easy to use Nhost with React.
+Make it easy to use Nhost with React and Apollo.
+
+`@nhost/react-apollo`
 
 - `NhostAuthProvider` - AuthProvider to check logged-in state.
 - `NhostApolloProvider` - ApolloProvider preconfigured with authentication for GraphQL mutations, queries and subscriptions.
@@ -14,7 +16,7 @@ If a user is logged in, the `Authorization` header will be set with your JWT tok
 ## Install
 
 ```bash
-npm install react-nhost @apollo/client graphql graphql-tag
+npm install @nhost/auth-react react-nhost @apollo/client graphql graphql-tag
 ```
 
 `@apollo/client` is required for `react-nhost` to work. You will use `@apollo/client` for `useQuery`, `useMutation`, `useSubscription`.

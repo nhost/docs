@@ -1,0 +1,49 @@
+# Nhost CLI (beta)
+
+The CLI is meant to be your primary interface when doing local development.
+
+## Install
+
+```js
+npm install -g nhost
+```
+
+## Dependencies
+
+The [Hasura CLI](https://hasura.io/docs/1.0/graphql/core/hasura-cli/install-hasura-cli.html#install-hasura-cli), [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) are dependencies, please make sure to have those installed.
+
+## Usage
+
+```js
+USAGE
+  $ nhost [COMMAND]
+
+COMMANDS
+  deploy  Deploy local migrations to Nhost production
+  dev     Start Nhost project for local development
+  help    display help for nhost
+  init    Initialize current working directory with a Nhost project
+  login   Login to your Nhost account
+  logout  Logout from your Nhost account
+```
+
+## Workflow
+
+```js
+# login to your Nhost account
+nhost login
+
+# initialize working directory as a Nhost project
+# please make sure to run it at the root of your project
+nhost init
+
+# start your development environment (Hasura, HBP, Postgres and Minio)
+nhost dev
+
+# push your local changes of the Postgres schema and API metadata to your production project
+nhost deploy
+```
+
+## Beta
+
+The CLI is still in beta, so please feel free to send us feedback, bug reports and issues through the project's [repo](https://github.com/nhost/cli).

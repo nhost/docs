@@ -8,17 +8,23 @@ Nhost JS SDK is used to handle **Auth** and **Storage**.
 
 ## Installation
 
-`npm install --save nhost-js-sdk`
+```bash
+$ npm install nhost-js-sdk
+```
+
+or
+
+```bash
+$ yarn add nhost-js-sdk
+```
 
 ## Setup
 
-In ex `/src/utils/nhost.js`:
-
-```js
+```js:/src/utils/nhost
 import nhost from "nhost-js-sdk";
 
 const config = {
-  base_url: "https://backend-xxxx.nhost.app",
+  base_url: "https://backend-REPLACE.nhost.app",
 };
 
 nhost.initializeApp(config);
@@ -33,14 +39,16 @@ To use cookies (not recomended), use this config:
 
 ```js
 const config = {
-  base_url: "https://backend-xxxx.nhost.app",
+  base_url: "https://backend-REPLACE.nhost.app",
   use_cookies: true,
 };
 ```
 
 ## Usage auth and storage across in your app
 
-`import { auth, storage } from 'src/nhost/index.js';`
+```js
+import { auth, storage } from "src/utils/nhost.js";
+```
 
 ## Auth
 
@@ -171,19 +179,19 @@ auth.MFATotp(code, ticket);
 
 ### Upload
 
-```
+```js
 storage.put(path, file, metadata?, onUploadProgress?);
 ```
 
 ### Delete
 
-```
+```js
 storage.delete(path);
 ```
 
 ### Get metadata
 
-```
+```js
 storage.getMetadata(path);
 ```
 
@@ -193,7 +201,9 @@ storage.getMetadata(path);
 
 Install:
 
-`yarn add @react-native-community/async-storage`
+```bash
+$ yarn add @react-native-community/async-storage
+```
 
 More info: [https://react-native-community.github.io/async-storage/docs/install](https://react-native-community.github.io/async-storage/docs/install).
 
@@ -240,7 +250,9 @@ export { auth, storage };
 
 Install:
 
-`expo install expo-secure-store`
+```bash
+$ expo install expo-secure-store
+```
 
 More info: [https://docs.expo.io/versions/latest/sdk/securestore/](https://docs.expo.io/versions/latest/sdk/securestore/).
 

@@ -22,18 +22,18 @@ Click on **DATA** tab on the top menu, and click on **Create Table**.
 
 We'll create a `todos` table:
 
-| Name       | Type      | Default value     |
-| :--------- | :-------- | :---------------- |
-| id         | UUID      | gen_random_uuid() |
-| created_at | Timestamp | now()             |
-| name       | Text      |                   |
-| completed  | Boolean   | false             |
+| Name         | Type      | Default value     |
+| :----------- | :-------- | :---------------- |
+| id           | UUID      | gen_random_uuid() |
+| created_at   | Timestamp | now()             |
+| name         | Text      |                   |
+| is_completed | Boolean   | false             |
 
 For the `id` and `created_at` you should use the **Frequently used columns** option. This ensures correct name, type and default values for those columns. It's a quick way to get started creating a new table.
 
 ![Frequently used columns in the Hasura console](/images/quick-start/frequently-used-columns.png)
 
-The other columns, `name` and `completed`, you need to add manually (see the image bellow). Make sure you set the **default value** for `completed` to `false`.
+The other columns, `name` and `is_completed`, you need to add manually (see the image bellow). Make sure you set the **default value** for `is_completed` to `false`.
 
 ![Create a table in the Hasura console](/images/quick-start/create-table.png)
 
@@ -53,7 +53,7 @@ query {
     id
     created_at
     name
-    completed
+    is_completed
   }
 }
 ```

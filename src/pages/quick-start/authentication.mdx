@@ -3,7 +3,7 @@ title: "Authentication"
 summary: "Currently, everyone can see all todos. That was ok to start with but now it's time to add authentication."
 ---
 
-Currently, everyone can see all todos. That was ok to start with but now it's time to add authentication.
+Currently, everyone can select and insert todos. That is ok to start with but now it's time to secure our API by adding authentication.
 
 Authentication is built-in to Nhost and easy to get started with.
 
@@ -20,7 +20,7 @@ You will use this user to access your todos later on. But first, we will install
 > `nhost-js-sdk` is an open-source JavaScript library for interacting with Nhost's auth and storage.
 
 ```bash
-npm install nhost-js-sdk
+$ npm install nhost-js-sdk
 ```
 
 Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/util`, and create `nhost.js` inside it.
@@ -57,7 +57,7 @@ We'll also pass our `auth` object as a prop to both providers, `NhostAuthProvide
 ```jsx{5,6,10,11,14}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "App";
+import App from "./App";
 import { NhostApolloProvider } from "@nhost/react-apollo";
 import { NhostAuthProvider } from "@nhost/react-auth";
 import { auth } from "utils/nhost";
@@ -85,14 +85,14 @@ Next, we will create the login component.
 
 We need to write a login component that handles the form submittion of a user's data, and also some scaffolding for the app routes.
 
-Create `Login.js` with the following content:
+Create the `Login` component with the following content:
 
 ```jsx:src/components/login.js
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "utils/nhost";
 
-export default function Login(props) {
+export function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -141,8 +141,8 @@ Now let's create two routes. One for `/` where we'll have our todos listed, and 
 ```jsx{4,5,14,15,16,18,19,20,21,22,23}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "App";
-import Login from "components/login";
+import App from "./App";
+import { Login } from "components/login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NhostApolloProvider } from "@nhost/react-apollo";
 import { NhostAuthProvider } from "@nhost/react-auth";
@@ -260,7 +260,7 @@ Let's now create the `AuthGate` component that will make sure users are authenti
 import { Redirect } from "react-router-dom";
 import { useAuth } from "@nhost/react-auth";
 
-export default function AuthGate({ children }) {
+export function AuthGate({ children }) {
   const { signedIn } = useAuth();
 
   if (signedIn === null) {
@@ -282,9 +282,9 @@ Open `src/index.js` and add the `AuthGate` around the routes we want only logged
 ```jsx{5,20,24}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "App";
-import Login from "components/Login";
-import AuthGate from "components/auth-gate";
+import App from "./App";
+import { Login } from "components/login";
+import { AuthGate } from "components/auth-gate";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NhostApolloProvider } from "@nhost/react-apollo";
 import { NhostAuthProvider } from "@nhost/react-auth";
@@ -318,15 +318,15 @@ ReactDOM.render(
 
 Now users can only access `/` if they are logged in.
 
-## A todo belongs to a user
+## Connect todos to users
 
-A todo should be tied to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. Click **Browse Rows** for the `todos` table, select all todos and click on the trash can icon.
+A todo should belong to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. Click **Browse Rows** for the `todos` table, select all todos and click on the trash can icon.
 
 All todos are now deleted.
 
 Click on **Modify** and then click the button **Add a new column**. Name the new column `user_id` with the type `UUID`. Also make sure to **uncheck Nullable**. Click **Save**.
 
-> `user_id` will refer to the id of the user that the todo belongs to.
+> `user_id` will refer to the **id** of the **user** the todo belongs to.
 
 ![New user_id column](/images/add-authentication/new-user-id-column.png)
 

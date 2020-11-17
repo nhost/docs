@@ -51,7 +51,7 @@ Import `NhostApolloProvider` and wrap `App` so that GraphQL is available everywh
 ```jsx{4,8,10}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "App";
+import App from "./App";
 import { NhostApolloProvider } from "@nhost/react-apollo";
 
 ReactDOM.render(
@@ -64,7 +64,7 @@ ReactDOM.render(
 );
 ```
 
-Now, with `ApolloClient` configured, we can move on to fetch data.
+Now we can fetch data!
 
 ## Fetch data using GraphQL in App.js
 
@@ -81,7 +81,7 @@ const GET_TODOS = gql`
       id
       created_at
       name
-      completed
+      is_completed
     }
   }
 `;
@@ -130,7 +130,7 @@ const GET_TODOS = gql`
       id
       created_at
       name
-      completed
+      is_completed
     }
   }
 `;
@@ -219,7 +219,7 @@ const GET_TODOS = gql`
       id
       created_at
       name
-      completed
+      is_completed
     }
   }
 `;

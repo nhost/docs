@@ -47,7 +47,7 @@ const config = {
 ## Usage auth and storage across in your app
 
 ```js
-import { auth, storage } from "src/utils/nhost.js";
+import { auth, storage } from "src/utils/nhost";
 ```
 
 ## Auth
@@ -87,17 +87,27 @@ auth.onAuthStateChanged((logged_in) => {
 
 ### Check if user is authenticated
 
+Can return one of `[true, false, null]`.
+
+- `true` means users is logged in
+- `false` means users is not logged in
+- `null` means that `nhost-js-sdk` is trying to login the user, but don't know yet if the user is logged in or not.
+
 ```js
 auth.isAuthenticated();
 ```
 
 ### Get JWT token
 
+Get the full JWT token
+
 ```js
 auth.getJWTToken();
 ```
 
 ### Get JWT claim
+
+Get specific claim from the JWT token.
 
 ```js
 auth.getClaim("x-hasura-user-id");

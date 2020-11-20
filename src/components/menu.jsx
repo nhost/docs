@@ -171,7 +171,23 @@ const menuLibraries = [
 const menuCli = [
   {
     link: "/cli",
-    name: "Usage",
+    name: "Overview",
+  },
+  {
+    link: "/cli/login",
+    name: "Login",
+  },
+  {
+    link: "/cli/init",
+    name: "Init",
+  },
+  {
+    link: "/cli/dev",
+    name: "Dev",
+  },
+  {
+    link: "/cli/deploy",
+    name: "Deploy",
   },
 ];
 

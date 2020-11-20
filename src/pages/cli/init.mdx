@@ -1,0 +1,78 @@
+---
+publishedAt: "2020-11-20"
+summary: Learn how to use the CLI.
+---
+
+## Nhost Init
+
+`nhost init` initializes a project for local development. Here we are going to initialize a project called `todos-cli`.
+
+```bash
+ nhost init
+? Select Project (Use arrow keys)
+  ---personal---
+❯ todos-cli
+
+# Enter to choose the project to initialize
+
+⠇ Initializing todos-cli
+Nhost project successfully initialized
+```
+
+Let's now look at some of the configuration created.
+
+```bash
+tree .
+.
+└── nhost
+    ├── config.yaml
+    ├── metadata
+    │   ├── actions.graphql
+    │   ├── actions.yaml
+    │   ├── allow_list.yaml
+    │   ├── cron_triggers.yaml
+    │   ├── functions.yaml
+    │   ├── query_collections.yaml
+    │   ├── remote_schemas.yaml
+    │   ├── tables.yaml
+    │   └── version.yaml
+    ├── migrations
+    │   └── 1605871545375_init
+    │       └── up.sql
+    └── seeds
+        └── 1605871559317_roles_and_providers.sql
+
+5 directories, 12 files
+```
+
+The `config.yaml` file is where versions and ports can be defined for each service. The versions specified by default are the same running in the production project.
+
+```bash
+cat nhost/config.yaml
+# hasura configuration for the CLI
+version: 2
+metadata_directory: metadata
+
+# hasura configuration for the project
+hasura_graphql_version: v1.3.0.cli-migrations-v2
+hasura_graphql_port: 8080
+hasura_graphql_admin_secret: 123456
+
+# hasura backend plus configuration
+hasura_backend_plus_version: v2.2.0
+hasura_backend_plus_port: 9000
+
+# postgres configuration
+postgres_version: 12.0
+postgres_port: 5432
+postgres_user: postgres
+postgres_password: postgres
+
+# custom environment variables for Hasura GraphQL engine: webhooks, headers, etc
+env_file: ../.env.development
+```
+
+Also relevant here, is the init migration that creates a snapshot of the current schema pulled from the project `todos-cli` and the seeds file which populates the local database with data for both the roles and providers tables used for authentication purposes.
+
+
+

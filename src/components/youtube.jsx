@@ -9,7 +9,11 @@ export function YouTube() {
     >
       <div className="border rounded flex items-center hover:border-primary hover:shadow-lg transition-all duration-150 ease-in-out">
         <div className="">
-          <img src="/images/quick-start/yt-cover.png" className="w-56" />
+          <img
+            src="/images/quick-start/yt-cover.png"
+            className="w-56"
+            alt="Nhost quick start"
+          />
         </div>
         <div className="flex items-center justify-center flex-grow text-4xl font-thin">
           Watch Quick Start Video

@@ -1,11 +1,6 @@
-import smartlookClient from "smartlook-client";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
-  componentDidMount() {
-    smartlookClient.init("8046e53cf51c2e51fc173ffc28bd6343f04ed2ec");
-  }
-
   render() {
     return (
       <Html lang="en">

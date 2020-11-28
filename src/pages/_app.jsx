@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import { DefaultSeo } from "next-seo";
 import { MDXProvider } from "@mdx-js/react";
 import Zoom from "react-medium-image-zoom";
+import smartlookClient from "smartlook-client";
+
 import { Header } from "components/header";
 import { Menu } from "components/menu";
 
@@ -91,6 +94,15 @@ const mdComponents = {
 };
 
 export default function App({ Component, pageProps }) {
+  const [constructor, setConstructor] = useState(false);
+
+  useEffect(() => {
+    if (!constructor) {
+      smartlookClient.init("8046e53cf51c2e51fc173ffc28bd6343f04ed2ec");
+      setConstructor(true);
+    }
+  });
+
   return (
     <MDXProvider components={mdComponents}>
       <DefaultSeo {...SEO} />

@@ -58,3 +58,9 @@ const { loading, error, data } = useQuery(MY_QUERY, {
 ## Default allowed user roles
 
 A user can have multiple default roles directly on registration. The default allowed user roles can be set in **Settings -> Authentication -> DEFAULT ALLOWED ROLES**.
+
+## Public role
+
+If a user is not logged in and no header or token is sent with the GraphQL request Hasura will resolve the request using the `public` role.
+
+> HASURA_GRAPHQL_UNAUTHORIZED_ROLE is set to `public` by default for all Nhost projects.

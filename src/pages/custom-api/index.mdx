@@ -1,0 +1,80 @@
+---
+title: "Custom API (beta)"
+summary: Deploy serverless function with Nhost Custom API. Perfect for Hasura Event triggers and Hasura Actions webhooks.
+---
+
+Deploy a custom API on Nhost. Also called: Lambda, serverless functions, Cloud Functions etc.
+
+To deploy the custom API you must:
+
+1. Connect your repository to your Nhost project under Settings -> Git.
+2. Have an `api/` directory at the root of your project.
+
+Your API will be automatically deployed for every push to the `master` or the `main` branch of your repository.
+
+## Example code
+
+```js:api/index.js
+module.exports = (req, res) => {
+  res.json({
+    body: req.body,
+    query: req.query,
+    cookies: req.cookies,
+  });
+};
+```
+
+## Paths
+
+The folder structure inside the `api/` folder will resolve the endpoints.
+
+### Example paths and endpoints
+
+Given this folder and file structure:
+
+```bash
+|____api
+| |____index.js
+| |____users
+| | |____index.js
+| | |____active.js
+| |____my-company.js
+```
+
+The following endpoints will be available:
+
+```bash
+https://api-str.nhost.app/ - (api/index.js)
+https://api-str.nhost.app/users - (api/users/index.js)
+https://api-str.nhost.app/users/active - (api/users/active.js)
+https://api-str.nhost.app/my-company - (api/my-company.js)
+```
+
+## Environment variables
+
+System level environment variables are available:
+
+```bash
+NHOST_HAUSRA_ENDPOINT - (Hasura endpoint)
+NHOST_HASURA_ADMIN_SECRET - (Hasura admin secret)
+NHOST_HBP_ENDPOINT - (HBP endpoint for auth and storage)
+NHOST_API_ENDPOINT - (Custom API endpoint)
+```
+
+You can access each environment variable via `process.env.<name>` ex: `process.env.NHOST_HASURA_ENDPOINT`.
+
+All your production environment variables added under Settings -> Environment variables are also added to the custom API.
+
+For local development all system environment variables will point to the local development URLs.
+
+## Logs
+
+Logs are not available yet.
+
+## Local development
+
+Use the [Nhost CLI's](/cli/dev) `nhost dev` to start the Custom API locally (together with a full Nohst backend).
+
+## Technical details
+
+We use [Google Cloud Run](https://cloud.google.com/run) to deploy the Custom API. For now we only allow JavaScript. In the future you will be able to bring your own Dockerfile with any language.

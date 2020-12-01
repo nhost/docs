@@ -153,6 +153,13 @@ const menuStorage = [
   },
 ];
 
+const menuCustomAPI = [
+  {
+    link: "/custom-api",
+    name: "Overview",
+  },
+];
+
 const menuLibraries = [
   {
     link: "/libraries/nhost-js-sdk",
@@ -301,6 +308,27 @@ export function Menu(props) {
             clipRule="evenodd"
           />
         </svg>
+
+        <div>Custom API (beta)</div>
+      </MenuHeader>
+      <MenuList menu={menuCustomAPI} router={router} />
+
+      <MenuHeader>
+        <svg
+          className="w-5 h-5 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+          />
+        </svg>
+
         <div>Libraries</div>
       </MenuHeader>
       <MenuList menu={menuLibraries} router={router} />
@@ -320,7 +348,7 @@ export function Menu(props) {
             d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
           ></path>
         </svg>
-        <div>CLI</div>
+        <div>CLI (beta)</div>
       </MenuHeader>
       <MenuList menu={menuCli} router={router} />
     </div>

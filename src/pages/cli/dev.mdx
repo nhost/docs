@@ -5,20 +5,29 @@ summary: Learn how to use the CLI.
 
 ## Nhost Dev
 
-Dev starts your local development environment.
+`nhost dev` starts your local development environment.
+
+This is perfect for local development.
 
 ```bash
 nhost dev
 
-⠇ Nhost is starting... 
+⠇ Nhost is starting...
 
 # The first time dev is run takes a bit longer because the database is being created
 
-✔ Nhost is running! The hasura console can be found at http://localhost:9695
+✔ Local Nhost backend is running!
+GraphQL API:	http://localhost:8080/v1/graphql
+Hasura Console:	http://localhost:9695
+Auth & Storage:	http://localhost:9000
+API:			http://localhost:4000
 ```
 
-Great, Hasura, HBP and PostgreSQL are now running! Also, the Hasura console was launched so that changes can be introduced and tracked. All metadata and migrations will be stored within the respective folders created with `nhost init`.  
+Great! You now have a Nhost backend localy with the all services:
 
+- PostgreSQL
+- Hasura
+- HBP
+- Custom API
 
-
-
+The Hasura console (`https://localhost:9695`) was launched. Use this URL specifically to make changes in Hasura to track migrations and metadata automaticall (recommended). All metadata and migrations are stored in the `nhost/` folder.

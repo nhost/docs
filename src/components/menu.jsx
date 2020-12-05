@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 const menuQuickStart = [
   {
-    link: "/quick-start/introduction",
+    link: "/quick-start",
     name: "Introduction",
   },
   {
@@ -70,7 +70,7 @@ const menuHasura = [
 
 const menuGraphql = [
   {
-    link: "/graphql/overview",
+    link: "/graphql",
     name: "Overview",
   },
   {
@@ -227,7 +227,7 @@ export function Menu(props) {
 
   return (
     <div>
-      <MenuHeader>
+      <MenuHeader href="/quick-start">
         <svg
           className="w-5 h-5 mr-2"
           fill="currentColor"
@@ -245,7 +245,7 @@ export function Menu(props) {
       </MenuHeader>
       <MenuList menu={menuQuickStart} router={router} />
 
-      <MenuHeader>
+      <MenuHeader href="/postgresql">
         <div className="w-5 h-5 mr-3">
           <img src="/images/postgresql.svg" />
         </div>
@@ -253,7 +253,7 @@ export function Menu(props) {
       </MenuHeader>
       <MenuList menu={menuPostgres} router={router} />
 
-      <MenuHeader>
+      <MenuHeader href="/hasura">
         <div className="w-5 h-5 mr-2">
           <img src="/images/hasura.svg" />
         </div>
@@ -261,7 +261,7 @@ export function Menu(props) {
       </MenuHeader>
       <MenuList menu={menuHasura} router={router} />
 
-      <MenuHeader>
+      <MenuHeader href="/graphql">
         <div className="w-5 h-5 mr-2">
           <img src="/images/graphql.svg" />
         </div>
@@ -269,7 +269,7 @@ export function Menu(props) {
       </MenuHeader>
       <MenuList menu={menuGraphql} router={router} />
 
-      <MenuHeader>
+      <MenuHeader href="/auth">
         <svg
           className="w-5 h-5 mr-2"
           fill="currentColor"
@@ -282,7 +282,7 @@ export function Menu(props) {
       </MenuHeader>
       <MenuList menu={menuAuth} router={router} />
 
-      <MenuHeader>
+      <MenuHeader href="/storage">
         <svg
           className="w-5 h-5 mr-2"
           fill="currentColor"
@@ -295,7 +295,7 @@ export function Menu(props) {
       </MenuHeader>
       <MenuList menu={menuStorage} router={router} />
 
-      <MenuHeader>
+      <MenuHeader href="/custom-api">
         <svg
           className="w-5 h-5 mr-2"
           fill="currentColor"
@@ -333,7 +333,7 @@ export function Menu(props) {
       </MenuHeader>
       <MenuList menu={menuLibraries} router={router} />
 
-      <MenuHeader>
+      <MenuHeader href="/cli">
         <svg
           className="w-6 h-6 mr-2"
           fill="none"
@@ -355,11 +355,13 @@ export function Menu(props) {
   );
 }
 
-function MenuHeader({ children }) {
+function MenuHeader({ children, href = "/" }) {
   return (
-    <div className="flex items-center text-sm uppercase text-gray-900 pb-1">
-      {children}
-    </div>
+    <Link href={href}>
+      <a className="flex items-center text-sm uppercase text-gray-900 pb-1">
+        {children}
+      </a>
+    </Link>
   );
 }
 

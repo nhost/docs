@@ -55,14 +55,14 @@ https://api-str.nhost.app/my-company - (api/my-company.js)
 System level environment variables are available:
 
 ```bash
-NHOST_HAUSRA_ENDPOINT - (Hasura endpoint)
+NHOST_HAUSRA_URL - (Hasura url)
 NHOST_HASURA_ADMIN_SECRET - (Hasura admin secret)
-NHOST_HBP_ENDPOINT - (HBP endpoint for auth and storage)
-NHOST_CUSTOM_API_ENDPOINT - (Custom API endpoint)
+NHOST_HBP_URL - (HBP url for auth and storage)
+NHOST_CUSTOM_API_URL - (Custom API url)
 NHOST_WEHOOK_SECRET - (Randoms secret string. Can be used to authenticate requests from Hasura to the Custom API)
 ```
 
-You can access each environment variable via `process.env.<name>` ex: `process.env.NHOST_HASURA_ENDPOINT`.
+You can access each environment variable via `process.env.<name>` ex: `process.env.NHOST_HASURA_URL`.
 
 All your production environment variables added under Settings -> Environment variables are also added to the custom API.
 

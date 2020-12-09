@@ -59,7 +59,7 @@ NHOST_HAUSRA_URL - (Hasura url)
 NHOST_HASURA_ADMIN_SECRET - (Hasura admin secret)
 NHOST_HBP_URL - (HBP url for auth and storage)
 NHOST_CUSTOM_API_URL - (Custom API url)
-NHOST_WEHOOK_SECRET - (Randoms secret string. Can be used to authenticate requests from Hasura to the Custom API)
+NHOST_WEBHOOK_SECRET - (Random secret string. Can be used to authenticate requests from Hasura to the Custom API)
 ```
 
 You can access each environment variable via `process.env.<name>` ex: `process.env.NHOST_HASURA_URL`.
@@ -74,7 +74,7 @@ Logs are not available yet.
 
 ## Local development
 
-Use the [Nhost CLI's `nhost dev`](/cli/dev) to start the Custom API locally (together with a full Nohst backend).
+Use the [Nhost CLI's `nhost dev`](/cli/dev) to start the Custom API locally (together with a full Nhost backend).
 
 ## Technical details
 

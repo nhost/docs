@@ -16,11 +16,8 @@ Your API will be automatically deployed for every push to the `master` or the `m
 
 ```js:api/index.js
 module.exports = (req, res) => {
-  res.json({
-    body: req.body,
-    query: req.query,
-    cookies: req.cookies,
-  });
+  const { name = 'World' } = req.query;
+  res.status(200).send(`Hello ${name}!`);
 };
 ```
 
@@ -75,6 +72,19 @@ Logs are not available yet.
 ## Local development
 
 Use the [Nhost CLI's `nhost dev`](/cli/dev) to start the Custom API locally (together with a full Nohst backend).
+
+## TypeScript support
+
+TypeScript is supported.
+
+```js:api/index.ts
+import { Request, Response } from "express";
+
+export default (req: Request, res: Response) => {
+  const { name = 'World' } = req.query;
+  res.status(200).send(`Hello ${name}!`);
+};
+```
 
 ## Technical details
 

@@ -1,4 +1,11 @@
-# Nhost Storage Security Rules
+---
+title: "Nhost Storage Security Rules"
+publishedAt: "2021-02-08"
+---
+
+# Nhost Storage Security
+
+## Rules
 
 All files in Nhost Storage are protected with Security Rules.
 
@@ -28,7 +35,7 @@ In the above example we have the following rules:
 - Anyone can read files from `/users/:userId/:fileName`. Ex: `/users/1/image.png`.
 - Only logged in users can write to their own directory. Ex user with id `1` can upload a file to `/users/1/image.png` but not to `/users/2/image.png`.
 
-## Structure
+### Structure
 
 Storage Rules follows this structure:
 
@@ -50,11 +57,11 @@ paths:
     operation: "true/false or functionName()"
 ```
 
-## Paths
+### Paths
 
 Paths are specified under the `paths:` directive and specifies that path to the file or folder that you want to set rules for.
 
-### Path Variables
+#### Path Variables
 
 You can use path variables in the path to capture values specified at their position in the URL. These path variables can be used in the security rules functions.
 
@@ -78,7 +85,7 @@ paths:
       read: "true/false or functionName()"
 ```
 
-## Functions
+### Functions
 
 You can use a function to resolve if a request should be allowed or not. A function can access information from the user making the request, file metadata and path variables.
 
@@ -119,9 +126,9 @@ Who is allowed to do what given the rules above?
 | Not logged in | `/users/1/image.png` | write (POST)) | No       |
 | Not logged in | `/users/2/image.png` | write (POST)) | No       |
 
-### Available variables
+#### Available variables
 
-#### Path variables
+##### Path variables
 
 Path variables can be accessed in function if they are present in the path (`/users/:myVariable`) and sent as a parameter to the function `isOwner(myVariable)`.
 
@@ -146,7 +153,7 @@ You can also use helper operations:
 
 ## Access Token
 
-When a file gets uploaded Nhost Storage will automatically generate a `token` (access token) for the file. The `token` will be added to the file's metadata.
+When a file gets uploaded, Nhost Storage automatically generates a `token` (access token) for the file. The `token` will be added to the file's metadata.
 
 Let's say you upload a file to `/data/document.txt` and get this as return data:
 
@@ -175,3 +182,43 @@ paths:
 ```
 
 Now, given our `validToken` function, anyone can access `/data/document.txt` with the `token` like this: `https://backend-xxx.nhost.app/storage/o/data/document.txt?token=6a587e56-04d4-415d-bb2c-9a39491e31d2`.
+
+### Revoke access tokens
+
+Access tokens can be revoked which means the old access token gets deleted and a new access token created. Only admins with the admin secret (same as Hasura's admin secret) can revoke tokens.
+
+Request to revoke an access token:
+
+### Request
+
+`POST /storage/m/<path-to-file>`
+
+**Headers**
+
+```json
+x-admin-secret: <admin-secret>
+```
+
+**Body**
+
+```json
+{
+  "action": "revoke-token"
+}
+```
+
+### Response
+
+```json
+{
+  "key": "<path-to-file>",
+  "AcceptRanges": "bytes",
+  "LastModified": "2020-01-01T01:02:03.000Z",
+  "ContentLength": 12345,
+  "ETag": "Etag",
+  "ContentType": "<content-type>",
+  "Metadata": {
+    "token": "<new-auto-generated-access-token-uuid>"
+  }
+}
+```

@@ -16,18 +16,18 @@ You can use any other hosting service to host your API that will receive webhook
 
 To make sure that the request your API receives comes from your Hasura instance, and not a hacker, you can send a header (`x-webhook-secret`) with the webhook.
 
-Set a environment variable called `WEBHOOK_SECRET` with a random string.
+Set a environment variable called `NHOST_WEBHOOK_SECRET` with a random string.
 
 ![Nhost secret header](/images/hasura/env-var-secret-header.png)
 
-Set a header `x-webhook-secret` and use the `WEBHOOK_SECRET` environment variable.
+Set a header `x-webhook-secret` and use the `NHOST_WEBHOOK_SECRET` environment variable.
 
 ![Hasura secret header](/images/hasura/hasura-set-webhook-secret.png)
 
 In your API, when you receive the webhook, you can control that the header (`x-webhook-secret`) to make sure the request is legit.
 
 ```js
-if (req.headers["x-webhook-secret"] !== process.env.WEBHOOK_SECRET) {
+if (req.headers["x-webhook-secret"] !== process.env.NHOST_WEBHOOK_SECRET) {
   return send(res, 401, "incorrect webhook secret");
 }
 // continue with your webhook

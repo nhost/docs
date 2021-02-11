@@ -152,6 +152,10 @@ const menuStorage = [
     name: "Security Rules",
   },
   {
+    link: "/storage/image-transformation",
+    name: "Image Transformation",
+  },
+  {
     link: "/storage/api-reference",
     name: "API Reference",
   },

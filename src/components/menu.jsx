@@ -117,6 +117,10 @@ const menuAuth = [
     name: "Facebook",
   },
   {
+    link: "/auth/oauth-providers/linkedin",
+    name: "Linkedin",
+  },
+  {
     link: "/auth/email-templates",
     name: "Email templates",
   },

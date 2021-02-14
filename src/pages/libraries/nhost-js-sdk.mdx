@@ -217,7 +217,7 @@ import nhost from "nhost-js-sdk";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const config = {
-  base_url: "https://backend-xxxx.nhost.app",
+  base_url: "https://backend-REPLACE.nhost.app",
   client_storage: AsyncStorage,
   client_storage_type: "react-native",
 };
@@ -238,7 +238,7 @@ import { Plugins } from "@capacitor/core";
 const { Storage } = Plugins;
 
 const nhostClient = createClient({
-  baseURL: "https://backend-xxxx.nhost.app",
+  baseURL: "https://backend-REPLACE.nhost.app",
   clientStorage: Storage,
   clientStorageType: "capacitor
 })
@@ -264,7 +264,7 @@ import createClient from "nhost-js-sdk";
 import * as SecureStore from "expo-secure-store";
 
 const nhostClient = createClient({
-  baseURL: "https://backend-xxxx.nhost.app",
+  baseURL: "https://backend-REPLACE.nhost.app",
   clientStorage: SecureStore,
   clientStorageType: "expo-secure-storage",
 })

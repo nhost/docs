@@ -21,16 +21,15 @@ $ yarn add nhost-js-sdk
 ## Setup
 
 ```js:/src/utils/nhost
-import nhost from "nhost-js-sdk";
+import createClient from "nhost-js-sdk";
 
-const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
-};
+const nhostClient = createClient({
+  baseURL: "https://backend-REPLACE.nhost.app",
+  // useCookies: true for using cookies (not recomended)
+})
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const auth = nhost.auth;
+const storage = nhost.storage;
 
 export { auth, storage };
 ```
@@ -38,13 +37,13 @@ export { auth, storage };
 To use cookies (not recomended), use this config:
 
 ```js
-const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
-  use_cookies: true,
-};
+const nhostClient = createClient({
+  baseURL: "https://backend-REPLACE.nhost.app",
+  useCookies: true,
+})
 ```
 
-## Usage auth and storage across in your app
+## Usage
 
 ```js
 import { auth, storage } from "src/utils/nhost";
@@ -55,19 +54,19 @@ import { auth, storage } from "src/utils/nhost";
 ### Register
 
 ```js
-auth.register(email, password);
-```
+auth.register({ email, password });
 
-### Register with user_data
-
-```js
-auth.register(email, password, { display_name: "Joe Doe" });
+// pass in registration options
+auth.register({ email, password, { userData: { display_name: "Joe Doe" }} });
 ```
 
 ### Login
 
 ```js
-auth.login(email, password);
+auth.login({ email, password });
+
+// or with a OAuth provider: google | github | linkedin ...
+auth.login({ provider })
 ```
 
 ### Logout
@@ -87,27 +86,23 @@ auth.onAuthStateChanged((logged_in) => {
 
 ### Check if user is authenticated
 
-Can return one of `[true, false, null]`.
-
-- `true` means users is logged in
-- `false` means users is not logged in
-- `null` means that `nhost-js-sdk` is trying to login the user, but don't know yet if the user is logged in or not.
-
 ```js
 auth.isAuthenticated();
 ```
 
-### Get JWT token
+Returns one of the following:
 
-Get the full JWT token
+- `true` means the user is logged in
+- `false` means the user is not logged in
+- `null` means that a request to login the user is ongoing.
+
+### Get JWT token
 
 ```js
 auth.getJWTToken();
 ```
 
-### Get JWT claim
-
-Get specific claim from the JWT token.
+### Get claim from the JWT token
 
 ```js
 auth.getClaim("x-hasura-user-id");
@@ -238,20 +233,18 @@ export { auth, storage };
 ### Ionic
 
 ```js
-import nhost from "nhost-js-sdk";
+import createClient from "nhost-js-sdk";
 import { Plugins } from "@capacitor/core";
 const { Storage } = Plugins;
 
-const config = {
-  base_url: "https://backend-xxxx.nhost.app",
-  client_storage: Storage,
-  client_storage_type: "capacitor",
-};
+const nhostClient = createClient({
+  baseURL: "https://backend-xxxx.nhost.app",
+  clientStorage: Storage,
+  clientStorageType: "capacitor
+})
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const auth = nhost.auth;
+const storage = nhost.storage;
 
 export { auth, storage };
 ```
@@ -267,19 +260,17 @@ $ expo install expo-secure-store
 More info: [https://docs.expo.io/versions/latest/sdk/securestore/](https://docs.expo.io/versions/latest/sdk/securestore/).
 
 ```js
-import nhost from "nhost-js-sdk";
+import createClient from "nhost-js-sdk";
 import * as SecureStore from "expo-secure-store";
 
-const config = {
-  base_url: "https://backend-xxxx.nhost.app",
-  client_storage: SecureStore,
-  client_storage_type: "expo-secure-storage",
-};
+const nhostClient = createClient({
+  baseURL: "https://backend-xxxx.nhost.app",
+  clientStorage: SecureStore,
+  clientStorageType: "expo-secure-storage",
+})
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const auth = nhost.auth;
+const storage = nhost.storage;
 
 export { auth, storage };
 ```

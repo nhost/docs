@@ -18,7 +18,7 @@ function DarkModeToggler() {
     return (
       <button
         onClick={() => setTheme("dark")}
-        className="border border-transparent hover:border-black rounded p-1 transition-all duration-150 ease-in-out"
+        className="mr-4 border border-transparent hover:border-black rounded p-1 transition-all duration-150 ease-in-out"
       >
         <SvgMoon className="w-6 h-6" />
       </button>
@@ -28,7 +28,7 @@ function DarkModeToggler() {
   return (
     <button
       onClick={() => setTheme("light")}
-      className="border border-transparent hover:border-white rounded p-1 transition-all duration-150 ease-in-out"
+      className="mr-4 border border-transparent hover:border-white rounded p-1 transition-all duration-150 ease-in-out"
     >
       <SvgSun className="w-6 h-6 text-gray-200" />
     </button>
@@ -85,7 +85,7 @@ export function Header(props) {
           href="https://github.com/nhost/nhost"
           target="_blank"
           rel="noopener noreferrer"
-          className="mx-4 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
+          className="mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
           <SvgGithub className="w-8 h-8" />
         </a>
@@ -93,7 +93,7 @@ export function Header(props) {
           href="https://twitter.com/nhostio"
           target="_blank"
           rel="noopener noreferrer"
-          className="mx-4 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
+          className="mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
           <SvgTwitter className="w-8 h-8" />
         </a>

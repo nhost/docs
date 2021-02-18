@@ -36,6 +36,7 @@ function DarkModeToggler() {
 }
 
 export function Header(props) {
+  const { theme, setTheme } = useTheme();
   useEffect(() => {
     if (window.docsearch) {
       window.docsearch({
@@ -50,12 +51,15 @@ export function Header(props) {
     }
   });
 
+  const logoPath =
+    theme === "light" ? "/images/logo.svg" : "/images/logo-dark.svg";
+
   return (
     <div className="container mx-auto px-4 py-3 flex justify-between items-center">
       <div>
         <Link href="/">
           <a>
-            <img src="/images/logo.svg" style={{ height: "40px" }} />
+            <img src={logoPath} style={{ height: "40px" }} />
           </a>
         </Link>
       </div>

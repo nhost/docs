@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { DefaultSeo } from "next-seo";
+import { ThemeProvider } from "next-themes";
 import { MDXProvider } from "@mdx-js/react";
 import Zoom from "react-medium-image-zoom";
 import smartlookClient from "smartlook-client";
@@ -79,6 +80,13 @@ const mdComponents = {
   thead: (props) => {
     return <thead className="bg-gray-100">{props.children}</thead>;
   },
+  blockquote: (props) => {
+    return (
+      <blockquote className="bg-blue-100 my-2 pl-2 py-2 px-2 border-l-4 border-blue-500 dark:bg-gray-800">
+        {props.children}
+      </blockquote>
+    );
+  },
   tr: (props) => {
     return <tr className="border-b">{props.children}</tr>;
   },
@@ -104,21 +112,25 @@ export default function App({ Component, pageProps }) {
   });
 
   return (
-    <MDXProvider components={mdComponents}>
-      <DefaultSeo {...SEO} />
-      <div className="w-full fixed z-50 bg-white border-b">
-        <Header />
-      </div>
-      <div className="container mx-auto px-4 flex pt-24">
-        <div className="lg:w-1/5">
-          <div>
-            <Menu />
+    <ThemeProvider attribute="class" defaultTheme="system">
+      <MDXProvider components={mdComponents}>
+        <DefaultSeo {...SEO} />
+        <div className="bg-white dark:bg-dark-bg-primary dark:text-dark-text-primary">
+          <div className="w-full fixed z-50 border-b bg-white dark:bg-dark-bg-header">
+            <Header />
+          </div>
+          <div className="container mx-auto px-4 flex pt-24">
+            <div className="lg:w-1/5">
+              <div>
+                <Menu />
+              </div>
+            </div>
+            <div className="lg:w-4/5 pb-24">
+              <Component {...pageProps} />
+            </div>
           </div>
         </div>
-        <div className="lg:w-4/5 pb-24">
-          <Component {...pageProps} />
-        </div>
-      </div>
-    </MDXProvider>
+      </MDXProvider>
+    </ThemeProvider>
   );
 }

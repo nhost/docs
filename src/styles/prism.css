@@ -96,6 +96,10 @@ pre[class*="language-"] {
   color: #3d8fd1;
 }
 
+.token.tag [data-theme="dark"] {
+  color: red;
+}
+
 .token.string {
   color: #22a2c9;
 }

@@ -366,7 +366,7 @@ export function Menu(props) {
 function MenuHeader({ children, href = "/" }) {
   return (
     <Link href={href}>
-      <a className="flex items-center text-sm uppercase text-gray-900 pb-1">
+      <a className="flex items-center text-sm uppercase text-gray-900 dark:text-dark-text-primary pb-1">
         {children}
       </a>
     </Link>
@@ -382,7 +382,7 @@ function MenuList({ menu }) {
 
         const classes = classNames({
           block: true,
-          "py-1 text-gray-600 hover:text-gray-800": !active,
+          "py-1 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white": !active,
           "py-1 text-gray-800 font-semibold text-primary": active,
         });
         return (

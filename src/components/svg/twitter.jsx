@@ -1,9 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
-export function SvgTwitter() {
+export function SvgTwitter({ className }) {
+  const classes = classNames(["fill-current", className]);
   return (
     <svg
-      className="fill-current w-5 h-5"
+      className={classes}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
     >
@@ -12,3 +15,11 @@ export function SvgTwitter() {
     </svg>
   );
 }
+
+SvgTwitter.defaultProps = {
+  className: "",
+};
+
+SvgTwitter.propTypes = {
+  className: PropTypes.string,
+};

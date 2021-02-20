@@ -1,10 +1,40 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import { SvgDiscord, SvgTwitter, SvgGithub, SvgSearch } from "components/svg";
+import { useTheme } from "next-themes";
+import {
+  SvgTwitter,
+  SvgGithub,
+  SvgSearch,
+  SvgMoon,
+  SvgSun,
+} from "components/svg";
+
+function DarkModeToggler() {
+  const { theme, setTheme } = useTheme();
+
+  if (theme === "light") {
+    return (
+      <button
+        onClick={() => setTheme("dark")}
+        className="mr-4 border border-transparent hover:border-black rounded p-1 transition-all duration-150 ease-in-out"
+      >
+        <SvgMoon className="w-6 h-6" />
+      </button>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setTheme("light")}
+      className="mr-4 border border-transparent hover:border-white rounded p-1 transition-all duration-150 ease-in-out"
+    >
+      <SvgSun className="w-6 h-6 text-gray-200" />
+    </button>
+  );
+}
 
 export function Header(props) {
-  const [menuOpen, setMenuOpen] = React.useState(false);
-
+  const { theme, setTheme } = useTheme();
   useEffect(() => {
     if (window.docsearch) {
       window.docsearch({
@@ -19,12 +49,15 @@ export function Header(props) {
     }
   });
 
+  const logoPath =
+    theme === "light" ? "/images/logo.svg" : "/images/logo-dark.svg";
+
   return (
     <div className="container mx-auto px-4 py-3 flex justify-between items-center">
       <div>
         <Link href="/">
           <a>
-            <img src="/images/logo.svg" style={{ height: "40px" }} />
+            <img src={logoPath} style={{ height: "40px" }} />
           </a>
         </Link>
       </div>
@@ -44,30 +77,23 @@ export function Header(props) {
           </div>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex items-center">
+        <DarkModeToggler />
         <a
-          href="https://github.com/nhost"
+          href="https://github.com/nhost/nhost"
           target="_blank"
           rel="noopener noreferrer"
-          className="mx-2 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
+          className="mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
-          <SvgGithub />
+          <SvgGithub className="w-8 h-8" />
         </a>
         <a
           href="https://twitter.com/nhostio"
           target="_blank"
           rel="noopener noreferrer"
-          className="mx-2 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
+          className="mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
-          <SvgTwitter />
-        </a>
-        <a
-          href="https://discord.com/invite/9V7Qb2U"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mx-2 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
-        >
-          <SvgDiscord />
+          <SvgTwitter className="w-8 h-8" />
         </a>
       </div>
     </div>

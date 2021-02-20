@@ -1,9 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
-export function SvgGithub() {
+export function SvgGithub({ className }) {
+  const classes = classNames(["fill-current", className]);
   return (
     <svg
-      className="fill-current w-5 h-5"
+      className={classes}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
     >
@@ -12,3 +15,11 @@ export function SvgGithub() {
     </svg>
   );
 }
+
+SvgGithub.defaultProps = {
+  className: "",
+};
+
+SvgGithub.propTypes = {
+  className: PropTypes.string,
+};

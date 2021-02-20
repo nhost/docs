@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { MDXProvider } from "@mdx-js/react";
 import Zoom from "react-medium-image-zoom";
 import smartlookClient from "smartlook-client";
+import { useTheme } from "next-themes";
 
 import { Header } from "components/header";
 import { Menu } from "components/menu";
@@ -49,8 +50,18 @@ const mdComponents = {
     return <h4 className="text-xl pb-2 font-semibold">{children}</h4>;
   },
   img: ({ src, alt }) => {
+    const { theme } = useTheme();
+
+    const overlayBgColorStart =
+      theme === "light" ? "rgba(255, 255, 255, 0)" : "rgba(0, 0, 0, 0)";
+    const overlayBgColorEnd =
+      theme === "light" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.75)";
+
     return (
-      <Zoom>
+      <Zoom
+        overlayBgColorStart={overlayBgColorStart}
+        overlayBgColorEnd={overlayBgColorEnd}
+      >
         <img src={src} alt={alt} className="img-md" />
       </Zoom>
     );

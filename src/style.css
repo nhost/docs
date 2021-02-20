@@ -7,19 +7,6 @@
   --primary-color: #4851ff;
 }
 
-pre {
-  max-width: 700px;
-  background: #f5f5f5;
-}
-
-/* blockquote {
-  background: #fafafa;
-  margin: 0;
-  padding: 0.1rem 1.4rem;
-  border-left: 4px solid #4851ff;
-  margin: 1.3rem 0;
-} */
-
 @tailwind utilities;
 
 @layer components {

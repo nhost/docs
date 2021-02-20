@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import classNames from "classnames";
+import { useTheme } from "next-themes";
 
 const menuQuickStart = [
   {
@@ -232,6 +233,10 @@ const menuCli = [
 
 export function Menu(props) {
   const router = useRouter();
+  const { theme } = useTheme();
+
+  const hasuraLogoPath =
+    theme === "light" ? "/images/hasura.svg" : "/images/hasura-dark-mode.svg";
 
   return (
     <div>
@@ -263,7 +268,7 @@ export function Menu(props) {
 
       <MenuHeader href="/hasura">
         <div className="w-5 h-5 mr-2">
-          <img src="/images/hasura.svg" />
+          <img src={hasuraLogoPath} alt="Hasura" />
         </div>
         <div>Hasura</div>
       </MenuHeader>

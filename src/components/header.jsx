@@ -12,8 +12,6 @@ import {
 function DarkModeToggler() {
   const { theme, setTheme } = useTheme();
 
-  console.log({ theme });
-
   if (theme === "light") {
     return (
       <button

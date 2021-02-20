@@ -89,7 +89,11 @@ const mdComponents = {
     return <table className="my-4 table-auto w-full">{children}</table>;
   },
   thead: (props) => {
-    return <thead className="bg-gray-100">{props.children}</thead>;
+    return (
+      <thead className="bg-gray-100 dark:bg-dark-bg-header">
+        {props.children}
+      </thead>
+    );
   },
   blockquote: (props) => {
     return (

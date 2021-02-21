@@ -137,10 +137,10 @@ export default function App({ Component, pageProps }) {
             <Header />
           </div>
           <div className="md:container w-full mx-auto px-4 flex flex-col md:flex-row pt-16 md:pt-24">
-            <div className="w-full lg:w-1/5">
+            <div className="w-full md:w-1/5">
               <Menu />
             </div>
-            <div className="w-full lg:w-4/5 pb-24">
+            <div className="w-full md:w-4/5 pb-24">
               <Component {...pageProps} />
             </div>
           </div>

@@ -1,11 +1,11 @@
-# Create Tables
+# Creating Tables
 
-You can create tables in directly PostgreSQL. But, for Hasura and the GraphQL API to use the new tables you must manually **track** tables that are created outside of the Hasura Console.
+As mentioned in `overview`, you can connect to your instance using any PostgreSQL client and add tables, triggers, etc.
 
-Here we are creating a new table `todos` directly in PostgreSQL (outside the Hausura console).
+However, those changes will not be visible nor available from Hasura (therefore the GraphQL API) and you will have to track those tables and relationships explicitly.
 
-![Create new table in PostgreSQL](/images/postgresql/new-table.png)
-
-When we go to our Haura console we can see that the new table `todos` is untracked, which means that Hasura does not include that table in the GraphQL API. Simply track the table.
+Assuming we have used a Postgres client to create a table called `todos`, the Hasura Console would show it under `Untracked tables or views` in the `DATA` tab 
 
 ![Track table created outside the Hasura console](/images/postgresql/track-new-table.png)
+
+For day-to-day operations like adding and updating tables or even adding Postgres triggers we strongly encourage the use of the Hasura Console because all changes are automatically tracked. 

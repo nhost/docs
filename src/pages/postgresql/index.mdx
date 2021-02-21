@@ -1,33 +1,28 @@
 # PostgreSQL
 
-Every Nhost project comes with a PostgreSQL database.
+> The world's most advanced open source database
+
+We use PostgreSQL because it knows how to handle concurrency and very diverse workloads. No matter what you are building, PostgreSQL is a great fit for storing your data. 
 
 ## Version
 
-Nhost support PostgreSQL version: 9.6, 10.5, 11.5 and 12.0. The version can be selected when creating a project:
+> We currently do not have an option to update a project's PostgreSQL version from the console, after the project is created. If you need to update please [contact us](mailto:support@nhost.io) 
 
-![Select PostgreSQL version](/images/postgresql/select-postgresql-version.png)
-
-You can not change PostgreSQL version after the project has been created in the Nhost console. [Contact us](mailto:support@nhost.io) if you want to change PostgreSQL version on an existing Nhost project.
+At the moment, we support the following PostgreSQL versions:
+- 9.6
+- 10.5 
+- 11.5
+- 12.0 
 
 ## Access
 
-You have **full access** to your PostgreSQL database. Each database is preconfigured with SSL certificate. All **PostgreSQL access details** can be found under **PostgreSQL**
+> Every postgres instance comes preconfigured with an SSL certificate
 
-The Connection String looks like this:
+You can access your database by using any Postgres client that you might know already (e.g., pgAdmin, DBeaver, or Table Plus). 
+The details for your project's database can be found under **PostgreSQL**. The connection string looks like the following:
 
 ```
 postgresql://postgres:<password>@backend-xxx.nhost.app:<port>/postgres?sslmode=require
 ```
 
-> Click **Show password** before you copy the connection string.
-
-You can use any [PostgreSQL client](https://wiki.postgresql.org/wiki/PostgreSQL_Clients). We will use [Table Plus](https://tableplus.com/) in this example.
-
-Right-click and select New > Connecting from URL. Paste your Connection String and connect to your database.
-
-![Connect to Nhost PostgreSQL using URL](/images/postgresql/connection-url.png)
-
-The `users` table is present for all Nhost projects.
-
-![Connected to Nhost PostgreSQL database](/images/postgresql/connected.png)
+Your database should have a few tables already there which are part of the auth solution we provide (e.g., `public.users`, `auth.accounts`, or `roles`)

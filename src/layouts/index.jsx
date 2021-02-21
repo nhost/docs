@@ -11,13 +11,13 @@ export default function Layout({ frontMatter, children }) {
 
   return (
     <div className="flex">
-      <div className="lg:px-8 xl:w-3/4 md-container -mt-3">
+      <div className="lg:px-8 xl:w-3/4 md-container mt-3">
         <SEO
           title={frontMatter.title}
           description={frontMatter.description}
           slug={slug}
         />
-        <h1 className="text-4xl pb-2 font-semibold">{frontMatter.title}</h1>
+        <h1 className="text-xl pb-2 font-semibold">{frontMatter.title}</h1>
         {children}
         <div className="py-12 border-t">
           <div>

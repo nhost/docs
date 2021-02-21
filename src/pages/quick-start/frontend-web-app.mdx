@@ -258,7 +258,8 @@ function App() {
               });
             } catch (error) {
               alert("Error creating todo");
-              console.log(error);
+              console.error(error);
+              return;
             }
             alert("Todo created");
             setTodoName("");

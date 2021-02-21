@@ -11,7 +11,7 @@ export default function Layout({ frontMatter, children }) {
 
   return (
     <div className="flex">
-      <div className="w-full px-4 lg:px-8 xl:w-3/4 md-container -mt-3">
+      <div className="w-full md:px-4 lg:px-8 xl:w-3/4 md-container -mt-3">
         <SEO
           title={frontMatter.title}
           description={frontMatter.description}

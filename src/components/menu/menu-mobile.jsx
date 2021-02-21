@@ -16,39 +16,75 @@ export function MenuMobile() {
       >
         <option disabled>Quick Start</option>
         {menu.quickStart.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>Postgres</option>
         {menu.postgres.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>Hasura</option>
         {menu.hasura.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>GraphQL</option>
         {menu.graphql.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>Authentication</option>
         {menu.auth.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>Storage</option>
         {menu.storage.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>Custom API</option>
         {menu.customAPI.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>Libraries</option>
         {menu.libraries.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
         <option disabled>CLI</option>
         {menu.cli.map((item) => {
-          return <option value={item.link}>{item.name}</option>;
+          return (
+            <option value={item.link} key={item.link}>
+              {item.name}
+            </option>
+          );
         })}
       </select>
     </div>

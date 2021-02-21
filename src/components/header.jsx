@@ -63,7 +63,7 @@ export function Header(props) {
       </div>
       <div className="flex items-center">
         <div className="font-semibold px-4">Docs</div>
-        <div className="hidden md:display px-4">
+        <div className="hidden md:block px-4">
           <div className="flex itmes-center border border-gray-700 rounded">
             <div className="flex items-center text-gray-600">
               <SvgSearch className="w-6 h-6 mx-2" />
@@ -86,14 +86,6 @@ export function Header(props) {
           className="mx-2 md:mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
           <SvgGithub className="w-6 h-6 md:w-8 md:h-8" />
-        </a>
-        <a
-          href="https://twitter.com/nhostio"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:block mx-2 md:mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
-        >
-          <SvgTwitter className="w-6 h-6 md:w-8 md:h-8" />
         </a>
       </div>
     </div>

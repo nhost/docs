@@ -11,6 +11,7 @@ import { Menu } from "components/menu";
 
 import "react-medium-image-zoom/dist/styles.css";
 import "../style.css";
+import "../styles/docsearch.css";
 import "../styles/prism.css";
 
 import SEO from "../../next-seo.config";

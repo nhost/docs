@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { DefaultSeo } from "next-seo";
+import { ThemeProvider } from "next-themes";
 import { MDXProvider } from "@mdx-js/react";
 import Zoom from "react-medium-image-zoom";
 import smartlookClient from "smartlook-client";
+import { useTheme } from "next-themes";
 
 import { Header } from "components/header";
 import { Menu } from "components/menu";
 
 import "react-medium-image-zoom/dist/styles.css";
 import "../style.css";
+import "../styles/docsearch.css";
 import "../styles/prism.css";
 
 import SEO from "../../next-seo.config";
@@ -16,9 +19,8 @@ import SEO from "../../next-seo.config";
 const mdComponents = {
   h1: ({ children }) => {
     const linkId = children.replace(/ /g, "-").toLowerCase();
-
     return (
-      <h1 id={linkId} className="text-4xl pb-2 font-semibold">
+      <h1 id={linkId} className="text-3xl md:text-4xl pb-2 font-semibold">
         {children}
       </h1>
     );
@@ -28,7 +30,7 @@ const mdComponents = {
     return (
       <h2
         id={linkId}
-        className="group flex whitespace-pre-wrap pt-6 pb-2 text-3xl font-semibold"
+        className="group flex whitespace-pre-wrap pt-3 md:pt-6 pb-2 text-2xl md:text-3xl font-semibold"
       >
         <a
           href={`#${linkId}`}
@@ -42,14 +44,27 @@ const mdComponents = {
     );
   },
   h3: ({ children }) => {
-    return <h3 className="text-2xl pb-2 font-semibold">{children}</h3>;
+    return (
+      <h3 className="text-xl md:text-2xl pb-2 font-semibold">{children}</h3>
+    );
   },
   h4: ({ children }) => {
     return <h4 className="text-xl pb-2 font-semibold">{children}</h4>;
   },
   img: ({ src, alt }) => {
+    const { theme } = useTheme();
+
+    const overlayBgColorStart =
+      theme === "light" ? "rgba(255, 255, 255, 0)" : "rgba(0, 0, 0, 0)";
+    const overlayBgColorEnd =
+      theme === "light" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.75)";
+
     return (
-      <Zoom>
+      <Zoom
+        overlayBgColorStart={overlayBgColorStart}
+        overlayBgColorEnd={overlayBgColorEnd}
+        className="w-12"
+      >
         <img src={src} alt={alt} className="img-md" />
       </Zoom>
     );
@@ -77,7 +92,18 @@ const mdComponents = {
     return <table className="my-4 table-auto w-full">{children}</table>;
   },
   thead: (props) => {
-    return <thead className="bg-gray-100">{props.children}</thead>;
+    return (
+      <thead className="bg-gray-100 dark:bg-dark-bg-header">
+        {props.children}
+      </thead>
+    );
+  },
+  blockquote: (props) => {
+    return (
+      <blockquote className="bg-blue-100 my-2 pl-2 py-2 px-2 border-l-4 border-blue-500 dark:bg-gray-800">
+        {props.children}
+      </blockquote>
+    );
   },
   tr: (props) => {
     return <tr className="border-b">{props.children}</tr>;
@@ -104,21 +130,23 @@ export default function App({ Component, pageProps }) {
   });
 
   return (
-    <MDXProvider components={mdComponents}>
-      <DefaultSeo {...SEO} />
-      <div className="w-full fixed z-50 bg-white border-b">
-        <Header />
-      </div>
-      <div className="container mx-auto px-4 flex pt-24">
-        <div className="lg:w-1/5">
-          <div>
-            <Menu />
+    <ThemeProvider attribute="class" defaultTheme="system">
+      <MDXProvider components={mdComponents}>
+        <DefaultSeo {...SEO} />
+        <div className="bg-white dark:bg-dark-bg-primary dark:text-dark-text-primary">
+          <div className="w-full fixed z-50 border-b bg-white dark:bg-dark-bg-header">
+            <Header />
+          </div>
+          <div className="md:container w-full mx-auto px-4 flex flex-col md:flex-row pt-16 md:pt-24">
+            <div className="w-full md:w-1/5">
+              <Menu />
+            </div>
+            <div className="w-full md:w-4/5 pb-24">
+              <Component {...pageProps} />
+            </div>
           </div>
         </div>
-        <div className="lg:w-4/5 pb-24">
-          <Component {...pageProps} />
-        </div>
-      </div>
-    </MDXProvider>
+      </MDXProvider>
+    </ThemeProvider>
   );
 }

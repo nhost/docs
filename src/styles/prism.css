@@ -96,6 +96,10 @@ pre[class*="language-"] {
   color: #3d8fd1;
 }
 
+.token.tag [data-theme="dark"] {
+  color: red;
+}
+
 .token.string {
   color: #22a2c9;
 }
@@ -217,4 +221,41 @@ pre > code.highlight {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   margin-top: 0;
+}
+
+/* DARK */
+
+html[class="dark"] pre {
+  /* color: #fff; */
+  background: #161c23;
+  border: 0;
+}
+
+html[class="dark"] code[class*="language-"] {
+  color: #c9d1d9;
+  background: #161c23;
+  border: 0;
+}
+html[class="dark"] pre[class*="language-"] {
+  color: #c9d1d9;
+  background: #161c23;
+  border: 0;
+}
+
+html[class="dark"] .remark-code-title {
+  border-right: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+  border-top: 1px solid #e2e8f0;
+  border: 0;
+  background: #1d232b;
+  color: #c9d1d9;
+}
+
+html[class="dark"] .mdx-marker {
+  display: block;
+  background-color: #1c2735;
+  box-shadow: inset 3px 0px 0 0px #4c60ff;
+  min-width: fit-content;
+  margin: 0 -15px 0 -15px;
+  padding: 0 15px 0 15px;
 }

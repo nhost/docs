@@ -1,10 +1,40 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import { SvgDiscord, SvgTwitter, SvgGithub, SvgSearch } from "components/svg";
+import { useTheme } from "next-themes";
+import {
+  SvgTwitter,
+  SvgGithub,
+  SvgSearch,
+  SvgMoon,
+  SvgSun,
+} from "components/svg";
+
+function DarkModeToggler() {
+  const { theme, setTheme } = useTheme();
+
+  if (theme === "light") {
+    return (
+      <button
+        onClick={() => setTheme("dark")}
+        className="mr-2 md:mr-4 border border-transparent hover:border-black rounded p-1 transition-all duration-150 ease-in-out"
+      >
+        <SvgMoon className="w-6 h-6" />
+      </button>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setTheme("light")}
+      className="mr-2 md:mr-4 border border-transparent hover:border-white rounded p-1 transition-all duration-150 ease-in-out"
+    >
+      <SvgSun className="w-6 h-6 text-gray-200" />
+    </button>
+  );
+}
 
 export function Header(props) {
-  const [menuOpen, setMenuOpen] = React.useState(false);
-
+  const { theme } = useTheme();
   useEffect(() => {
     if (window.docsearch) {
       window.docsearch({
@@ -19,18 +49,21 @@ export function Header(props) {
     }
   });
 
+  const logoPath =
+    theme === "light" ? "/images/logo.svg" : "/images/logo-dark.svg";
+
   return (
     <div className="container mx-auto px-4 py-3 flex justify-between items-center">
       <div>
         <Link href="/">
           <a>
-            <img src="/images/logo.svg" style={{ height: "40px" }} />
+            <img src={logoPath} style={{ height: "40px" }} />
           </a>
         </Link>
       </div>
       <div className="flex items-center">
-        <div className="font-semibold px-4">Documentation</div>
-        <div className="px-4">
+        <div className="font-semibold px-4">Docs</div>
+        <div className="hidden md:block px-4">
           <div className="flex itmes-center border border-gray-700 rounded">
             <div className="flex items-center text-gray-600">
               <SvgSearch className="w-6 h-6 mx-2" />
@@ -44,30 +77,15 @@ export function Header(props) {
           </div>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex items-center">
+        <DarkModeToggler />
         <a
-          href="https://github.com/nhost"
+          href="https://github.com/nhost/nhost"
           target="_blank"
           rel="noopener noreferrer"
-          className="mx-2 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
+          className="mx-2 md:mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
-          <SvgGithub />
-        </a>
-        <a
-          href="https://twitter.com/nhostio"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mx-2 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
-        >
-          <SvgTwitter />
-        </a>
-        <a
-          href="https://discord.com/invite/9V7Qb2U"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mx-2 text-gray-700 hover:text-gray-900 transition-all duration-150 ease-in-out"
-        >
-          <SvgDiscord />
+          <SvgGithub className="w-6 h-6 md:w-8 md:h-8" />
         </a>
       </div>
     </div>

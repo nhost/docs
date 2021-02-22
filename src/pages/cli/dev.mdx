@@ -59,3 +59,20 @@ $ docker logs -f nhost_hbp
 ```bash
 $ docker logs -f nhost_api
 ```
+
+## Networking
+
+The docker containers all expose their ports directly on the host machine, so you can both reach them on localhost as well as on the host machine IP address from another machine connected to the same network (if firewall rules allows).
+
+### Expo
+
+In Expo, to make development use the dev environment both in the simulator and in Expo Go and production use production, see code below:
+
+```
+export const URL =
+  Constants.manifest.packagerOpts.dev && !Constants.isDevice
+    ? "http://localhost:9001"
+    : typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
+    ? `http://${manifest.debuggerHost.split(`:`).shift().concat(`:9001`)}`
+    : "nhost.io cloud url";
+```

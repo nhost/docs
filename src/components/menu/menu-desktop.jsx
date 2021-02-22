@@ -1,240 +1,19 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import classNames from "classnames";
+import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
 
-const menuQuickStart = [
-  {
-    link: "/quick-start",
-    name: "Introduction",
-  },
-  {
-    link: "/quick-start/nhost-backend",
-    name: "Nhost Backend",
-  },
-  {
-    link: "/quick-start/todos-table",
-    name: "Todos Table",
-  },
-  {
-    link: "/quick-start/frontend-web-app",
-    name: "Frontend Web App",
-  },
-  {
-    link: "/quick-start/authentication",
-    name: "Authentication",
-  },
-  {
-    link: "/quick-start/deploy-app",
-    name: "Deployment",
-  },
-];
+import { menu } from "utils/data";
 
-const menuPostgres = [
-  {
-    link: "/postgresql",
-    name: "Overview",
-  },
-  {
-    link: "/postgresql/create-tables",
-    name: "Create Tables",
-  },
-  {
-    link: "/postgresql/custom-schemas",
-    name: "Custom schemas",
-  },
-];
-
-const menuHasura = [
-  {
-    link: "/hasura",
-    name: "Overview",
-  },
-  {
-    link: "/hasura/tables",
-    name: "Tables",
-  },
-  {
-    link: "/hasura/permissions",
-    name: "Permissions",
-  },
-  {
-    link: "/hasura/event-triggers",
-    name: "Event triggers",
-  },
-  {
-    link: "/hasura/remote-schemas",
-    name: "Remote schemas",
-  },
-];
-
-const menuGraphql = [
-  {
-    link: "/graphql",
-    name: "Overview",
-  },
-  {
-    link: "/graphql/query",
-    name: "Query",
-  },
-  {
-    link: "/graphql/mutation",
-    name: "Mutation",
-  },
-  {
-    link: "/graphql/subscription",
-    name: "Subscription",
-  },
-  {
-    link: "/graphql/variables",
-    name: "Variables",
-  },
-];
-
-const menuAuth = [
-  {
-    link: "/auth",
-    name: "Overview",
-  },
-  {
-    link: "/auth/local-users",
-    name: "Local users",
-  },
-  {
-    link: "/auth/oauth-providers",
-    name: "OAuth Overview",
-  },
-  {
-    link: "/auth/oauth-providers/github",
-    name: "Github",
-  },
-  {
-    link: "/auth/oauth-providers/google",
-    name: "Google",
-  },
-  {
-    link: "/auth/oauth-providers/facebook",
-    name: "Facebook",
-  },
-  {
-    link: "/auth/oauth-providers/linkedin",
-    name: "Linkedin",
-  },
-  {
-    link: "/auth/email-templates",
-    name: "Email templates",
-  },
-  {
-    link: "/auth/roles",
-    name: "Roles",
-  },
-  {
-    link: "/auth/custom-user-columns",
-    name: "Custom user columns",
-  },
-  {
-    link: "/auth/multi-factor-authentication",
-    name: "Multi-Factor Authentication",
-  },
-  {
-    link: "/auth/api-reference",
-    name: "API Reference",
-  },
-];
-
-const menuStorage = [
-  {
-    link: "/storage",
-    name: "Overview",
-  },
-  {
-    link: "/storage/security-rules",
-    name: "Security Rules",
-  },
-  {
-    link: "/storage/image-transformation",
-    name: "Image Transformation",
-  },
-  {
-    link: "/storage/api-reference",
-    name: "API Reference",
-  },
-];
-
-const menuCustomAPI = [
-  {
-    link: "/custom-api",
-    name: "Overview",
-  },
-];
-
-const menuLibraries = [
-  {
-    link: "/libraries/nhost-js-sdk",
-    name: "nhost-js-sdk",
-  },
-  {
-    link: "/libraries/react-auth",
-    name: "@nhost/react-auth",
-  },
-  {
-    link: "/libraries/react-apollo",
-    name: "@nhost/react-apollo",
-  },
-];
-
-const menuCli = [
-  {
-    link: "/cli",
-    name: "Overview",
-  },
-  {
-    link: "/cli/login",
-    name: "Login",
-  },
-  {
-    link: "/cli/init",
-    name: "Init",
-  },
-  {
-    link: "/cli/dev",
-    name: "Dev",
-  },
-  {
-    link: "/cli/deploy",
-    name: "Deploy",
-  },
-];
-
-// const menu_example_apps = [
-//   {
-//     name: "Example Apps",
-//     menu: [
-//       {
-//         link: "/example-projets/nhost-react-typescript-example-app",
-//         name: "Nhost React Typescript Example App",
-//       },
-//       {
-//         link: "/example-projets/nhost-nextjs-example-app",
-//         name: "Nhost NextJS Example App",
-//       },
-//       {
-//         link: "/example-projets/nhost-react-native-example-app",
-//         name: "Nhost React Native Example App",
-//       },
-//       {
-//         link: "/example-projets/nhost-nuxtjs-example-app",
-//         name: "Nhost NuxtJS Example App",
-//       },
-//     ],
-//   },
-// ];
-
-export function Menu(props) {
+export function MenuDesktop() {
   const router = useRouter();
+  const { theme } = useTheme();
+  const hasuraLogoPath =
+    theme === "light" ? "/images/hasura.svg" : "/images/hasura-dark-mode.svg";
 
   return (
-    <div>
+    <div className="hidden md:block">
       <MenuHeader href="/quick-start">
         <svg
           className="w-5 h-5 mr-2"
@@ -251,7 +30,7 @@ export function Menu(props) {
 
         <div>Quick Start</div>
       </MenuHeader>
-      <MenuList menu={menuQuickStart} router={router} />
+      <MenuList menu={menu.quickStart} router={router} />
 
       <MenuHeader href="/postgresql">
         <div className="w-5 h-5 mr-3">
@@ -259,15 +38,15 @@ export function Menu(props) {
         </div>
         <div>PostgreSQL</div>
       </MenuHeader>
-      <MenuList menu={menuPostgres} router={router} />
+      <MenuList menu={menu.postgres} router={router} />
 
       <MenuHeader href="/hasura">
         <div className="w-5 h-5 mr-2">
-          <img src="/images/hasura.svg" />
+          <img src={hasuraLogoPath} alt="Hasura" />
         </div>
         <div>Hasura</div>
       </MenuHeader>
-      <MenuList menu={menuHasura} router={router} />
+      <MenuList menu={menu.hasura} router={router} />
 
       <MenuHeader href="/graphql">
         <div className="w-5 h-5 mr-2">
@@ -275,7 +54,7 @@ export function Menu(props) {
         </div>
         <div>GraphQL</div>
       </MenuHeader>
-      <MenuList menu={menuGraphql} router={router} />
+      <MenuList menu={menu.graphql} router={router} />
 
       <MenuHeader href="/auth">
         <svg
@@ -288,7 +67,7 @@ export function Menu(props) {
         </svg>
         <div>Auth</div>
       </MenuHeader>
-      <MenuList menu={menuAuth} router={router} />
+      <MenuList menu={menu.auth} router={router} />
 
       <MenuHeader href="/storage">
         <svg
@@ -301,7 +80,7 @@ export function Menu(props) {
         </svg>
         <div>Storage</div>
       </MenuHeader>
-      <MenuList menu={menuStorage} router={router} />
+      <MenuList menu={menu.storage} router={router} />
 
       <MenuHeader href="/custom-api">
         <svg
@@ -319,7 +98,7 @@ export function Menu(props) {
 
         <div>Custom API (beta)</div>
       </MenuHeader>
-      <MenuList menu={menuCustomAPI} router={router} />
+      <MenuList menu={menu.customAPI} router={router} />
 
       <MenuHeader>
         <svg
@@ -339,7 +118,7 @@ export function Menu(props) {
 
         <div>Libraries</div>
       </MenuHeader>
-      <MenuList menu={menuLibraries} router={router} />
+      <MenuList menu={menu.libraries} router={router} />
 
       <MenuHeader href="/cli">
         <svg
@@ -358,7 +137,7 @@ export function Menu(props) {
         </svg>
         <div>CLI (beta)</div>
       </MenuHeader>
-      <MenuList menu={menuCli} router={router} />
+      <MenuList menu={menu.cli} router={router} />
     </div>
   );
 }
@@ -373,8 +152,7 @@ function MenuHeader({ children, href = "/" }) {
   );
 }
 
-function MenuList({ menu }) {
-  const router = useRouter();
+function MenuList({ menu, router }) {
   return (
     <div className="pb-4 border-b mb-4">
       {menu.map((item) => {

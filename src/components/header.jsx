@@ -16,7 +16,7 @@ function DarkModeToggler() {
     return (
       <button
         onClick={() => setTheme("dark")}
-        className="mr-4 border border-transparent hover:border-black rounded p-1 transition-all duration-150 ease-in-out"
+        className="mr-2 md:mr-4 border border-transparent hover:border-black rounded p-1 transition-all duration-150 ease-in-out"
       >
         <SvgMoon className="w-6 h-6" />
       </button>
@@ -26,7 +26,7 @@ function DarkModeToggler() {
   return (
     <button
       onClick={() => setTheme("light")}
-      className="mr-4 border border-transparent hover:border-white rounded p-1 transition-all duration-150 ease-in-out"
+      className="mr-2 md:mr-4 border border-transparent hover:border-white rounded p-1 transition-all duration-150 ease-in-out"
     >
       <SvgSun className="w-6 h-6 text-gray-200" />
     </button>
@@ -34,7 +34,7 @@ function DarkModeToggler() {
 }
 
 export function Header(props) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   useEffect(() => {
     if (window.docsearch) {
       window.docsearch({
@@ -62,8 +62,8 @@ export function Header(props) {
         </Link>
       </div>
       <div className="flex items-center">
-        <div className="font-semibold px-4">Documentation</div>
-        <div className="px-4">
+        <div className="font-semibold px-4">Docs</div>
+        <div className="hidden md:block px-4">
           <div className="flex itmes-center border border-gray-700 rounded">
             <div className="flex items-center text-gray-600">
               <SvgSearch className="w-6 h-6 mx-2" />
@@ -83,17 +83,9 @@ export function Header(props) {
           href="https://github.com/nhost/nhost"
           target="_blank"
           rel="noopener noreferrer"
-          className="mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
+          className="mx-2 md:mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
-          <SvgGithub className="w-8 h-8" />
-        </a>
-        <a
-          href="https://twitter.com/nhostio"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
-        >
-          <SvgTwitter className="w-8 h-8" />
+          <SvgGithub className="w-6 h-6 md:w-8 md:h-8" />
         </a>
       </div>
     </div>

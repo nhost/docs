@@ -1,12 +1,10 @@
 ---
 title: "GraphQL Query"
-publishedAt: "2020-08-17"
-description: ""
 ---
 
-You can **read data** with a GraphQL **query**. The best way to get started is with the Hasura console or with a GraphQL explorer like GraphiQL.
+You can **read data** with a GraphQL **query**. The best way to get started is with the Hasura console or with a GraphQL explorer, like GraphiQL.
 
-A GraphQL query looks like this:
+Here is an GraphQL query that selects `title`, `body`, and `done` for every row in your `todos` table.
 
 ```graphql:Query
 query GetTodos {
@@ -32,9 +30,9 @@ query GetTodos {
 }
 ```
 
-This will select the `title`, `body`, and `done` flag for every row in your `todos` table.
+GraphQL queries can be more complex, with filters, limits, sorting and aggregation.
 
-GraphQL queries can be more complex, with filters, limits, sorting and aggregation. For example:
+This GraphQL query selects all items in the `todo` table that aren't `done`, with the total number of comments and the last five comments.
 
 ```graphql:Query
 query GetTodosWithLatestComments {
@@ -84,7 +82,5 @@ query GetTodosWithLatestComments {
   }
 }
 ```
-
-This will select all items in the `todo` table that aren't `done`, with the total number of comments and the last five comments.
 
 A great place to get started with setting up queries is in the Hasura Console.

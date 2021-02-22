@@ -1,14 +1,12 @@
 ---
 title: "GraphQL Subscription"
-publishedAt: "2020-08-17"
-description: ""
 ---
 
-Subscriptions are the same as queries, except they use websockets to keep the data up to date in your app. Subscriptions allow realtime updates!
+Subscriptions are the same as queries, except they use WebSockets to keep the data up to date in your app. Subscriptions allow realtime updates!
 
-To create a subscription, you will need to change `query` to `subscription`:
+Change `query` to `subscription` to create a subscription:
 
-```graphql:Subscription
+```graphql{1}
 subscription GetTodos {
   todos {
     title
@@ -20,4 +18,4 @@ subscription GetTodos {
 
 That's it!
 
-> Your data will always be in sync when using Subscriptions. It does not matter if the data changes through GraphQL or directly in the database via direct access.
+> Your data is always in sync when using subscriptions. It does not matter if the data changes through GraphQL or directly in the database. The data is always syncing in realtime using subscriptions.

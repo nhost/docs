@@ -40,7 +40,7 @@ export { auth, storage };
 | *useCookies*               | boolean       | optional | Use cookies for auth (defaults to `false`)                                              |   |
 | *ssr*                      | boolean       | optional | Enable server-side rendering mode (defaults to `typeof window === "undefined"`) |   |
 | *autoLogin*                | boolean       | optional | Auto logins user (defaults to `true`)                                                     |   |
-| *clientStorage*            | ClientStorage | optional | Storage to use (defaults to `Window.localStorage`)                                      |   |
+| *clientStorage*            | ClientStorage | optional | Storage to use (defaults to `window.localStorage`)                                      |   |
 | *clientStorageType*        | string        | optional | Storage type (defaults to `web`)                                                        |   |
 
 
@@ -52,7 +52,7 @@ import { auth, storage } from "src/utils/nhost";
 
 ### Auth
 
-Creating new users can be done with `register()`
+Creating a user with email and password is done with `register()`. For OAuth, the `login()` function creates the user on the first login attempt.
 
 ```js
 auth.register({ email, password });
@@ -61,9 +61,7 @@ auth.register({ email, password });
 auth.register({ email, password, { userData: { display_name: "Joe Doe", role: }} });
 ```
 
-> When using OAuth a user's account is created on first login
-
-Existing users can login with email and password or using an OAuth provider
+Existing users can login with email and password or using an OAuth provider.
 
 ```js
 auth.login({ email, password });
@@ -72,13 +70,13 @@ auth.login({ email, password });
 auth.login({ provider })
 ```
 
-Users can logout via `logout()`
+Users can logout via `logout()`.
 
 ```js
 auth.logout();
 ```
 
-Registering a callback to run when the auth state changes (e.g., when a user logouts) is done via `onAuthStateChanged()`
+To register a callback to run when the auth state changes (e.g., when a user logs out) is done via `onAuthStateChanged()`.
 
 ```js
 auth.onAuthStateChanged((loggedIn) => {
@@ -87,112 +85,110 @@ auth.onAuthStateChanged((loggedIn) => {
 });
 ```
 
-To know whether a user is logged in or not use `isAuthenticated()`
+To check if a user is logged in or not use `isAuthenticated()`.
 
 ```js
 auth.isAuthenticated();
 ```
 
+### notes:
 - `true` means the user is logged in
 - `false` means the user is not logged in
 - `null` means that a request to login the user is ongoing.
 
-For getting the session's JWT Token use `getJWTToken()`
+For getting a user session's JWT Token use `getJWTToken()`.
 
 ```js
 auth.getJWTToken();
 ```
 
-and for its claims use `getClaim()`
+And for its claims `getClaim()`.
 
 ```js
 auth.getClaim("x-hasura-user-id");
 ```
 
-Activating an account is done via `activate()`
+To activate a user account use `activate()`.
 
 ```js
 auth.activate(<ticket>);
 ```
 
-For changing an account's email address without confirmation use `changeEmail()`
+For changing an account's email address without confirmation use `changeEmail()`. The user must be logged in.
 
 ```js
-// the user needs to be logged in
 auth.changeEmail(new_email);
 ```
 
-or with a confirmation email use `requestEmailChange()`
+Or with a confirmation email `requestEmailChange()`.
 
 ```js
 auth.requestEmailChange(new_email);
 ```
 
-finally, to confirm the email change use `confirmEmailChange()` with the ticket received on the email
+To confirm the email change use `confirmEmailChange()` and pass in the `ticket` received with the email.
 
 ```js
 auth.confirmEmailChange(ticket);
 ```
 
-For changing a user's password use `changePassword()`
+For changing a user's password use `changePassword()`.
 
 ```js
-auth.changePassword(old_password, new_password);
+auth.changePassword(oldPassword, newPassword);
 ```
 
-or with a confirmation email use `requestPasswordChange()`
+Or with a confirmation email use `requestPasswordChange()`.
 
 ```js
 auth.requestPasswordChange(email);
 ```
 
-finally, to confirm the password change use `confirmPasswordChange()`
+To confirm the password change use `confirmPasswordChange()`.
 
 ```js
 auth.confirmPasswordChange(new_password, ticket);
 ```
 
-To generate a MFA QR-code use `MFAGenerate()`
+To generate a MFA QR-code use `MFAGenerate()`. The user must be logged in.
 
 ```js
-// the user needs to be logged in
 auth.MFAGenerate();
 ```
 
-Enabling MFA is done via `enable()`
+Enabling MFA is done via `enable()`.
 
 ```js
 auth.enable(code);
 ```
 
-And disabling is done via `disable()`
+And disabling is done via `disable()`.
 
 ```js
 auth.disable(code);
 ```
 
-To login using MFA TOTP use `MFATotp()`
+To login using MFA TOTP use `MFATotp()` and pass in the `ticket` returned by `login()` (when MFA is enabled).
 
 ```js
-// the ticket is returned by `login()` when the user has MFA enabled
 auth.MFATotp(code, ticket);
 ```
 
 ### Storage
 
-Uploading a file is done using `put()`
+Uploading a file is done using `put()`.
 
 ```js
 storage.put(path, file, metadata?, onUploadProgress?);
 ```
 
-To delete a file simply issue `delete()`
+To delete a file use `delete()`.
 
 ```js
 storage.delete(path);
 ```
 
-To get a file's metadata use `getMetadata()`
+To get the metadata for a file use `getMetadata()`.
 
 ```js
 storage.getMetadata(path);

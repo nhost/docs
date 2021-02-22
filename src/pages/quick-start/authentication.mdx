@@ -5,7 +5,7 @@ description: "Currently, everyone can see all todos. That was ok to start with b
 
 Currently, everyone can select and insert todos. That is ok to start with but now it's time to secure our API by adding authentication.
 
-Authentication is built-in to Nhost and easy to get started with.
+Authentication is built-in to Nhost and easy to get started.
 
 ## Create User
 
@@ -40,11 +40,11 @@ const storage = nhost.storage();
 export { auth, storage };
 ```
 
-Please don't forget to replace `https://backend-REPLACE.nhost.app` with your own endpoint.
+Please don't forget to replace `https://backend-REPLACE.nhost.app` with your endpoint.
 
 ## Add NhostAuthProvider
 
-Now it's time to wrap our `App` with another provider. The `NhostAuthProvider` is used to know whether a user is logged in or not.
+Now it's time to wrap our `App` with another provider. The `NhostAuthProvider`. This provider indicates if a user is logged in or not in the `AuthGate` component that we'll implement soon.
 
 First let's install the `@nhost/react-auth` package:
 
@@ -77,13 +77,13 @@ ReactDOM.render(
 );
 ```
 
-Now it's a good time to recap what has been done so far in this chapter. We started by creating a new user for our Nhost project, followed by installing and configuring `nhost-js-sdk`, and finally we wrapped our app with `NhostAuthProvider`, passing `auth` as a prop, so that the same auth object is used everywhere.
+Now it's a good time to recap what has been done so far in this chapter. We started by creating a new user for our Nhost project, followed by installing and configuring `nhost-js-sdk`. Finally we wrapped our app with `NhostAuthProvider`, passing `auth` as a prop so that the same auth object gets used in both Nhost providers.
 
-Next, we will create the login component.
+Now, let's create the login component.
 
 ## Login
 
-We need to write a login component that handles the form submittion of a user's data, and also some scaffolding for the app routes.
+We need to write a login component that handles the form's submission of a user's data and some scaffolding for the app routes.
 
 Create the `Login` component with the following content:
 
@@ -136,7 +136,7 @@ export function Login(props) {
 }
 ```
 
-Now let's create two routes. One for `/` where we'll have our todos listed, and one for `/login` where users can login.
+Now let's create two routes. One for `/` where we'll have our todos listed, and one for `/login` where users can log in.
 
 ```jsx{4,5,14,15,16,18,19,20,21,22,23}:src/index.js
 import React from "react";
@@ -239,22 +239,22 @@ export default App;
 
 Phew, that's a lot of code. Let's stop here and recap what we have.
 
-Both routes (`/` and `/login`) are still unprotected, we'll fix that soon. When we visit `/` we still see all todos, that's fine for now since we allow the `public` role to select them.
+Both routes (`/` and `/login`) are still unprotected. We'll fix that soon. When we visit `/` we still see all todos. That's fine for now since we allow the `public` role to select them.
 
-On the other hand, when we login, we only see **No data**. And if we logout again our todos are back. What's going on?
+On the other hand, when we log in, we see **No data**. And if we log out again, our todos are back. What's going on?
 
-When logged out, the `public` role is used, which still has permissions to select todos. When we are logged in, the `user` role is used instead, which doesn't have permission to select todos, yet!
+When logged out, the `public` role was used, which still had permissions to select todos. When we log in, the `user` role was used instead, which doesn't have permission to select todos. Yet!
 
-These are the things we still have to do in order to secure our app:
+Things we need to do to secure our app:
 
-- Protect the `/` route so that it is available to **logged in** users only.
-- Remove all permissions for the `public` role. Only **logged in** users are able insert and select todos.
+- Protect the `/` route so that it is available to **logged-in** users only.
+- Remove all permissions for the `public` role. Only **logged-in** users can insert and select todos.
 - Add `user_id` to the `todos` table so that every todo belongs to a user.
-- Set permissions so that users are only allowed to insert and select their own todos.
+- Set permissions so that users are only allowed to insert and select their todos.
 
 ## Auth Gate
 
-Let's now create the `AuthGate` component that will make sure users are authenticated before they can access certain routes.
+Let's now create the `AuthGate` component that ensures only authenticated users can access specific routes.
 
 ```jsx:src/components/auth-gate.js
 import { Redirect } from "react-router-dom";
@@ -275,9 +275,9 @@ export function AuthGate({ children }) {
 }
 ```
 
-`AuthGate` simply checks whether a user is logged in and redirects to `/login` otherwise.
+`AuthGate` checks whether a user is logged in and redirects to `/login` otherwise.
 
-Open `src/index.js` and add the `AuthGate` around the routes we want only logged in users to access.
+In `src/index.js` we add the `AuthGate` component around the routes we want only logged-in users to access.
 
 ```jsx{5,20,24}:src/index.js
 import React from "react";
@@ -316,31 +316,31 @@ ReactDOM.render(
 );
 ```
 
-Now users can only access `/` if they are logged in.
+Now users can only access `/` if they are logged-in.
 
 ## Connect todos to users
 
-A todo should belong to a user and only be visible to that user. We will now add a new column to our `todos` table **but first we must delete all todos**. Click **Browse Rows** for the `todos` table, select all todos and click on the trash can icon.
+A todo should belong to a user and only be visible to that user. Before we do that **all existing todos must be deleted**. To delete all existing todos, click **Browse Rows** for the `todos` table, select all todos and click on the trash can icon.
 
-All todos are now deleted.
+That deleted all todos. Now let's add the new `user_id` column.
 
-Click on **Modify** and then click the button **Add a new column**. Name the new column `user_id` with the type `UUID`. Also make sure to **uncheck Nullable**. Click **Save**.
+Click on **Modify** and then click the button **Add a new column**. Name the new column `user_id` with the type `UUID`. Make sure to **uncheck Nullable**. Click **Save**.
 
-> `user_id` will refer to the **id** of the **user** the todo belongs to.
+> `user_id` refers to the **id** of the **user** the todo belongs to.
 
 ![New user_id column](/images/add-authentication/new-user-id-column.png)
 
-For our GraphQL API, and database, to understand that the `user_id` refers to the user's id we will create a **Foreign Key**.
+For our GraphQL API and database to understand that the `user_id` refers to the user's id we need to create a **Foreign Key**.
 
 > A Foreign key is a link between two tables
 
-Our foreign key will act as a link between the `users` table and the `todos` table.
+The foreign key links the `users` table to the `todos` table.
 
-You create the foreign key in the same **Modify** tab. Scroll down a bit to **Foreign Keys** and click **Add**. See image bellow how to set the Foreign Key and click **Save**.
+You create the foreign key in the same **Modify** tab. Scroll down a bit to **Foreign Keys** and click **Add**. See the image below of how to set the Foreign Key and click **Save**.
 
 ![Foreign key](/images/add-authentication/create-foreign-key.png)
 
-For Hasura to use the foreign key relation in the GraphQL API we need to track the foreign key relationship. Go to the **DATA** tab and click **Track all**.
+For Hasura to use the foreign key relation in the GraphQL API, we need to track the foreign key relationship. Go to the **DATA** tab and click **Track all**.
 
 ![Track all relationships](/images/add-authentication/track-all-relationships.png)
 
@@ -348,28 +348,28 @@ For Hasura to use the foreign key relation in the GraphQL API we need to track t
 
 ### Remove permissions for the public role
 
-We won't use the `public` role anymore so let's remove all permission for that role. See image bellow.
+We won't use the `public` role anymore, so let's remove all permission for that role. See the image below.
 
 ![Remove public permissions from Hasura](/images/add-authentication/remove-public-permissions.png)
 
 Now we'll add permissions for the `user` role.
 
-> All logged in users have the `user` role.
+> All logged-in users have the `user` role.
 
 ### Insert
 
-First set the **Insert permission**.
+First, we'll set the **Insert permission**.
 
-A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`) and is configured in the `Column presets` section. See image bellow.
+A user can only insert `name` because all other columns will be set automatically. More specifically, `user_id` will be set to the id of the user making the request (`x-hasura-user-id`) and is configured in the `Column presets` section. See the image below.
 
 ![User insert permission](/images/add-authentication/user-insert-permission.png)
 
 ### Select
 
-For **Select permission**, set a **custom check** so users are only allowed to select todos where `user_id` is the same as their own user id. In other words: users are only allowed to select their own todos. See image bellw.
+For **Select permission**, set a **custom check** so users can only select todos where `user_id` is the same as their user id. In other words: users are only allowed to select their own todos. See the image below.
 
 ![User select permission](/images/add-authentication/user-select-permission.png)
 
-# We are done!
+# The app is completed
 
-You have probably already tested your app during this guide, but your app is now finished. Congratulations!
+You have probably already tested your app during this guide, but you have finished you're app. Congratulations!

@@ -4,7 +4,7 @@ publishedAt: "2020-11-12"
 description: Nhost JS SDK to handle Auth and Storage.
 ---
 
-Nhost JS SDK is used to handle **Auth** and **Storage**.
+> JavaScript SDK for handling **Auth** and **Storage**.
 
 ## Installation
 
@@ -21,11 +21,10 @@ $ yarn add nhost-js-sdk
 ## Setup
 
 ```js:/src/utils/nhost
-import createClient from "nhost-js-sdk";
+import { createClient } from "nhost-js-sdk";
 
 const nhostClient = createClient({
-  baseURL: "https://backend-REPLACE.nhost.app",
-  // useCookies: true for using cookies (not recomended)
+  baseURL: "https://backend-url.nhost.app",
 })
 
 const auth = nhost.auth;
@@ -34,11 +33,11 @@ const storage = nhost.storage;
 export { auth, storage };
 ```
 
-To use cookies (not recomended), use this config:
+To use cookies (not recomended), pass `useCookies: true` to the client:
 
 ```js
 const nhostClient = createClient({
-  baseURL: "https://backend-REPLACE.nhost.app",
+  baseURL: "https://backend-url.nhost.app",
   useCookies: true,
 })
 ```
@@ -53,14 +52,24 @@ import { auth, storage } from "src/utils/nhost";
 
 ### Register
 
+Creates a user 
+
 ```js
 auth.register({ email, password });
 
-// pass in registration options
-auth.register({ email, password, { userData: { display_name: "Joe Doe" }} });
+// pass in options
+auth.register({ email, password, { userData: { display_name: "Joe Doe", role: }} });
 ```
 
+| Parameters |        |          |   |   |
+|------------|--------|----------|---|---|
+| email      | string | required |   |   |
+| password   | string | required |   |   |
+| options    | object | optional |   |   |
+
 ### Login
+
+Logins a user
 
 ```js
 auth.login({ email, password });
@@ -71,26 +80,30 @@ auth.login({ provider })
 
 ### Logout
 
+Logouts a user
+
 ```js
 auth.logout();
 ```
 
 ### onAuthStateChanged
 
+Registers a callback to run when the auth state changes (e.g., when a user logouts)
+
 ```js
-auth.onAuthStateChanged((logged_in) => {
+auth.onAuthStateChanged((loggedIn) => {
   console.log("auth state changed!");
-  console.log({ logged_in });
+  console.log({ loggedIn });
 });
 ```
 
-### Check if user is authenticated
+### isAuthenticated
+
+Returns whether the user is authenticated.
 
 ```js
 auth.isAuthenticated();
 ```
-
-Returns one of the following:
 
 - `true` means the user is logged in
 - `false` means the user is not logged in
@@ -98,11 +111,15 @@ Returns one of the following:
 
 ### Get JWT token
 
+Returns the current user session's JWT token
+
 ```js
 auth.getJWTToken();
 ```
 
-### Get claim from the JWT token
+### Get Claim
+
+Returns a claim from the JWT token
 
 ```js
 auth.getClaim("x-hasura-user-id");
@@ -110,19 +127,24 @@ auth.getClaim("x-hasura-user-id");
 
 ### Activate account
 
+Activates an account
+
 ```js
 auth.activate(<ticket>);
 ```
 
-### Change email address
+### Change Email
 
-Note: The user must be logged in.
+> The user must be logged in
+
+Changes a user's email 
 
 ```js
 auth.changeEmail(new_email);
 ```
 
-### Request new email change
+### Request Change Email
+
 
 ```js
 auth.changeEmailRequest(new_email);
@@ -130,17 +152,22 @@ auth.changeEmailRequest(new_email);
 
 ### Change to requested email
 
+
 ```js
 auth.changeEmailChange(ticket);
 ```
 
 ### Change password
 
+Requests a password change
+
 ```js
 auth.changePassword(old_password, new_password);
 ```
 
 ### Request new password
+
+Requests a new password
 
 ```js
 auth.changePasswordRequest(email);
@@ -154,7 +181,7 @@ auth.changePasswordChange(new_password, ticket);
 
 ### Generate MFA QR-code
 
-Note: User must be logged in.
+> User must be logged in.
 
 ```js
 auth.MFAGenerate();
@@ -162,19 +189,23 @@ auth.MFAGenerate();
 
 ### Enable MFA
 
+Enables MFA
+
 ```js
 auth.enable(code);
 ```
 
 ### Disable MFA
 
+Disables MFA
+
 ```js
-auth.enable(code);
+auth.disable(code);
 ```
 
 ### Login using TOTP
 
-Note: `ticket` comes from the `auth.login()` response if the user has MFA enabled.
+> `ticket` comes from the `auth.login()` response if the user has MFA enabled.
 
 ```js
 auth.MFATotp(code, ticket);
@@ -184,17 +215,23 @@ auth.MFATotp(code, ticket);
 
 ### Upload
 
+Uploads a file
+
 ```js
 storage.put(path, file, metadata?, onUploadProgress?);
 ```
 
 ### Delete
 
+Deletes a file 
+
 ```js
 storage.delete(path);
 ```
 
 ### Get metadata
+
+Retrieves data related to the file
 
 ```js
 storage.getMetadata(path);
@@ -217,9 +254,9 @@ import nhost from "nhost-js-sdk";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
-  client_storage: AsyncStorage,
-  client_storage_type: "react-native",
+  baseUrl: "https://backend-url.nhost.app",
+  clientStorage: AsyncStorage,
+  clientStorageType: "react-native",
 };
 
 nhost.initializeApp(config);
@@ -238,7 +275,7 @@ import { Plugins } from "@capacitor/core";
 const { Storage } = Plugins;
 
 const nhostClient = createClient({
-  baseURL: "https://backend-REPLACE.nhost.app",
+  baseURL: "https://backend-url.nhost.app",
   clientStorage: Storage,
   clientStorageType: "capacitor
 })
@@ -264,7 +301,7 @@ import createClient from "nhost-js-sdk";
 import * as SecureStore from "expo-secure-store";
 
 const nhostClient = createClient({
-  baseURL: "https://backend-REPLACE.nhost.app",
+  baseURL: "https://backend-url.nhost.app",
   clientStorage: SecureStore,
   clientStorageType: "expo-secure-storage",
 })

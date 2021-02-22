@@ -4,7 +4,7 @@ publishedAt: "2020-11-12"
 description: Nhost JS SDK to handle Auth and Storage.
 ---
 
-> JavaScript SDK for handling **Auth** and **Storage**.
+> JavaScript SDK for handling **Auth** and **Storage**
 
 ## Installation
 
@@ -48,47 +48,35 @@ const nhostClient = createClient({
 import { auth, storage } from "src/utils/nhost";
 ```
 
-## Auth
+### Auth
 
-### Register
-
-Creates a user 
+Creating new users can be done with `register()`
 
 ```js
 auth.register({ email, password });
 
-// pass in options
+// with options
 auth.register({ email, password, { userData: { display_name: "Joe Doe", role: }} });
 ```
 
-| Parameters |        |          |   |   |
-|------------|--------|----------|---|---|
-| email      | string | required |   |   |
-| password   | string | required |   |   |
-| options    | object | optional |   |   |
+> When using OAuth a user's account is created on first login
 
-### Login
-
-Logins a user
+Existing users can login with email and password or using an OAuth provider
 
 ```js
 auth.login({ email, password });
 
-// or with a OAuth provider: google | github | linkedin ...
+// OAuth provider: google | github | linkedin ...
 auth.login({ provider })
 ```
 
-### Logout
-
-Logouts a user
+Users can logout via `logout()`
 
 ```js
 auth.logout();
 ```
 
-### onAuthStateChanged
-
-Registers a callback to run when the auth state changes (e.g., when a user logouts)
+Registering a callback to run when the auth state changes (e.g., when a user logouts) is done via `onAuthStateChanged()`
 
 ```js
 auth.onAuthStateChanged((loggedIn) => {
@@ -97,9 +85,7 @@ auth.onAuthStateChanged((loggedIn) => {
 });
 ```
 
-### isAuthenticated
-
-Returns whether the user is authenticated.
+To know whether a user is logged in or not use `isAuthenticated()`
 
 ```js
 auth.isAuthenticated();
@@ -109,137 +95,110 @@ auth.isAuthenticated();
 - `false` means the user is not logged in
 - `null` means that a request to login the user is ongoing.
 
-### Get JWT token
-
-Returns the current user session's JWT token
+For getting the session's JWT Token use `getJWTToken()`
 
 ```js
 auth.getJWTToken();
 ```
 
-### Get Claim
-
-Returns a claim from the JWT token
+and for its claims use `getClaim()`
 
 ```js
 auth.getClaim("x-hasura-user-id");
 ```
 
-### Activate account
-
-Activates an account
+Activating an account is done via `activate()`
 
 ```js
 auth.activate(<ticket>);
 ```
 
-### Change Email
-
-> The user must be logged in
-
-Changes a user's email 
+For changing an account's email address without confirmation use `changeEmail()`
 
 ```js
+// the user needs to be logged in
 auth.changeEmail(new_email);
 ```
 
-### Request Change Email
-
-
-```js
-auth.changeEmailRequest(new_email);
-```
-
-### Change to requested email
-
+or with a confirmation email use `requestEmailChange()`
 
 ```js
-auth.changeEmailChange(ticket);
+auth.requestEmailChange(new_email);
 ```
 
-### Change password
+finally, to confirm the email change use `confirmEmailChange()` with the ticket received on the email
 
-Requests a password change
+```js
+auth.confirmEmailChange(ticket);
+```
+
+For changing a user's password use `changePassword()`
 
 ```js
 auth.changePassword(old_password, new_password);
 ```
 
-### Request new password
-
-Requests a new password
+or with a confirmation email use `requestPasswordChange()`
 
 ```js
-auth.changePasswordRequest(email);
+auth.requestPasswordChange(email);
 ```
 
-### Change password using ticket
+finally, to confirm the password change use `confirmPasswordChange()`
 
 ```js
-auth.changePasswordChange(new_password, ticket);
+auth.confirmPasswordChange(new_password, ticket);
 ```
 
-### Generate MFA QR-code
-
-> User must be logged in.
+To generate a MFA QR-code use `MFAGenerate()`
 
 ```js
+// the user needs to be logged in
 auth.MFAGenerate();
 ```
 
-### Enable MFA
-
-Enables MFA
+Enabling MFA is done via `enable()`
 
 ```js
 auth.enable(code);
 ```
 
-### Disable MFA
-
-Disables MFA
+And disabling is done via `disable()`
 
 ```js
 auth.disable(code);
 ```
 
-### Login using TOTP
-
-> `ticket` comes from the `auth.login()` response if the user has MFA enabled.
+To login using MFA TOTP use `MFATotp()`
 
 ```js
+// the ticket is returned by `login()` when the user has MFA enabled
 auth.MFATotp(code, ticket);
 ```
 
-## Storage
+### Storage
 
-### Upload
-
-Uploads a file
+Uploading a file is done using `put()`
 
 ```js
 storage.put(path, file, metadata?, onUploadProgress?);
 ```
 
-### Delete
-
-Deletes a file 
+To delete a file simply issue `delete()`
 
 ```js
 storage.delete(path);
 ```
 
-### Get metadata
-
-Retrieves data related to the file
+For getting the data about a specific file use `getMetadata()`
 
 ```js
 storage.getMetadata(path);
 ```
 
-## Setup in different environments
+### Other environments
 
-### React Native
+#### React Native
 
 Install:
 
@@ -247,7 +206,7 @@ Install:
 $ yarn add @react-native-community/async-storage
 ```
 
-More info: [https://react-native-community.github.io/async-storage/docs/install](https://react-native-community.github.io/async-storage/docs/install).
+Installation instructions can be found at [https://react-native-community.github.io/async-storage/docs/install](https://react-native-community.github.io/async-storage/docs/install).
 
 ```js
 import nhost from "nhost-js-sdk";
@@ -267,7 +226,7 @@ const storage = nhost.storage();
 export { auth, storage };
 ```
 
-### Ionic
+#### Ionic
 
 ```js
 import createClient from "nhost-js-sdk";
@@ -286,7 +245,7 @@ const storage = nhost.storage;
 export { auth, storage };
 ```
 
-### Expo
+#### Expo
 
 Install:
 

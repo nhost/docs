@@ -1,10 +1,8 @@
 ---
-title: "Nhost Storage Image Transformation"
-publishedAt: "2020-02-08"
-description: Transform images on-the-fly using query parameters like `\?w=350`.
+title: "Image Transformation"
 ---
 
-Transfer images on-the-fly using query parameters. Cache headers will be sent with the image for browsers to cache the image client-side.
+Transfer images on-the-fly using query parameters. Cache headers are sent with the image for browsers to cache the image client-side.
 
 ## Example
 
@@ -15,11 +13,11 @@ Transfer images on-the-fly using query parameters. Cache headers will be sent wi
   https://backend-d32l5h6l.nhost.app/storage/o/public/example.jpg?w=800&q=90
 </a>
 
-Notice the `?w=800&q=90` in the end of the url.
+Notice the `?w=800&q=90` at the end of the URL.
 
 ## Width
 
-Specify width in pixels of the image. If no height (`h`) is specified the image will automatically calculate the height to keep the image's aspect ratio.
+Specify width in pixels of the image. If no height (`h`) is specified, the image automatically calculates the height to keep the image's aspect ratio.
 
 Query parameter: `w`.
 
@@ -30,7 +28,7 @@ Query parameter: `w`.
 
 ## Height
 
-Specify height in pixels of the image. If no width (`w`) is specified the image will automatically calculate the width to keep the image's aspect ratio.
+Specify height in pixels of the image. If no width (`w`) is specified, the image automatically calculates the width to keep the image's aspect ratio.
 
 Query parameter: `h`.
 

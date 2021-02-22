@@ -15,10 +15,10 @@
     color: rgb(0, 153, 255);
   }
 
-  .md-container code.inline-code::before {
+  /* /* .md-container code.inline-code::before {
     content: "\`";
-  }
-  .md-container code.inline-code::after {
-    content: "\`";
-  }
+  } */
+  /* .md-container code.inline-code {
+    background-color: #F5F5F5;
+  }  */
 }

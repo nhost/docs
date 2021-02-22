@@ -33,14 +33,16 @@ const storage = nhost.storage;
 export { auth, storage };
 ```
 
-To use cookies (not recomended), pass `useCookies: true` to the client:
 
-```js
-const nhostClient = createClient({
-  baseURL: "https://backend-url.nhost.app",
-  useCookies: true,
-})
-```
+| Parameters     |               |          |                                                                                         |   |
+|--------------------------|---------------|----------|-----------------------------------------------------------------------------------------|---|
+| *baseURL*                  | string        | required | Backend URL                                                                             |   |
+| *useCookies*               | boolean       | optional | Use cookies for auth (defaults to `false`)                                              |   |
+| *ssr*                      | boolean       | optional | Enable server-side rendering mode (defaults to `typeof window === "undefined"`) |   |
+| *autoLogin*                | boolean       | optional | Auto logins user (defaults to `true`)                                                     |   |
+| *clientStorage*            | ClientStorage | optional | Storage to use (defaults to `Window.localStorage`)                                      |   |
+| *clientStorageType*        | string        | optional | Storage type (defaults to `web`)                                                        |   |
+
 
 ## Usage
 
@@ -190,7 +192,7 @@ To delete a file simply issue `delete()`
 storage.delete(path);
 ```
 
-For getting the data about a specific file use `getMetadata()`
+To get a file's metadata use `getMetadata()`
 
 ```js
 storage.getMetadata(path);

@@ -3,7 +3,7 @@ import Head from "next/head";
 import { NextSeo } from "next-seo";
 
 export function SEO({ title, description, slug = "" }) {
-  const titleFormatted = `${title ? title : ""} | Nhost Docs`;
+  const titleFormatted = `${title ? title : "Nhost documentation"}`;
   const url = `https://docs.nhost.io/${slug}`;
 
   return (

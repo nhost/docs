@@ -1,7 +1,5 @@
 ---
 title: "Frontend Web App"
-publishedAt: "2020-07-29 09:25:17"
-description: "Build App"
 ---
 
 At this point, we have all the backend (database table, permissions, and an API) needed to store and retrieve todos from any frontend app. It is now time to start building the actual frontend app!
@@ -16,7 +14,7 @@ Create a new react app:
 $ npx create-react-app nhost-todos
 ```
 
-Once the app is created, go ahead and install these packages that will be used to send GraphQL requests to your Nhost project.
+Once completed, change the directory to the new project and install these packages. The packages will be used to send GraphQL requests to the Nhost backend.
 
 ```bash
 $ cd nhost-todos
@@ -42,7 +40,7 @@ $ npm start
 
 ## Add NhostApolloProvider to index.js
 
-`NhostApolloProvider` comes from [@nhost/react-apollo](https://www.npmjs.com/package/@nhost/react-apollo) and deals with all the boilerplate for having `ApolloClient` properly configured to communicate securely with Nhost.
+`NhostApolloProvider` comes from [@nhost/react-apollo](https://www.npmjs.com/package/@nhost/react-apollo) and deals with all the boilerplate for having `ApolloClient` configured to communicate securely with Nhost.
 
 Import `NhostApolloProvider` and wrap `App` so that GraphQL is available everywhere in your app.
 
@@ -111,11 +109,11 @@ function App() {
 export default App;
 ```
 
-Your two previous todos are now displayed in your app.
+Your two previous todos now appear in your app.
 
-Let's move on and add functionality to create new todos.
+Let's move on and add functionality to insert new todos.
 
-## Add todos
+## Insert todos
 
 We need to create a GraphQL mutation and add a simple form for inserting todos.
 
@@ -200,11 +198,11 @@ function App() {
 export default App;
 ```
 
-Great! we can now create new todos using the form we just added. But for the new todos to be listed, we have to reload the page ourselves. We can do better, so let's fix that by introducing subscriptions.
+Great! We can now insert new todos. But for the new todos to be listed, we have to reload the page ourselves. We can do better, so let's fix that by introducing subscriptions.
+
+> Subscriptions updates data in realtime. When the data changes in the database, our app instantly updates and shows the newest data. It's almost like magic!
 
 ## Get data in realtime using subscriptions
-
-> Subscriptions are used to get data in realtime. When the data changes in the database our app will instantly be updated and show the newest data. It's almost like magic!
 
 We'll replace `useQuery` with `useSubscription` and `query` with `subscription` in `GET_TODOS`.
 
@@ -292,7 +290,7 @@ export default App;
 
 Perfect! New todos get listed in realtime when we create them. You can even open two tabs, add new todos in one tab and see how all windows display the latest data.
 
-Your app has superpowers now!
+Your app has superpowers!
 
 ## Next
 

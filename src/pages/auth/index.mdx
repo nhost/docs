@@ -1,15 +1,18 @@
-# Nhost Authentication
+---
+title: "Nhost Authentication"
+---
 
-Your app probably need a way to authenticate users. That's easy with Nhost.
+Your app probably needs a way to authenticate users. That's easy with Nhost.
 
-Nhost Authentication integrates tightly with other services in your Nhost project such as [Hasura](/hasura) and [Storage](/storage).
+Nhost Authentication integrates tightly with other services in your Nhost project, such as [Hasura](/hasura) and [Storage](/storage).
 
-You can login users with:
+You can log in users with:
 
 - Email / Password
 - Github
 - Google
 - Facebook
+- Linkedin
 
 For easy integration with auth (and storage) in your app, use [nhost-js-sdk](/libraries/nhost-js-sdk).
 
@@ -17,7 +20,7 @@ For easy integration with auth (and storage) in your app, use [nhost-js-sdk](/li
 
 Nhost Authentication uses **JWT-tokens and refresh-tokens**. **A JWT token** is used in a GraphQL API request to authenticate the user and to resolve [Hasura permissions](/hasura/permissions). **A refresh tokens** is used to request new JWT-token.
 
-**A JWT-token can not be revoked**, they can only expires. Because of that, they are short-lived (15 min). Before a JWT-token expires the client should request a new JWT-token using the refresh-token. **A refresh-token can be revoked** and is long-lived (1 year). To revoke a refresh-token, simply remove the refresh-token from the database in the `auth.refresh_tokens` table.
+**A JWT-token can not be revoked**; they can only expire. Because of that, JWT tokens are short-lived (15 min). Before a JWT-token expires, the client should request a new JWT-token using the refresh token. **A refresh token can be revoked** and is long-lived (1 year). To revoke a refresh-token, remove the refresh-token from the database in the `auth.refresh_tokens` table.
 
 You can configure the expiration time for both JWT-tokens and refresh-tokens in the Nhost console under **Settings -> Authentication**.
 

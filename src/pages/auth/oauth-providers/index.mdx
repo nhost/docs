@@ -1,6 +1,8 @@
-# OAuth overview
+---
+title: "OAuth overview"
+---
 
-With Nhost it's easy to sign in users with external OAuth providers. OAuth providers are configured in the Nhost console at **Settings -> Sign-in methods**.
+With Nhost, it's easy to sign in users with external OAuth providers. OAuth providers are configured in the Nhost console at **Settings -> Sign-in methods**.
 
 ## Supported OAuth providers
 
@@ -11,7 +13,7 @@ With Nhost it's easy to sign in users with external OAuth providers. OAuth provi
 
 ## Redirect URLs
 
-You must first set the auth redirect URLs to start using a OAuth provider. The redirect URL specifies where your users should return to once the signup/signin has been completed.
+You must first set the auth redirect URLs to start using an OAuth provider. The redirect URL specifies where your users should return to once the signup/signin is complete.
 
 ![Nhost OAuth redirect URLs](/images/auth/redirect-urls.png)
 
@@ -19,6 +21,6 @@ You must first set the auth redirect URLs to start using a OAuth provider. The r
 
 ## How to sign up and sign in users
 
-The flow for both signup and signin is the same. Simply link to `https://backend-REPLACE.nhost.app/auth/providers/[provider]` in your signup/signin page.
+The flow for both signup and signin is the same. Link to `https://backend-REPLACE.nhost.app/auth/providers/[provider]` in your signup/signin page.
 
 > `[provider]` can be one of `github`, `google`, `facebook`, `linkedin`.

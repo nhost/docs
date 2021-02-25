@@ -1,6 +1,8 @@
-# Roles
+---
+title: "Roles"
+---
 
-Each user can have one or more role. By default, each user has the roles `user` and `me`.
+Each user can have one or more roles. By default, each user has the roles `user` and `me`.
 
 A role is used to set [Hasura Permissions](/hasura/permissions) and [Storage Security Rules](/storage/security-rules).
 
@@ -61,6 +63,6 @@ A user can have multiple default roles directly on registration. The default all
 
 ## Public role
 
-If a user is not logged in and no header or token is sent with the GraphQL request Hasura will resolve the request using the `public` role.
+If a user is not logged-in and no header or token is sent with the GraphQL request, Hasura resolves the request using the `public` role.
 
 > HASURA_GRAPHQL_UNAUTHORIZED_ROLE is set to `public` by default for all Nhost projects.

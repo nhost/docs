@@ -12,13 +12,13 @@
 @layer components {
   .md-container code.inline-code {
     font-size: 0.9rem;
+    padding: 0.3rem;
+    border-radius: 4px;
     color: rgb(0, 153, 255);
+    background-color: #f4f7fe;
   }
-
-  .md-container code.inline-code::before {
-    content: "\`";
-  }
-  .md-container code.inline-code::after {
-    content: "\`";
+  html[class="dark"] .md-container code.inline-code {
+    color: rgb(0, 153, 255);
+    background-color: #161c23;
   }
 }

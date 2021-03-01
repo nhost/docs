@@ -17,7 +17,7 @@ export default function Layout({ frontMatter, children }) {
           description={frontMatter.description}
           slug={slug}
         />
-        <h1 className="text-4xl pb-2 font-semibold">{frontMatter.title}</h1>
+        <h1 className="text-xl pb-2 font-semibold">{frontMatter.title}</h1>
         {children}
         <div className="py-12 border-t">
           <div className="break-all">

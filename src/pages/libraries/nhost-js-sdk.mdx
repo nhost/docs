@@ -2,7 +2,7 @@
 title: "Nhost JS SDK"
 ---
 
-Nhost JS SDK is used to handle **Auth** and **Storage**.
+> JavaScript SDK for handling **Auth** and **Storage**
 
 ## Installation
 
@@ -19,193 +19,182 @@ $ yarn add nhost-js-sdk
 ## Setup
 
 ```js:/src/utils/nhost
-import nhost from "nhost-js-sdk";
+import { createClient } from "nhost-js-sdk";
 
-const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
-};
+const nhostClient = createClient({
+  baseURL: "https://backend-url.nhost.app",
+})
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const auth = nhost.auth;
+const storage = nhost.storage;
 
 export { auth, storage };
 ```
 
-To use cookies (not recomended), use this config:
 
-```js
-const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
-  use_cookies: true,
-};
-```
+| Parameters     |               |          |                                                                                         |   |
+|--------------------------|---------------|----------|-----------------------------------------------------------------------------------------|---|
+| *baseURL*                  | string        | required | Backend URL                                                                             |   |
+| *useCookies*               | boolean       | optional | Use cookies for auth (defaults to `false`)                                              |   |
+| *ssr*                      | boolean       | optional | Enable server-side rendering mode (defaults to `typeof window === "undefined"`) |   |
+| *autoLogin*                | boolean       | optional | Auto logins user (defaults to `true`)                                                     |   |
+| *clientStorage*            | ClientStorage | optional | Storage to use (defaults to `window.localStorage`)                                      |   |
+| *clientStorageType*        | string        | optional | Storage type (defaults to `web`)                                                        |   |
 
-## Usage auth and storage across in your app
+
+## Usage
 
 ```js
 import { auth, storage } from "src/utils/nhost";
 ```
 
-## Auth
+### Auth
 
-### Register
-
-```js
-auth.register(email, password);
-```
-
-### Register with user_data
+Creating a user with email and password is done with `register()`. For OAuth, the `login()` function creates the user on the first login attempt.
 
 ```js
-auth.register(email, password, { display_name: "Joe Doe" });
+auth.register({ email, password });
+
+// with options
+auth.register({ email, password, { userData: { display_name: "Joe Doe", role: }} });
 ```
 
-### Login
+Existing users can login with email and password or using an OAuth provider.
 
 ```js
-auth.login(email, password);
+auth.login({ email, password });
+
+// OAuth provider: google | github | linkedin ...
+auth.login({ provider })
 ```
 
-### Logout
+Users can logout via `logout()`.
 
 ```js
 auth.logout();
 ```
 
-### onAuthStateChanged
+To register a callback to run when the auth state changes (e.g., when a user logs out) is done via `onAuthStateChanged()`.
 
 ```js
-auth.onAuthStateChanged((logged_in) => {
+auth.onAuthStateChanged((loggedIn) => {
   console.log("auth state changed!");
-  console.log({ logged_in });
+  console.log({ loggedIn });
 });
 ```
 
-### Check if user is authenticated
-
-Can return one of `[true, false, null]`.
-
-- `true` means users is logged in
-- `false` means users is not logged in
-- `null` means that `nhost-js-sdk` is trying to login the user, but don't know yet if the user is logged in or not.
+To check if a user is logged in or not use `isAuthenticated()`.
 
 ```js
 auth.isAuthenticated();
 ```
 
-### Get JWT token
+### notes:
+- `true` means the user is logged in
+- `false` means the user is not logged in
+- `null` means that a request to login the user is ongoing.
 
-Get the full JWT token
+For getting a user session's JWT Token use `getJWTToken()`.
 
 ```js
 auth.getJWTToken();
 ```
 
-### Get JWT claim
-
-Get specific claim from the JWT token.
+And for its claims `getClaim()`.
 
 ```js
 auth.getClaim("x-hasura-user-id");
 ```
 
-### Activate account
+To activate a user account use `activate()`.
 
 ```js
 auth.activate(<ticket>);
 ```
 
-### Change email address
-
-Note: The user must be logged in.
+For changing an account's email address without confirmation use `changeEmail()`. The user must be logged in.
 
 ```js
 auth.changeEmail(new_email);
 ```
 
-### Request new email change
+Or with a confirmation email `requestEmailChange()`.
 
 ```js
-auth.changeEmailRequest(new_email);
+auth.requestEmailChange(new_email);
 ```
 
-### Change to requested email
+To confirm the email change use `confirmEmailChange()` and pass in the `ticket` received with the email.
 
 ```js
-auth.changeEmailChange(ticket);
+auth.confirmEmailChange(ticket);
 ```
 
-### Change password
+For changing a user's password use `changePassword()`.
 
 ```js
-auth.changePassword(old_password, new_password);
+auth.changePassword(oldPassword, newPassword);
 ```
 
-### Request new password
+Or with a confirmation email use `requestPasswordChange()`.
 
 ```js
-auth.changePasswordRequest(email);
+auth.requestPasswordChange(email);
 ```
 
-### Change password using ticket
+To confirm the password change use `confirmPasswordChange()`.
 
 ```js
-auth.changePasswordChange(new_password, ticket);
+auth.confirmPasswordChange(new_password, ticket);
 ```
 
-### Generate MFA QR-code
-
-Note: User must be logged in.
+To generate a MFA QR-code use `MFAGenerate()`. The user must be logged in.
 
 ```js
 auth.MFAGenerate();
 ```
 
-### Enable MFA
+Enabling MFA is done via `enable()`.
 
 ```js
 auth.enable(code);
 ```
 
-### Disable MFA
+And disabling is done via `disable()`.
 
 ```js
-auth.enable(code);
+auth.disable(code);
 ```
 
-### Login using TOTP
-
-Note: `ticket` comes from the `auth.login()` response if the user has MFA enabled.
+To login using MFA TOTP use `MFATotp()` and pass in the `ticket` returned by `login()` (when MFA is enabled).
 
 ```js
 auth.MFATotp(code, ticket);
 ```
 
-## Storage
+### Storage
 
-### Upload
+Uploading a file is done using `put()`.
 
 ```js
 storage.put(path, file, metadata?, onUploadProgress?);
 ```
 
-### Delete
+To delete a file use `delete()`.
 
 ```js
 storage.delete(path);
 ```
 
-### Get metadata
+To get the metadata for a file use `getMetadata()`.
 
 ```js
 storage.getMetadata(path);
 ```
 
-## Setup in different environments
+### Other environments
 
-### React Native
+#### React Native
 
 Install:
 
@@ -213,16 +202,16 @@ Install:
 $ yarn add @react-native-community/async-storage
 ```
 
-More info: [https://react-native-community.github.io/async-storage/docs/install](https://react-native-community.github.io/async-storage/docs/install).
+Installation instructions can be found at [https://react-native-community.github.io/async-storage/docs/install](https://react-native-community.github.io/async-storage/docs/install).
 
 ```js
 import nhost from "nhost-js-sdk";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const config = {
-  base_url: "https://backend-xxxx.nhost.app",
-  client_storage: AsyncStorage,
-  client_storage_type: "react-native",
+  baseUrl: "https://backend-url.nhost.app",
+  clientStorage: AsyncStorage,
+  clientStorageType: "react-native",
 };
 
 nhost.initializeApp(config);
@@ -233,28 +222,26 @@ const storage = nhost.storage();
 export { auth, storage };
 ```
 
-### Ionic
+#### Ionic
 
 ```js
-import nhost from "nhost-js-sdk";
+import createClient from "nhost-js-sdk";
 import { Plugins } from "@capacitor/core";
 const { Storage } = Plugins;
 
-const config = {
-  base_url: "https://backend-xxxx.nhost.app",
-  client_storage: Storage,
-  client_storage_type: "capacitor",
-};
+const nhostClient = createClient({
+  baseURL: "https://backend-url.nhost.app",
+  clientStorage: Storage,
+  clientStorageType: "capacitor
+})
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const auth = nhost.auth;
+const storage = nhost.storage;
 
 export { auth, storage };
 ```
 
-### Expo
+#### Expo
 
 Install:
 
@@ -265,19 +252,17 @@ $ expo install expo-secure-store
 More info: [https://docs.expo.io/versions/latest/sdk/securestore/](https://docs.expo.io/versions/latest/sdk/securestore/).
 
 ```js
-import nhost from "nhost-js-sdk";
+import createClient from "nhost-js-sdk";
 import * as SecureStore from "expo-secure-store";
 
-const config = {
-  base_url: "https://backend-xxxx.nhost.app",
-  client_storage: SecureStore,
-  client_storage_type: "expo-secure-storage",
-};
+const nhostClient = createClient({
+  baseURL: "https://backend-url.nhost.app",
+  clientStorage: SecureStore,
+  clientStorageType: "expo-secure-storage",
+})
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const auth = nhost.auth;
+const storage = nhost.storage;
 
 export { auth, storage };
 ```

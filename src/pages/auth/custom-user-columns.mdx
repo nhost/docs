@@ -48,7 +48,15 @@ import { auth } from "utils/nhost";
 
 const email = "elon@tesla.com";
 const password = "123123";
-const name = "Elon Musk";
+const displayName = "Elon Musk";
 
-auth.register(email, password, { display_name: name });
+auth.register({
+  email,
+  password,
+  options: {
+    userData: {
+      display_name: displayName,
+    },
+  },
+});
 ```

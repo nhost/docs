@@ -45,7 +45,7 @@ ReactDOM.render(
 
 ### Usage
 
-First we'll create a `AuthGate` component. Only logged in users are allowed through this component.
+First, we'll create an `AuthGate` component. Only logged-in users are allowed through this component.
 
 ```jsx:src/components/auth-gate.js
 import React from "react";
@@ -63,12 +63,12 @@ export function AuthGate({ children }) {
     return <Redirect to="/login" />;
   }
 
-  // user is logged in
+  // user is logged-in
   return children;
 }
 ```
 
-We'll wrap routes that we want to protect for logged in users only using this component. In the example bellow only logged in users are allowed to access the `/`-route.
+We'll wrap routes that we want to protect for logged-in users only using this component. In the example below, only logged-in users are allowed to access the `/`-route.
 
 ```jsx{7,19,23}:src/index.js
 import React from "react";

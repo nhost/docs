@@ -13,7 +13,7 @@ If you use `@nhost/react-apollo` and `NhostApolloProvider` **without** authentic
 ## Install
 
 ```bash
-npm install @nhost/react-apollo @nhost/react-auth nhost-js-sdk @apollo/client graphql graphql-tag
+npm install @nhost/react-apollo @nhost/react-auth nhost-js-sdk @apollo/client graphql
 ```
 
 `@apollo/client` is required for `@nhost/react-apollo` to work and will be used to import `useQuery`, `useMutation`, and `useSubscription`.
@@ -74,16 +74,14 @@ export default MyApp;
 Learn more about `auth` and `storage` in the [nhost-js-sdk library](/libraries/nhost-js-sdk).
 
 ```js:src/utils/nhost.js
-import nhost from "nhost-js-sdk";
+import { createClient } from "nhost-js-sdk";
 
 const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
+  baseURL: process.env.REACT_APP_BACKEND_ENDPOINT,
+  baseURL: "https://backend-REPLACE.nhost.app",
 };
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const { auth, storage } = createClient(config);
 
 export { auth, storage };
 ```
@@ -91,8 +89,7 @@ export { auth, storage };
 #### Usage
 
 ```jsx
-import { useQuery } from "@apollo/client";
-import gql from "graphql-tag";
+import { useQuery, gql } from "@apollo/client";
 
 const GET_TODOS = gql`
   query {

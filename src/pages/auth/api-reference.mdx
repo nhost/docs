@@ -46,13 +46,21 @@ Register a new user.
 ### nhost-js-sdk
 
 ```js
-auth.register(email, password);
+auth.register({ email, password });
 ```
 
 With custom user_data, for ex `display_name`:
 
 ```js
-auth.register(email, password, { display_name: "Joe Doe" });
+auth.register({
+  email,
+  password,
+  options: {
+    userData: {
+      display_name: "Joe Doe",
+    },
+  },
+});
 ```
 
 ### Request
@@ -71,7 +79,7 @@ With custom user_data, for ex `display_name`:
 ```json
 {
   "email": "elon@tesla.com",
-  "password": "password"
+  "password": "password",
   "user_data": {
     "display_name": "Elon Musk"
   }
@@ -80,9 +88,27 @@ With custom user_data, for ex `display_name`:
 
 ### Response
 
+```json
+{
+  "session": {
+    "jwt_token": "e3MmYZSJdLCJ4LWhhjE0MDg3Nzc3fQ.d4kdsiBjD3MpPpbNNbaMt-gyHHVXwrSvrAtVcEQ_jB8",
+    "jwt_expires_in": 900000,
+    "user": {
+      "id": "kcf72f45-5a2d-4615-810d-96e10548bb35",
+      "display_name": "nuno@nhost.io",
+      "email": "nuno@nhost.io"
+    },
+    "refresh_token": "dd69aafd-71f6-4f97-be93-9bdbfb192fe6"
+  },
+  "user": {
+    "id": "kcf72f45-5a2d-4615-810d-96e10548bb35",
+    "display_name": "nuno@nhost.io",
+    "email": "nuno@nhost.io"
+  }
+}
 ```
-204 No Content
-```
+
+> If `AUTO_ACTIVATE_NEW_USERS` is `false`, `session` will return `null`.
 
 ---
 
@@ -93,7 +119,7 @@ Login user
 ### nhost-js-sdk
 
 ```js
-auth.login(email, password);
+auth.login({ email, password });
 ```
 
 ### Request
@@ -116,18 +142,33 @@ Set-Cookie: permission_variables=...
 
 ```json
 {
-  "mfa": <boolean>,
-  "jwt_token": "<jwt-token>",
-  "jwt_expires_in": 900000
+  "session": {
+    "jwt_token": "e3MmYZSJdLCJ4LWhhjE0MDg3Nzc3fQ.d4kdsiBjD3MpPpbNNbaMt-gyHHVXwrSvrAtVcEQ_jB8",
+    "jwt_expires_in": 900000,
+    "user": {
+      "id": "kcf72f45-5a2d-4615-810d-96e10548bb35",
+      "display_name": "nuno@nhost.io",
+      "email": "nuno@nhost.io"
+    },
+    "refresh_token": "dd69aafd-71f6-4f97-be93-9bdbfb192fe6"
+  },
+  "user": {
+    "id": "kcf72f45-5a2d-4615-810d-96e10548bb35",
+    "display_name": "nuno@nhost.io",
+    "email": "nuno@nhost.io"
+  }
 }
 ```
 
-If Multi Factor Authentication (MFA) is enabled for the account the following response body is returned:
+If Multi-Factor Authentication (MFA) is enabled for the account, the following response body is returned:
 
 ```json
 {
-  "mfa": true,
-  "ticket": "..."
+  "session": null,
+  "user": null,
+  "mfa": {
+    "ticket": "762ea295-4a12-436f-b8fc-36b91aefb28e"
+  }
 }
 ```
 
@@ -154,7 +195,10 @@ if `all = true` all of the user's refresh token will be revoked from the databas
 ### Response
 
 ```json
-204 No Content
+{
+  "session": null,
+  "user": null
+}
 ```
 
 ---
@@ -209,8 +253,21 @@ Cookie: refresh_token=<new_refresh_token>
 
 ```json
 {
-  "jwt_token": "new jwt-token",
-  "jwt_expires_in": 900000
+  "session": {
+    "jwt_token": "e3MmYZSJdLCJ4LWhhjE0MDg3Nzc3fQ.d4kdsiBjD3MpPpbNNbaMt-gyHHVXwrSvrAtVcEQ_jB8",
+    "jwt_expires_in": 900000,
+    "user": {
+      "id": "kcf72f45-5a2d-4615-810d-96e10548bb35",
+      "display_name": "nuno@nhost.io",
+      "email": "nuno@nhost.io"
+    },
+    "refresh_token": "dd69aafd-71f6-4f97-be93-9bdbfb192fe6"
+  },
+  "user": {
+    "id": "kcf72f45-5a2d-4615-810d-96e10548bb35",
+    "display_name": "nuno@nhost.io",
+    "email": "nuno@nhost.io"
+  }
 }
 ```
 
@@ -274,7 +331,7 @@ For users to change their password when they are logged in and remember their pr
 ### nhost-js-sdk
 
 ```ts
-auth.changePassword(old_password: string, new_password: string);
+auth.changePassword(oldPassword: string, newPassword: string);
 ```
 
 ### Request
@@ -340,7 +397,7 @@ Change password with ticket from the email.
 ### nhost-js-sdk
 
 ```ts
-auth.changePasswordChange(new_password: string, ticket: string);
+auth.changePasswordChange(newPassword: string, ticket: string);
 ```
 
 ### Request

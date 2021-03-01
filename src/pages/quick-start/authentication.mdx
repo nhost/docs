@@ -25,16 +25,13 @@ $ npm install nhost-js-sdk
 Now, we need to configure and initialize a connection to Nhost. Create a new folder, `src/utils`, and create `nhost.js` inside it.
 
 ```js:src/utils/nhost.js
-import nhost from "nhost-js-sdk";
+import { createClient } from "nhost-js-sdk";
 
 const config = {
-  base_url: "https://backend-REPLACE.nhost.app",
+  baseURL: "https://backend-REPLACE.nhost.app",
 };
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const { auth, storage } = createClient(config);
 
 export { auth, storage };
 ```
@@ -101,7 +98,7 @@ export function Login(props) {
 
     // login
     try {
-      await auth.login(email, password);
+      await auth.login({email, password});
     } catch (error) {
       alert("error logging in");
       console.error(error);

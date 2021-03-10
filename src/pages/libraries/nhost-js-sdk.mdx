@@ -25,8 +25,8 @@ const nhostClient = createClient({
   baseURL: "https://backend-url.nhost.app",
 })
 
-const auth = nhost.auth;
-const storage = nhost.storage;
+const auth = nhostClient.auth;
+const storage = nhostClient.storage;
 
 export { auth, storage };
 ```
@@ -235,8 +235,8 @@ const nhostClient = createClient({
   clientStorageType: "capacitor
 })
 
-const auth = nhost.auth;
-const storage = nhost.storage;
+const auth = nhostClient.auth;
+const storage = nhostClient.storage;
 
 export { auth, storage };
 ```
@@ -261,8 +261,8 @@ const nhostClient = createClient({
   clientStorageType: "expo-secure-storage",
 })
 
-const auth = nhost.auth;
-const storage = nhost.storage;
+const auth = nhostClient.auth;
+const storage = nhostClient.storage;
 
 export { auth, storage };
 ```

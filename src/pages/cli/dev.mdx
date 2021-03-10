@@ -59,6 +59,30 @@ $ docker logs -f nhost_hbp
 $ docker logs -f nhost_api
 ```
 
+## Configuration
+
+> Not that for the below configurations to take effect, you need to restart `nhost dev`.
+
+### Permission variables
+
+To add permission variables to the JWT token set `JWT_CUSTOM_FIELDS` in `.env.development`.
+
+Example: if every user has a `company_id` column that should be used as a permission variable in the JWT token (`x-hasura-company-id`):
+
+```bash:.env.development
+JWT_CUSTOM_FIELDS=company_id
+```
+
+### Registration custom fields
+
+To add registration custom fields set `REGISTRATION_CUSTOM_FIELDS` in `.env.development`
+
+Example: If users should be able to set `display_name` on registration.
+
+```bash:.env.development
+REGISTRATION_CUSTOM_FIELDS=display_name
+```
+
 ## Networking
 
 The docker containers all expose their ports directly on the host machine, so you can both reach them on localhost as well as on the host machine IP address from another machine connected to the same network (if firewall rules allows).

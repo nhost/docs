@@ -30,7 +30,7 @@ const mdComponents = {
     return (
       <h2
         id={linkId}
-        className="group flex whitespace-pre-wrap pt-3 md:pt-6 pb-2 text-2xl md:text-3xl font-semibold"
+        className="group flex whitespace-pre-wrap pt-8 md:pt-6 pb-2 text-2xl md:text-3xl font-semibold"
       >
         <a
           href={`#${linkId}`}
@@ -45,7 +45,9 @@ const mdComponents = {
   },
   h3: ({ children }) => {
     return (
-      <h3 className="text-xl md:text-2xl pb-2 font-semibold">{children}</h3>
+      <h3 className="text-xl md:text-2xl pb-2 pt-4 font-semibold">
+        {children}
+      </h3>
     );
   },
   h4: ({ children }) => {
@@ -100,7 +102,7 @@ const mdComponents = {
   },
   blockquote: (props) => {
     return (
-      <blockquote className="bg-blue-100 my-2 pl-2 py-2 px-2 border-l-4 border-blue-500 dark:bg-gray-800">
+      <blockquote className="bg-blue-100 my-6 pl-2 py-2 px-2 border-l-4 border-blue-500 dark:bg-gray-800">
         {props.children}
       </blockquote>
     );

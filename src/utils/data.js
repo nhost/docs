@@ -189,6 +189,10 @@ export const menu = {
       name: "Dev",
     },
     {
+      link: "/cli/down",
+      name: "Down",
+    },
+    {
       link: "/cli/deploy",
       name: "Deploy",
     },

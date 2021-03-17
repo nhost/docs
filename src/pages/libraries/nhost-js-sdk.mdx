@@ -56,7 +56,11 @@ Creating a user with email and password is done with `register()`. For OAuth, th
 auth.register({ email, password });
 
 // with options
-auth.register({ email, password, { userData: { display_name: "Joe Doe", role: }} });
+auth.register({
+  email,
+  password,
+  options: { userData: { display_name: "Joe Doe" } },
+});
 ```
 
 Existing users can login with email and password or using an OAuth provider.

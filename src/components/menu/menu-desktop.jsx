@@ -154,7 +154,7 @@ function MenuHeader({ children, href = "/" }) {
 
 function MenuList({ menu, router }) {
   return (
-    <div className="pb-4 border-b mb-4">
+    <div className="pb-4 border-b dark:border-gray-700 mb-4">
       {menu.map((item) => {
         const active = item.link === router.pathname;
 

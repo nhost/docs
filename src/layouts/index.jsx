@@ -1,17 +1,34 @@
+import classNames from "classnames";
 import { SEO } from "components/seo";
+
 export default function Layout({ frontMatter, children }) {
   // React hooks, for example `useState` or `useEffect`, go here.
   const slug = frontMatter.__resourcePath
     .replace(/.*pages\//, "")
     .replace(".mdx", "");
 
-  const h2s = children
-    .filter((item) => item.props.mdxType === "h2")
-    .map((item) => item.props.children);
+  // right side sub menu
+  const subMenu = [];
+
+  children.forEach((item) => {
+    if (item.props.mdxType === "h2") {
+      subMenu.push({
+        type: "h2",
+        content: item.props.children,
+      });
+    } else if (item.props.mdxType === "h3") {
+      subMenu.push({
+        type: "h3",
+        content: item.props.children,
+      });
+    }
+  });
+
+  console.log({ subMenu });
 
   return (
     <div className="flex">
-      <div className="w-full md:px-4 lg:px-8 xl:w-3/4 md-container -mt-3">
+      <div className="w-full md:px-4 lg:px-14 xl:w-3/4 md-container -mt-3">
         <SEO
           title={frontMatter.title}
           description={frontMatter.description}
@@ -35,15 +52,18 @@ export default function Layout({ frontMatter, children }) {
       </div>
       <div className="hidden xl:block xl:w-1/4 relative">
         <div className="fixed">
-          <div className="uppercase text-sm text-gray-700 pb-2">
+          <div className="uppercase text-sm text-gray-500 pb-2">
             On this page
           </div>
           <div>
-            {h2s.map((h2) => {
-              const linkId = h2.replace(/ /g, "-").toLowerCase();
+            {subMenu.map((item) => {
+              const linkId = item.content.replace(/ /g, "-").toLowerCase();
+              const classes = classNames("py-2 text-gray-600", {
+                "pl-3": item.type === "h3",
+              });
               return (
-                <div className="py-1" key={h2}>
-                  <a href={`#${linkId}`}>{h2}</a>
+                <div className={classes} key={item.content}>
+                  <a href={`#${linkId}`}>{item.content}</a>
                 </div>
               );
             })}

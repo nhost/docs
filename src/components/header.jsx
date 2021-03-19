@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import {
-  SvgTwitter,
+  // SvgTwitter,
   SvgGithub,
   SvgSearch,
   SvgMoon,
   SvgSun,
+  SvgArrowRight,
 } from "components/svg";
 
 function DarkModeToggler() {
@@ -86,6 +87,18 @@ export function Header(props) {
           className="mx-2 md:mx-4 text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-gray-400 transition-all duration-150 ease-in-out"
         >
           <SvgGithub className="w-6 h-6 md:w-8 md:h-8" />
+        </a>
+        <a
+          href="https://console.nhost.io"
+          className="px-4 text-xl hover:text-primary"
+        >
+          Log in
+        </a>
+        <a
+          href="https://console.nhost.io"
+          className="flex items-center px-4 text-xl font-medium hover:text-primary"
+        >
+          Sign Up <SvgArrowRight className="ml-2 w-4 h-4" />
         </a>
       </div>
     </div>

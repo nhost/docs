@@ -4,5 +4,14 @@ import { SvgGithub } from "./github";
 import { SvgSearch } from "./search";
 import { SvgMoon } from "./moon";
 import { SvgSun } from "./sun";
+import { SvgArrowRight } from "./arrow-right";
 
-export { SvgDiscord, SvgTwitter, SvgGithub, SvgSearch, SvgMoon, SvgSun };
+export {
+  SvgDiscord,
+  SvgTwitter,
+  SvgGithub,
+  SvgSearch,
+  SvgMoon,
+  SvgSun,
+  SvgArrowRight,
+};

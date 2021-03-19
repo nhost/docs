@@ -44,8 +44,9 @@ const mdComponents = {
     );
   },
   h3: ({ children }) => {
+    const linkId = children.replace(/ /g, "-").toLowerCase();
     return (
-      <h3 className="text-xl md:text-2xl pb-2 pt-4 font-semibold">
+      <h3 id={linkId} className="text-xl md:text-2xl pb-2 pt-4 font-semibold">
         {children}
       </h3>
     );

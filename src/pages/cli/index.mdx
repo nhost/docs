@@ -14,6 +14,32 @@ $ npm install -g nhost
 
 The [Hasura CLI](https://hasura.io/docs/1.0/graphql/core/hasura-cli/install-hasura-cli.html#install-hasura-cli), [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) are dependencies, please make sure to have those installed.
 
+### Hasura CLI version
+
+Make sure you have at least the version of your Hasura version on Nhost. You can see your Hasura version on Nhost under Settings -> Hasura -> Hasura Version.
+
+Check Hausra CLI
+
+```bash
+$ hasura version
+```
+
+Update your Hasura CLI:
+
+```bash
+$ hasura update-cli --version [version]
+```
+
+You can find Hasura's releases on their [GitHub release page](https://github.com/hasura/graphql-engine/releases).
+
+You might also need to update the cli-ext plugin:
+
+```bash
+$ hasura plugins cli-ext upgrade --version [version]
+```
+
+> Since version Hasura version [v2.0.0-alpha.5](https://github.com/hasura/graphql-engine/releases/tag/v2.0.0-alpha.5) the **cli-ext** plugin is a native part of the Hasura CLI and is no longer needed as a plugin.
+
 ## Usage
 
 ```bash
@@ -41,9 +67,6 @@ $ nhost init
 
 # start your development environment (Hasura, HBP, Postgres and Minio)
 $ nhost dev
-
-# push your local changes of the Postgres schema and API metadata to your production project
-$ nhost deploy
 ```
 
 ## Beta

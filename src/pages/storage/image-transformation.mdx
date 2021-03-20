@@ -2,7 +2,7 @@
 title: "Image Transformation"
 ---
 
-Transfer images on-the-fly using query parameters. Cache headers are sent with the image for browsers to cache the image client-side.
+Transform images on-the-fly using query parameters. Cache headers are sent with the image for browsers to cache the image client-side.
 
 ## Example
 
@@ -47,3 +47,30 @@ Query parameter: `q`.
 | :-------- | :-: |
 | Min value |  0  |
 | Max value | 100 |
+
+## Format
+
+Specify the preferred format of the requested image.
+
+This parameter can be one of the following values: `webp`, `png`, `jpeg`, `auto`. When the auto value is given the image will be transformed to the `webp` format if the request header explicitly accepts `image/webp`, otherwise the default format will be returned.
+
+Query parameter: `f`.
+
+## Rounding
+
+Give the image rounded corners
+
+Query parameter: `r`.
+
+This parameter can be either an integer or `full`, if the image has to be fully rounded (e.g. an avatar).
+
+## Blur
+
+Add a Gaussian blur to the image.
+
+Query parameter: `b`.
+
+|           |       |
+| :-------- | :-:   |
+| Min value |  0.3  |
+| Max value | 1000  |

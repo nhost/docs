@@ -24,8 +24,6 @@ export default function Layout({ frontMatter, children }) {
     }
   });
 
-  console.log({ subMenu });
-
   return (
     <div className="flex">
       <div className="w-full md:px-4 lg:px-14 xl:w-3/4 md-container -mt-3">

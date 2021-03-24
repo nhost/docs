@@ -140,11 +140,12 @@ export default function App({ Component, pageProps }) {
           <div className="w-full fixed z-50 border-b bg-white dark:bg-dark-bg-header">
             <Header />
           </div>
-          <div className="md:container w-full mx-auto px-4 flex flex-col md:flex-row pt-16 md:pt-24">
-            <div className="w-full md:w-1/5">
-              <Menu />
-            </div>
-            <div className="w-full md:w-4/5 pb-24">
+          <div className="md:container w-full mx-auto px-4 flex flex-col md:flex-row ">
+            <Menu />
+            <div
+              className="w-full pt-16 md:pt-28 md:w-4/5 pb-24"
+              style={{ minHeight: "calc(100vh)" }}
+            >
               <Component {...pageProps} />
             </div>
           </div>

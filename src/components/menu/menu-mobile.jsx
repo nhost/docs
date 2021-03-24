@@ -6,7 +6,7 @@ import { menu } from "utils/data";
 export function MenuMobile() {
   const router = useRouter();
   return (
-    <div className="block md:hidden py-6">
+    <div className="block md:hidden py-6w w-full pt-24">
       <select
         className="dark:bg-dark-bg-primary dark:text-dark-text-primary dark:border-gray-700 border rounded py-1 px-3"
         value={router.pathname}

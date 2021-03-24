@@ -28,27 +28,31 @@ const mdComponents = {
   h2: ({ children }) => {
     const linkId = children.replace(/ /g, "-").toLowerCase();
     return (
-      <h2
-        id={linkId}
-        className="group flex whitespace-pre-wrap pt-8 md:pt-6 pb-2 text-2xl md:text-3xl font-semibold"
-      >
-        <a
-          href={`#${linkId}`}
-          className="absolute no-underline after:hash opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out text-primary"
-          style={{ marginLeft: "-1.5rem", paddingRight: "0.5rem" }}
+      <div className="pt-8 md:pt-6 pb-2">
+        <h2
+          id={linkId}
+          className="group flex whitespace-pre-wrap text-2xl md:text-3xl font-semibold anchor"
         >
-          #
-        </a>
-        <span>{children}</span>
-      </h2>
+          <a
+            href={`#${linkId}`}
+            className="absolute no-underline after:hash opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out text-primary"
+            style={{ marginLeft: "-1.5rem", paddingRight: "0.5rem" }}
+          >
+            #
+          </a>
+          <span>{children}</span>
+        </h2>
+      </div>
     );
   },
   h3: ({ children }) => {
     const linkId = children.replace(/ /g, "-").toLowerCase();
     return (
-      <h3 id={linkId} className="text-xl md:text-2xl pb-2 pt-4 font-semibold">
-        {children}
-      </h3>
+      <div className="pt-4 pb-2">
+        <h3 id={linkId} className="text-xl md:text-2xl font-semibold anchor">
+          {children}
+        </h3>
+      </div>
     );
   },
   h4: ({ children }) => {

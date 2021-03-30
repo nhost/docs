@@ -209,19 +209,16 @@ $ yarn add @react-native-community/async-storage
 Installation instructions can be found at [https://react-native-community.github.io/async-storage/docs/install](https://react-native-community.github.io/async-storage/docs/install).
 
 ```js
-import nhost from "nhost-js-sdk";
-import AsyncStorage from "@react-native-community/async-storage";
+import createClient from "nhost-js-sdk";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const config = {
-  baseUrl: "https://backend-url.nhost.app",
+const nhostClient = createClient({
+  baseURL: "https://backend-url.nhost.app",
   clientStorage: AsyncStorage,
   clientStorageType: "react-native",
-};
+});
 
-nhost.initializeApp(config);
-
-const auth = nhost.auth();
-const storage = nhost.storage();
+const { auth, storage } = nhostClient;
 
 export { auth, storage };
 ```

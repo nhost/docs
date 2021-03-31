@@ -1,0 +1,15 @@
+---
+title: "Nhost Link"
+---
+
+`nhost link` links an existing directory with an existing Nhost project. Usually after you've cloned a git repository.
+
+```bash
+$ nhost link
+? Select Project (Use arrow keys)
+  ---personal---
+❯ todos-cli
+Project linked: todos-cli
+```
+
+Once the local directory is linked with a Nhost project, the commands [`nhost env:ls`](/cli/env:ls) and `nhost env:pull` are available.

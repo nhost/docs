@@ -192,5 +192,17 @@ export const menu = {
       link: "/cli/deploy",
       name: "Deploy",
     },
+    {
+      link: "/cli/link",
+      name: "Link",
+    },
+    {
+      link: "/cli/env-ls",
+      name: "env:ls",
+    },
+    {
+      link: "/cli/env-pull",
+      name: "env:pull",
+    },
   ],
 };

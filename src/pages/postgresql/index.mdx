@@ -1,28 +1,34 @@
-# PostgreSQL
+---
+title: "PostgreSQL"
+---
 
-> The world's most advanced open source database
-
-We use PostgreSQL because it knows how to handle concurrency and very diverse workloads. No matter what you are building, PostgreSQL is a great fit for storing your data. 
+PostgreSQL is the world's most advanced open source database and every Nhost project has its own Postgres database.
 
 ## Version
 
-> We currently do not have an option to update a project's PostgreSQL version from the console, after the project is created. If you need to update please [contact us](mailto:support@nhost.io) 
+The following versions of PostgreSQL is supported when creating a Nhost project:
 
-At the moment, we support the following PostgreSQL versions:
-- 9.6
-- 10.5 
+- 12.0
 - 11.5
-- 12.0 
+- 10.5
+- 9.6
 
-## Access
+## Prepared tables
 
-> Every postgres instance comes preconfigured with an SSL certificate
+Each newly created project's database have the following prepared tables:
 
-You can access your database by using any Postgres client that you might know already (e.g., pgAdmin, DBeaver, or Table Plus). 
-The details for your project's database can be found under **PostgreSQL**. The connection string looks like the following:
+- `public.users`
+- `auth.account_providers`
+- `auth.account_roles`
+- `auth.accounts`
+- `auth.providers`
+- `auth.refresh_tokens`
+- `auth.roles`
 
-```
-postgresql://postgres:<password>@backend-xxx.nhost.app:<port>/postgres?sslmode=require
-```
+## Direct Access
 
-Your database should have a few tables already there which are part of the auth solution we provide (e.g., `public.users`, `auth.accounts`, or `roles`)
+> Every Postgres instance comes preconfigured with an SSL certificate
+
+The PostgreSQL database can be accessed directly with a Postgres client such as pgAdmin, DBeaver, or Table Plus. Find the Postgres connection string in the Nhost console in the Postgres tab.
+
+![Postgres Connection String](/images/postgresql/postgres-connection-string.png)

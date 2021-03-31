@@ -30,14 +30,6 @@ export const menu = {
       link: "/postgresql",
       name: "Overview",
     },
-    {
-      link: "/postgresql/create-tables",
-      name: "Create Tables",
-    },
-    {
-      link: "/postgresql/custom-schemas",
-      name: "Custom schemas",
-    },
   ],
   hasura: [
     {
@@ -169,6 +161,10 @@ export const menu = {
     {
       link: "/libraries/react-apollo",
       name: "@nhost/react-apollo",
+    },
+    {
+      link: "/libraries/nhost-nuxt",
+      name: "@nhost/nuxt",
     },
   ],
   cli: [

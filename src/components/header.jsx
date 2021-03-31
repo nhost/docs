@@ -78,7 +78,7 @@ export function Header(props) {
           </div>
         </div>
       </div>
-      <div className="flex items-center">
+      <div className="hidden md:flex items-center">
         <DarkModeToggler />
         <a
           href="https://github.com/nhost/nhost"

@@ -110,6 +110,20 @@ With custom user_data, for ex `display_name`:
 
 > If `AUTO_ACTIVATE_NEW_USERS` is `false`, `session` will return `null`.
 
+If Passwordless Authentication is enabled and the user signs up without a password, the following response body is returned:
+
+```json
+{
+  "jwt_token": null,
+  "jwt_expires_in": null,
+  "user": {
+    "id": "kcf72f45-5a2d-4615-810d-96e10548bb35",
+    "display_name": "nuno@nhost.io",
+    "email": "nuno@nhost.io"
+  }
+}
+```
+
 ---
 
 ## Login user
@@ -173,6 +187,16 @@ If Multi-Factor Authentication (MFA) is enabled for the account, the following r
 ```
 
 For login with MFA, proceed authentication by requesting the [TOTP /auth/mfa/totp](#totp-login) endpoint.
+
+If Passwordless Authentication is enabled and the user logs in without a password, the following response body is returned:
+
+```json
+{
+  "jwt_token": null,
+  "jwt_expires_in": null,
+  "user": null
+}
+```
 
 ---
 

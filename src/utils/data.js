@@ -117,8 +117,8 @@ export const menu = {
       name: "Custom user columns",
     },
     {
-      link: "/auth/passwordless-authentication",
-      name: "Passwordless Authentication",
+      link: "/auth/magic-link-authentication",
+      name: "Magic Link Authentication",
     },
     {
       link: "/auth/multi-factor-authentication",

@@ -110,7 +110,7 @@ With custom user_data, for ex `display_name`:
 
 > If `AUTO_ACTIVATE_NEW_USERS` is `false`, `session` will return `null`.
 
-If Passwordless Authentication is enabled and the user signs up without a password, the following response body is returned:
+If Magic Link Authentication is enabled and the user signs up without a password, the following response body is returned:
 
 ```json
 {
@@ -188,7 +188,7 @@ If Multi-Factor Authentication (MFA) is enabled for the account, the following r
 
 For login with MFA, proceed authentication by requesting the [TOTP /auth/mfa/totp](#totp-login) endpoint.
 
-If Passwordless Authentication is enabled and the user logs in without a password, the following response body is returned:
+If Magic Link Authentication is enabled and the user logs in without a password, the following response body is returned:
 
 ```json
 {

@@ -6,13 +6,13 @@ Hasura can trigger webhooks on events (insert, update, delete) happening in the 
 
 > The event in the database **does not have to** come via the GraphQL API.
 
-As an example, let's imagine you are building a e-commerce system and you want to send an email when for every new order. To acheive that, create an event trigger on `insert` for the `orders` table. Now for every new order Hasura will send a webhook with the order-information for all new orders.
+As an example, let's imagine you are building a e-commerce system and you want to send an email when for every new order. To achieve that, create an event trigger on `insert` for the `orders` table. Now for every new order Hasura will send a webhook with the order-information for all new orders.
 
 In the webhook, you get all order information and can send an email to the customer.
 
 ## API
 
-You can use any other hosting service to host your API that will receive webhooks from Hasuras event triggers. We recommend [Netlify](http://netlify.com/) or [Vercel](https://vercel.com/) because they are easy to get started with.
+You can use any other hosting service to host your API that will receive webhooks from Hasura's event triggers. We recommend [Netlify](http://netlify.com/) or [Vercel](https://vercel.com/) because they are easy to get started with.
 
 ## Security
 

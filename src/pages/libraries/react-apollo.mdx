@@ -102,7 +102,7 @@ const GET_TODOS = gql`
   }
 `;
 
-export function function App() {
+export function App() {
   const { loading, data } = useQuery(GET_TODOS);
 
   if (loading) {

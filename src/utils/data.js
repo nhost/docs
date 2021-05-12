@@ -46,11 +46,11 @@ export const menu = {
     },
     {
       link: "/hasura/event-triggers",
-      name: "Event triggers",
+      name: "Event Triggers",
     },
     {
       link: "/hasura/remote-schemas",
-      name: "Remote schemas",
+      name: "Remote Schemas",
     },
   ],
   graphql: [
@@ -82,7 +82,7 @@ export const menu = {
     },
     {
       link: "/auth/local-users",
-      name: "Local users",
+      name: "Local Users",
     },
     {
       link: "/auth/oauth-providers",
@@ -106,7 +106,7 @@ export const menu = {
     },
     {
       link: "/auth/email-templates",
-      name: "Email templates",
+      name: "Email Templates",
     },
     {
       link: "/auth/roles",
@@ -114,7 +114,7 @@ export const menu = {
     },
     {
       link: "/auth/custom-user-columns",
-      name: "Custom user columns",
+      name: "Custom User Columns",
     },
     {
       link: "/auth/multi-factor-authentication",

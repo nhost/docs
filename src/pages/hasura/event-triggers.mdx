@@ -16,11 +16,7 @@ You can use any other hosting service to host your API that will receive webhook
 
 ## Security
 
-To make sure that the request your API receives comes from your Hasura instance, and not a hacker, you can send a header (`x-webhook-secret`) with the webhook.
-
-Set a environment variable called `NHOST_WEBHOOK_SECRET` with a random string.
-
-![Nhost secret header](/images/hasura/env-var-secret-header.png)
+To make sure that the request your API receives comes from your Hasura instance, and not a hacker, you can use the `NHOST_WEBHOOK_SECRET` environment variable that is already added to both Hasura and the [Custom API](/custom-api).
 
 Set a header `x-webhook-secret` and use the `NHOST_WEBHOOK_SECRET` environment variable.
 

@@ -42,6 +42,20 @@ The URL in this email should go to your app. Your app should receive the ticket 
 
 ---
 
+## Magic link template
+
+Email for sending one-time passwords to magic link users. This email is sent both on login and on signup.
+
+### Variables
+
+- `display_name` - user's display name.
+- `token` - UUID token to activate the user's account.
+- `url` - Backend server URL, usually `https://backend-xxx.nhost.app`.
+- `app_url` - Frontend application URL, for example `https://google.com`
+- `action` - Either `log in` or `sign up`
+- `action_url` - Either `log-in` or `sign-up`. Used for URLs.
+---
+
 ## How To Use Variables in Email Templates
 
 Use variables in email-templatest with curly brackets.

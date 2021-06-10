@@ -172,8 +172,7 @@ Finally, add two links to `App.js`. One to `/login` and one that will logout the
 
 ```jsx{4,5,22,23}:src/App.js
 import React, { useState } from "react";
-import { useSubscription, useMutation } from "@apollo/client";
-import gql from "graphql-tag";
+import { gql, useSubscription, useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { auth } from "utils/nhost";
 

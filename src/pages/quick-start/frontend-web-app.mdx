@@ -18,7 +18,7 @@ Once completed, change the directory to the new project and install these packag
 
 ```bash
 $ cd nhost-todos
-$ npm install @nhost/react-apollo @apollo/client graphql graphql-tag react-router-dom
+$ npm install @nhost/react-apollo @apollo/client graphql react-router-dom
 ```
 
 Create a `jsconfig.json` file in the root of your project to make [imports easier](https://create-react-app.dev/docs/importing-a-component/#absolute-imports).
@@ -70,8 +70,7 @@ Replace all content of `src/App.js` with the following code:
 
 ```jsx:src/App.js
 import React from "react";
-import { useQuery } from "@apollo/client";
-import gql from "graphql-tag";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_TODOS = gql`
   query {
@@ -119,8 +118,7 @@ We need to create a GraphQL mutation and add a simple form for inserting todos.
 
 ```jsx{1,2,7,11,12,20-44}:src/App.js
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import gql from "graphql-tag";
+import { gql, useQuery, useMutation } from "@apollo/client";
 
 const GET_TODOS = gql`
   query {
@@ -208,8 +206,7 @@ We'll replace `useQuery` with `useSubscription` and `query` with `subscription` 
 
 ```jsx{2,5,10}:src/App.js
 import React, { useState } from "react";
-import { useSubscription, useMutation } from "@apollo/client";
-import gql from "graphql-tag";
+import { gql, useSubscription, useMutation } from "@apollo/client";
 
 const GET_TODOS = gql`
   subscription {

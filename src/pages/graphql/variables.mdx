@@ -17,8 +17,7 @@ mutation($todo: todos_insert_input!) {
 Here is an example using variables with the popular Apollo client.
 
 ```js
-import { useMutation } from "@apollo/client";
-import gql from "graphql-tag";
+import { gql, useMutation } from "@apollo/client";
 
 const INSERT_TODO = gql`
   mutation($todo: todos_insert_input!) {

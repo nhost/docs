@@ -18,6 +18,22 @@ npm install @nhost/react-apollo @nhost/react-auth nhost-js-sdk @apollo/client gr
 
 `@apollo/client` is required for `@nhost/react-apollo` to work and will be used to import `useQuery`, `useMutation`, and `useSubscription`.
 
+### Initiate the Nhost client
+
+```js:src/utils/nhost.js
+import { createClient } from "nhost-js-sdk";
+
+const config = {
+  baseURL: "https://backend-REPLACE.nhost.app",
+};
+
+const { auth, storage } = createClient(config);
+
+export { auth, storage };
+```
+
+Read more about [`nhost-js-sdk` here](/libraries/nhost-js-sdk).
+
 ## Create React App
 
 See full [Nhost Create React App with Apollo](https://github.com/nhost/examples/tree/main/create-react-app-apollo).
@@ -73,20 +89,9 @@ export default MyApp;
 
 Learn more about `auth` and `storage` in the [nhost-js-sdk library](/libraries/nhost-js-sdk).
 
-```js:src/utils/nhost.js
-import { createClient } from "nhost-js-sdk";
+## Usage
 
-const config = {
-  baseURL: process.env.REACT_APP_BACKEND_ENDPOINT,
-  baseURL: "https://backend-REPLACE.nhost.app",
-};
-
-const { auth, storage } = createClient(config);
-
-export { auth, storage };
-```
-
-#### Usage
+Since the `NhostApolloProvider` is now installed it's possible to use the Apollo client with it's `useQuery`, `useSubscription`, and `useMutation` functions anywhere in your app.
 
 ```jsx
 import { useQuery, gql } from "@apollo/client";
@@ -124,5 +129,18 @@ export function App() {
     </div>
   );
 }
-
 ```
+
+## Options
+
+Options and parameters for `NhostApolloProvider`.
+
+| Parameter           | Description                                                                                                                                                              | Required |
+| ------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| `auth`              | The `auth` object from the Nhost Client                                                                                                                                  |   Yes    |
+| `gqlEndpoint`       | GraphQL API Endpoint                                                                                                                                                     |   Yes    |
+| `headers`           | Custom headers.                                                                                                                                                          |    No    |
+| `publicRole`        | Public role that Apollo will automatically use if the user is not logged in. Will default to `public`.                                                                   |    No    |
+| `cache`             | Customized cache. [More info](https://www.apollographql.com/docs/react/caching/cache-configuration/).                                                                    |    No    |
+| `connectToDevTools` | Enable Apollo Dev tools. [More info](https://www.apollographql.com/docs/react/development-testing/developer-tooling/)                                                    |    No    |
+| `onError`           | Custom function for error handling with Apollo link. [More info](https://www.apollographql.com/docs/react/data/error-handling/#advanced-error-handling-with-apollo-link) |    No    |

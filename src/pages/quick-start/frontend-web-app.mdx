@@ -116,7 +116,7 @@ Let's move on and add functionality to insert new todos.
 
 We need to create a GraphQL mutation and add a simple form for inserting todos.
 
-```jsx{1,2,7,11,12,20-44}:src/App.js
+```jsx{1,2,6,19-43}:src/App.js
 import React, { useState } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 
@@ -204,7 +204,7 @@ Great! We can now insert new todos. But for the new todos to be listed, we have 
 
 We'll replace `useQuery` with `useSubscription` and `query` with `subscription` in `GET_TODOS`.
 
-```jsx{2,5,10}:src/App.js
+```jsx{2,4,9}:src/App.js
 import React, { useState } from "react";
 import { gql, useSubscription, useMutation } from "@apollo/client";
 

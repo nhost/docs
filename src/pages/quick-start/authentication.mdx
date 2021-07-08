@@ -50,7 +50,7 @@ $ npm install @nhost/react-auth
 
 We'll also pass our `auth` object as a prop to both providers, `NhostAuthProvider` and `NhostApolloProvider`, so that the whole app can share the same auth state.
 
-```jsx{5,6,10,11,14}:src/index.js
+```jsx{5,6,10,11,13,14}:src/index.js
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
@@ -170,7 +170,7 @@ ReactDOM.render(
 
 Finally, add two links to `App.js`. One to `/login` and one that will logout the user.
 
-```jsx{4,5,22,23}:src/App.js
+```jsx{3,4,21,22}:src/App.js
 import React, { useState } from "react";
 import { gql, useSubscription, useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";

@@ -117,6 +117,10 @@ export const menu = {
       name: "Custom User Columns",
     },
     {
+      link: "/auth/magic-link-authentication",
+      name: "Magic Link Authentication",
+    },
+    {
       link: "/auth/multi-factor-authentication",
       name: "Multi-Factor Authentication",
     },

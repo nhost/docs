@@ -121,6 +121,10 @@ export const menu = {
       name: "Multi-Factor Authentication",
     },
     {
+      link: "/auth/gravatar",
+      name: "Gravatar",
+    },
+    {
       link: "/auth/api-reference",
       name: "API Reference",
     },

@@ -32,12 +32,13 @@ export { auth, storage };
 ```
 
 
-| Parameters     |               |          |                                                                                         |   |
-|--------------------------|---------------|----------|-----------------------------------------------------------------------------------------|---|
+| Parameters                 |               |          |                                                                                         |   |
+|----------------------------|---------------|----------|-----------------------------------------------------------------------------------------|---|
 | *baseURL*                  | string        | required | Backend URL                                                                             |   |
 | *useCookies*               | boolean       | optional | Use cookies for auth (defaults to `false`)                                              |   |
-| *ssr*                      | boolean       | optional | Enable server-side rendering mode (defaults to `typeof window === "undefined"`) |   |
-| *autoLogin*                | boolean       | optional | Auto logins user (defaults to `true`)                                                     |   |
+| *refreshIntervalTime*      | number        | optional | Autorefresh interval in ms (defaults to `Math.max(30 * 1000, JWTExpiresIn - 45000)`)    |   |
+| *ssr*                      | boolean       | optional | Enable server-side rendering mode (defaults to `typeof window === "undefined"`)         |   |
+| *autoLogin*                | boolean       | optional | Auto logins user (defaults to `true`)                                                   |   |
 | *clientStorage*            | ClientStorage | optional | Storage to use (defaults to `window.localStorage`)                                      |   |
 | *clientStorageType*        | string        | optional | Storage type (defaults to `web`)                                                        |   |
 

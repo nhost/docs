@@ -142,20 +142,23 @@ First we'll create a `PrivateRoute` component. We'll wrap pages that only logged
 import { useAuth } from "@nhost/react-auth";
 
 export function PrivateRoute(Component) {
-  return () => {
+  const Authenticated = (props) => {
+    const router = useRouter();
     const { signedIn } = useAuth();
 
     // wait to see if the user is logged in or not.
     if (signedIn === null) {
       return <div>Checking auth...</div>;
     }
-
     if (!signedIn) {
-      return <div>Login form or redirect to `/login`.</div>;
+      router.push('/login');
+      return <div>Redirecting...</div>;
     }
 
-    return (<Component {...arguments} />);
+    return <Component {...props} />;
   };
+
+  return Authenticated;
 }
 ```
 

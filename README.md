@@ -9,8 +9,8 @@
 ## Local development
 
 ```bash
-$ git clone git@github.com:nhost/docs.git
-$ cd docs
-$ yarn install
-$ yarn dev
+git clone git@github.com:nhost/docs.git
+cd docs
+yarn install
+yarn dev
 ```
